@@ -1,6 +1,6 @@
 <script lang="ts">
-  import htmlcssjs from "/src/images/htmlcssjs.png";
-  import onlineTeacher from "/src/images/online-teacher.jpg";
+  import htmlcssjs from "/src/assets/images/htmlcssjs.png";
+  import onlineTeacher from "/src/assets/images/online-teacher.jpg";
   import Icon from "@iconify/svelte";
 </script>
 

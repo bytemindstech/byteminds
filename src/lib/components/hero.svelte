@@ -1,7 +1,7 @@
 <script lang="ts">
-  import img1 from "/src/images/web1.jfif";
-  import img2 from "/src/images/web3.jfif";
-  import img3 from "/src/images/web5.jfif";
+  import img1 from "/src/assets/images/web1.jfif";
+  import img2 from "/src/assets/images/web3.jfif";
+  import img3 from "/src/assets/images/web5.jfif";
 </script>
 
 <section class="py-4 my-14 min-h-screen">

@@ -1,5 +1,5 @@
 <script lang="ts">
-  let videoSource = "/src/video/video.mp4";
+  let videoSource = "/src/assets/videos/video.mp4";
 </script>
 
 <section class="min-h-screen">
