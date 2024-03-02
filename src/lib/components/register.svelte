@@ -2,8 +2,8 @@
   import { enhance } from "$app/forms";
 </script>
 
-<div class="container mx-auto">
-  <div class="card w-2/3 min-h-full mx-auto">
+<div class="container mx-auto min-h-screen flex justify-center items-center">
+  <div class="card w-1/3">
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <form class="space-y-6" method="POST" use:enhance>

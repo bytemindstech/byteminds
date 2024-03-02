@@ -1,5 +1,8 @@
-<script>
+<script lang="ts">
   import Icon from "@iconify/svelte";
+  
+  export let year: number;
+  export let brand: string;
 </script>
 
 <ul class="logo-cloud grid-cols-1 lg:!grid-cols-5 gap-1 mb-7">
@@ -42,4 +45,4 @@
     </a>
   </li>
 </ul>
-<h4 class="h4 p-7 text-center">© 2024 KodePipz</h4>
+<h4 class="h4 p-7 text-center">&copy {year} {brand}</h4>

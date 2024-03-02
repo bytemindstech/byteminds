@@ -46,7 +46,7 @@
     <Join />
     <!-- ---- / ---- -->
     <svelte:fragment slot="pageFooter">
-      <Footer />
+      <Footer year={2024} brand="ByteMinds" />
     </svelte:fragment>
     <!-- (footer) -->
   </AppShell>
