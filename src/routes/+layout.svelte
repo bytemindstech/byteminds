@@ -28,8 +28,8 @@
       <AppBar>
         <svelte:fragment slot="lead"
           ><h2 class="h2">
-            <span class="text-primary-800">Kode</span><span class="text-red-700"
-              >Pipz</span
+            <span class="text-primary-800 dark:text-dark-token">Byte</span><span
+              class="text-red-700">Minds</span
             >
           </h2></svelte:fragment
         >
