@@ -8,3 +8,4 @@ export { default as Founders } from "./founders.svelte";
 export { default as Videos } from "./video.svelte";
 export { default as Join } from "./join.svelte";
 export { default as Register } from "./register.svelte";
+export { default as Profile } from "./profileCards.svelte";

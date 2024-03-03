@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Avatar } from "@skeletonlabs/skeleton";
+  import { Profile } from ".";
 </script>
 
 <section>
@@ -32,30 +33,34 @@
 
     <h2 class="h2 text-center mb-7 mt-16">The Team</h2>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-      <div class="card card-hover p-7">
-        <div class="flex flex-col items-center justify-center">
-          <h4 class="h4 mb-2 underline">Rizaldy Britanico</h4>
-          <Avatar
-            src="https://avatars.githubusercontent.com/u/120020713?v=4"
-            width="w-[200px]"
-          />
-          <h5 class="h5 mt-2">Co-founder</h5>
-          <p class="text-sm">Front End Web Developer</p>
-        </div>
-      </div>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <Profile
+        name="Rizaldy Britanico"
+        imgSrc="https://avatars.githubusercontent.com/u/120020713?v=4"
+        position="Co-founder"
+        designation="Front End Web Developer"
+      />
 
-      <div class="card card-hover p-7">
-        <div class="flex flex-col items-center justify-center">
-          <h4 class="h4 mb-2 underline">Jhenbert Villamucho</h4>
-          <Avatar
-            src="https://avatars.githubusercontent.com/u/81309377?v=4"
-            width="w-[200px]"
-          />
-          <h5 class="h5 mt-2">Co-founder</h5>
-          <p class="text-sm">Full Stack Web Developer</p>
-        </div>
-      </div>
+      <Profile
+        name="Jhenbert Villamucho"
+        imgSrc="https://avatars.githubusercontent.com/u/81309377?v=4"
+        position="Co-founder"
+        designation="Full Stack Web Developer"
+      />
+
+      <Profile
+        name="Frederick Del Mar"
+        imgSrc="https://avatars.githubusercontent.com/u/111483079?v=4"
+        position="Co-founder"
+        designation="Full Stack Web Developer"
+      />
+
+      <Profile
+        name="Will Atienza"
+        imgSrc="https://avatars.githubusercontent.com/u/120021268?v=4"
+        position="Co-founder"
+        designation="Business Relations for ByteMinds"
+      />
     </div>
   </div>
 </section>
