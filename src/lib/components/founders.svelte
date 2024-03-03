@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Avatar } from "@skeletonlabs/skeleton";
   import { Profile } from ".";
 </script>
 
@@ -19,7 +18,6 @@
 
       <div class="card">
         <header class="card-header"><h2 class="h2">Our Vision</h2></header>
-
         <section class="p-4">
           <p class="text-xl font-medium">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
@@ -40,21 +38,18 @@
         position="Co-founder"
         designation="Front End Web Developer"
       />
-
       <Profile
         name="Jhenbert Villamucho"
         imgSrc="https://avatars.githubusercontent.com/u/81309377?v=4"
         position="Co-founder"
         designation="Full Stack Web Developer"
       />
-
       <Profile
         name="Frederick Del Mar"
         imgSrc="https://avatars.githubusercontent.com/u/111483079?v=4"
         position="Co-founder"
         designation="Full Stack Web Developer"
       />
-
       <Profile
         name="Will Atienza"
         imgSrc="https://avatars.githubusercontent.com/u/120021268?v=4"

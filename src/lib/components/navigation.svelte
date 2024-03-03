@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { TabAnchor, TabGroup, popup } from "@skeletonlabs/skeleton";
   import Icon from "@iconify/svelte";
+  import { TabAnchor, TabGroup, popup } from "@skeletonlabs/skeleton";
 
   import type { PopupSettings } from "@skeletonlabs/skeleton";
 
