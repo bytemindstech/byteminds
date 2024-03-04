@@ -1,0 +1,25 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind components;
+@tailwind utilities;
+
+:root [data-theme="wintry"] {
+  --theme-rounded-base: 20px;
+  --theme-rounded-container: 4px;
+  --theme-font-family-base: "Inter", sans-serif;
+  --theme-font-family-heading: "Inter", sans-serif;
+}
+
+body {
+  @apply bg-primary-50-900-token;
+}
+
+@font-face {
+  /* Reference name */
+  font-family: "Inter";
+  /* For multiple files use commas, ex: url(), url(), ... */
+  src: url("/fonts/Inter-VariableFont_slnt,wght.ttf");
+}
