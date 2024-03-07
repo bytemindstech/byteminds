@@ -24,6 +24,13 @@ declare global {
     lastName: string;
     password: string;
   };
+
+  type Results = {
+    name: string;
+    flag: string;
+    code: string;
+    dial_code: string;
+  };
 }
 
 export {};

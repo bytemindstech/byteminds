@@ -27,9 +27,7 @@
           sought-after web developer.
         </h5>
         <div>
-          <button class="btn variant-filled-primary" type="button"
-            >Apply now!</button
-          >
+          <a href="/contact-us" class="btn variant-filled-primary">Talk to Us</a>
         </div>
       </div>
     </div>

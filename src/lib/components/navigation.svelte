@@ -11,6 +11,8 @@
     placement: "bottom",
     closeQuery: "li",
   };
+
+  let currentPage = $page.url.pathname;
 </script>
 
 <TabGroup
@@ -23,11 +25,11 @@
   spacing=""
   class="bg-surface-100-800-token w-full hidden md:block"
 >
-  <TabAnchor href="/" selected={$page.url.pathname === "/"}>
+  <TabAnchor href="/" selected={currentPage === "/"}>
     <svelte:fragment slot="lead">Home</svelte:fragment>
   </TabAnchor>
 
-  <TabAnchor href="/about" selected={$page.url.pathname === "/about"}>
+  <TabAnchor href="/about" selected={currentPage === "/about"}>
     <svelte:fragment slot="lead">About</svelte:fragment>
   </TabAnchor>
 
@@ -69,6 +71,4 @@
 
     <div class="arrow bg-surface-100-800-token" />
   </div>
-
-  <!-- ... -->
 </TabGroup>
