@@ -1,3 +1,5 @@
+import type { RequestEvent } from "../../routes/login/$types";
+import { fail, type ActionFailure } from "@sveltejs/kit";
 import { db } from "./db";
 import bcrypt from "bcrypt";
 
@@ -29,7 +31,7 @@ export const getAllUsers = async () => {
  * @returns
  * user object including the profile object
  */
-const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (username: string) => {
   return db.user.findUnique({
     where: { username },
     include: { profile: true },
@@ -41,7 +43,7 @@ const getUserByUsername = async (username: string) => {
  * Create a new user in the database
  */
 export const createUser = async (
-  user: Omit<User, "id" | "createdAt">
+  user: Omit<User, "id" | "createdAt">,
 ): Promise<User> => {
   const { username, email, firstName, lastName, password } = user;
   return db.user.create({
@@ -63,33 +65,40 @@ export const createUser = async (
   });
 };
 
-/**
- *
- * @param username
- * @param password
- * @returns user and message object"
- */
-export const loginUser = async (username: string, password: string) => {
+export const loginUser = async (
+  event: RequestEvent,
+): Promise<LoginResult | undefined> => {
   try {
-    //get user credential from the database
-    const user = await getUserByUsername(username);
+    const data = await event.request.formData();
+    const username = data.get("username");
+    const password = data.get("password");
 
-    //check if user is available in the database
+    if (!username || !password) {
+      return fail(400, { username, missing: true });
+    }
+
+    const user = await getUserByUsername(username as string);
+
     if (!user) {
-      return {
-        message: `User, ${username} not found in the database. Please create an account`,
-      };
-    }
-    //checking the encryted password from database to the given password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return { auth: false, message: "Invalid password" };
+      console.log("user not found");
+      return fail(400, { username, notFound: true });
     }
 
-    //session or token authentication logic here
+    const isPasswordMatch = await bcrypt.compare(
+      password as string,
+      user?.password as string,
+    );
 
-    return { auth: true, message: "Login Successfuly", user };
+    if (!isPasswordMatch) {
+      console.log("incorrect password");
+      return fail(400, { username, incorrect: true });
+    }
+
+    //mock the cookies
+    event.cookies.set("user", user.username, { path: "/" });
+
+    console.log("login successful");
+    return { success: true };
   } catch (error) {
     console.error((error as Error).message);
   }

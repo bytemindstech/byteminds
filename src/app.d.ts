@@ -6,7 +6,9 @@ import type { PrismaClient } from "@prisma/client";
 declare global {
   namespace App {
     // interface Error {}
-    // interface Locals {}
+    interface Locals {
+      user?: string | null;
+    }
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}
@@ -25,12 +27,18 @@ declare global {
     password: string;
   };
 
-  type Results = {
-    name: string;
-    flag: string;
-    code: string;
-    dial_code: string;
+  type LoginSuccess = {
+    success?: boolean;
   };
+
+  type LoginFailure = ActionFailure<{
+    username: FormDataEntryValue | null;
+    missing: boolean;
+    notFound: boolean;
+    incorrect: boolean;
+  }>;
+
+  type LoginResult = LoginSuccess | LoginFailure;
 }
 
 export {};
