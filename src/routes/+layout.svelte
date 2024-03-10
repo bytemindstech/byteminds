@@ -19,6 +19,7 @@
   } from "@floating-ui/dom";
 
   import "../app.pcss";
+  import { enhance } from "$app/forms";
 
   //requirement for popup
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -42,9 +43,13 @@
         {#if currentPath !== "/user"}
           <a href="/login" class="btn hover:variant-soft-primary">Login</a>
         {:else}
-          <button formaction="?/logout" class="btn hover:variant-soft-primary"
-            >Logout</button
-          >
+          <form method="post" use:enhance>
+            <button
+              formaction="?/logout"
+              type="submit"
+              class="btn hover:variant-soft-primary">Logout</button
+            >
+          </form>
         {/if}
         <LightSwitch />
       </svelte:fragment>

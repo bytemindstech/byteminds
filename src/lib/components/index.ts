@@ -13,5 +13,4 @@ export { default as CertIcon } from "./certIcon.svelte";
 export { default as TimeIcon } from "./timeIcon.svelte";
 export { default as LaptopCode } from "./laptopCode.svelte";
 export { default as ContactForm } from "./contactForm.svelte";
-export { default as AcodeFlags } from "./acodeFlags.svelte";
 export { default as Login } from "./login.svelte";

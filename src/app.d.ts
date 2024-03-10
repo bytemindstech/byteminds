@@ -7,7 +7,9 @@ declare global {
   namespace App {
     // interface Error {}
     interface Locals {
-      user?: string | null;
+      //Lucia
+      user: import("lucia").User | null;
+      session: import("lucia").Session | null;
     }
     // interface PageData {}
     // interface PageState {}
@@ -24,7 +26,7 @@ declare global {
     createdAt?: Date;
     firstName: string;
     lastName: string;
-    password: string;
+    hashed_password: string;
   };
 
   type LoginSuccess = {

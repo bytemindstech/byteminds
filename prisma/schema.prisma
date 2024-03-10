@@ -11,20 +11,28 @@ datasource db {
 }
 
 model Profile {
-  id     String @id @default(uuid())
+  id     String  @id
   bio    String? @db.Text
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String  @unique
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  email     String   @unique
+  id        String    @id
+  username  String    @unique
+  email     String    @unique
   firstName String
   lastName  String
-  password  String
+  hashed_password  String
   profile   Profile?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }

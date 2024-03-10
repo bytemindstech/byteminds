@@ -1,7 +1,8 @@
 import type { RequestEvent } from "../../routes/login/$types";
-import { fail, type ActionFailure } from "@sveltejs/kit";
+import { fail, redirect, type ActionFailure } from "@sveltejs/kit";
 import { db } from "./db";
-import bcrypt from "bcrypt";
+import { Argon2id } from "oslo/password";
+import { lucia } from "./auth";
 
 /**
  * @function
@@ -18,7 +19,7 @@ export const getAllUsers = async () => {
       createdAt: true,
       firstName: true,
       lastName: true,
-      password: true,
+      hashed_password: true,
       profile: true,
     },
   });
@@ -43,16 +44,17 @@ export const getUserByUsername = async (username: string) => {
  * Create a new user in the database
  */
 export const createUser = async (
-  user: Omit<User, "id" | "createdAt">,
+  user: Omit<User, "createdAt">,
 ): Promise<User> => {
-  const { username, email, firstName, lastName, password } = user;
+  const { id, username, email, firstName, lastName, hashed_password } = user;
   return db.user.create({
     data: {
+      id,
       username,
       email,
       firstName,
       lastName,
-      password,
+      hashed_password,
     },
     select: {
       id: true,
@@ -60,7 +62,7 @@ export const createUser = async (
       email: true,
       firstName: true,
       lastName: true,
-      password: true,
+      hashed_password: true,
     },
   });
 };
@@ -68,38 +70,49 @@ export const createUser = async (
 export const loginUser = async (
   event: RequestEvent,
 ): Promise<LoginResult | undefined> => {
-  try {
-    const data = await event.request.formData();
-    const username = data.get("username");
-    const password = data.get("password");
+  const data = await event.request.formData();
+  const username = data.get("username");
+  const password = data.get("password");
 
-    if (!username || !password) {
-      return fail(400, { username, missing: true });
-    }
-
-    const user = await getUserByUsername(username as string);
-
-    if (!user) {
-      console.log("user not found");
-      return fail(400, { username, notFound: true });
-    }
-
-    const isPasswordMatch = await bcrypt.compare(
-      password as string,
-      user?.password as string,
-    );
-
-    if (!isPasswordMatch) {
-      console.log("incorrect password");
-      return fail(400, { username, incorrect: true });
-    }
-
-    //mock the cookies
-    event.cookies.set("user", user.username, { path: "/" });
-
-    console.log("login successful");
-    return { success: true };
-  } catch (error) {
-    console.error((error as Error).message);
+  if (
+    typeof username !== "string" ||
+    username.length < 3 ||
+    username.length > 31 ||
+    !/^[a-z0-9_-]+$/.test(username)
+  ) {
+    return fail(400, { message: "Invalid username" });
   }
+
+  if (
+    typeof password !== "string" ||
+    password.length < 6 ||
+    password.length > 255
+  ) {
+    return fail(400, { message: "Invalid password" });
+  }
+
+  const existingUser = await getUserByUsername(username as string);
+
+  if (!existingUser) {
+    return fail(400, { message: "Incorrect username or password" });
+  }
+
+  const validPassword = await new Argon2id().verify(
+    existingUser.hashed_password,
+    password,
+  );
+  if (!validPassword) {
+    console.log("incorrect password");
+    return fail(400, { message: "Incorrect username or password" });
+  }
+
+  const session = await lucia.createSession(existingUser.id, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
+  event.cookies.set(sessionCookie.name, sessionCookie.value, {
+    path: ".",
+    ...sessionCookie.attributes,
+  });
+
+  console.log("login successful");
+  return { success: true };
 };

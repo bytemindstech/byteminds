@@ -1,7 +1,4 @@
 <script lang="ts">
-  import AcodeFlags from "./acodeFlags.svelte";
-
-  let phoneNumber = "";
 </script>
 
 <div class="container mx-auto min-h-screen flex justify-center items-center">
