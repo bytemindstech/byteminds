@@ -34,10 +34,7 @@ declare global {
   };
 
   type LoginFailure = ActionFailure<{
-    username: FormDataEntryValue | null;
-    missing: boolean;
-    notFound: boolean;
-    incorrect: boolean;
+    message: string;
   }>;
 
   type LoginResult = LoginSuccess | LoginFailure;

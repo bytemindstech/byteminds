@@ -18,16 +18,16 @@ model Profile {
 }
 
 model User {
-  id        String    @id
-  username  String    @unique
-  email     String    @unique
-  firstName String
-  lastName  String
-  hashed_password  String
-  profile   Profile?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  sessions  Session[]
+  id              String    @id
+  username        String    @unique
+  email           String    @unique
+  firstName       String
+  lastName        String
+  hashed_password String
+  profile         Profile?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  sessions        Session[]
 }
 
 model Session {

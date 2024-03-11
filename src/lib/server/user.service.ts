@@ -67,9 +67,7 @@ export const createUser = async (
   });
 };
 
-export const loginUser = async (
-  event: RequestEvent,
-): Promise<LoginResult | undefined> => {
+export const loginUser = async (event: RequestEvent): Promise<LoginResult> => {
   const data = await event.request.formData();
   const username = data.get("username");
   const password = data.get("password");
