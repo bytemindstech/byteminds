@@ -3,7 +3,7 @@ import * as UserService from "$lib/server/user.service";
 import { redirect } from "@sveltejs/kit";
 
 export const actions: Actions = {
-  login: async (event) => {
+  default: async (event) => {
     console.log(event.url);
     const loginResult = await UserService.loginUser(event);
 
@@ -11,10 +11,9 @@ export const actions: Actions = {
       const redirectTo = event.url.searchParams.get("redirectTo");
 
       if (redirectTo !== null) {
-        redirect(302, `${redirectTo.slice(1)}`);
+        throw redirect(302, `${redirectTo.slice(1)}`);
       }
-      console.log("redirectTo: " + { redirectTo });
-      redirect(302, "/user");
+      throw redirect(302, "/");
     }
   },
 };

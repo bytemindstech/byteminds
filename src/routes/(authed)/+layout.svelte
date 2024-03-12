@@ -1,5 +1,9 @@
-<slot />
+<script>
+  import { enhance } from "$app/forms";
+</script>
 
-<form method="POST" action="/logout">
-	<button>log out</button>
-</form>
+<div
+  class="container mx-auto min-h-screen flex flex-col justify-center items-center"
+>
+  <slot />
+</div>
