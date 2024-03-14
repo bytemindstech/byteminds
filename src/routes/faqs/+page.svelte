@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { Accordion, CertIcon, TimeIcon, LaptopCode } from "$lib/components";
+  import {
+    Accordion,
+    CertIcon,
+    TimeIcon,
+    LaptopCode,
+  } from "$lib/components/ui";
 </script>
 
 <div class="container mx-auto mt-5">

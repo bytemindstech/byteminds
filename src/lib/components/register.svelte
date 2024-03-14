@@ -13,12 +13,19 @@
             placeholder="username"
             type="text"
             name="username"
+            autocomplete="off"
           />
         </label>
 
         <label class="label">
           <span>Email</span>
-          <input class="input" placeholder="email" type="email" name="email" />
+          <input
+            class="input"
+            placeholder="email"
+            type="email"
+            name="email"
+            autocomplete="off"
+          />
         </label>
 
         <label class="label">
@@ -28,6 +35,8 @@
             placeholder="First Name"
             type="text"
             name="firstName"
+            autocomplete="off"
+            autocapitalize="on"
           />
         </label>
 
@@ -38,6 +47,8 @@
             placeholder="Last Name"
             type="text"
             name="lastName"
+            autocomplete="off"
+            autocapitalize="on"
           />
         </label>
 
@@ -48,6 +59,7 @@
             placeholder="password"
             type="password"
             name="password"
+            autocomplete="off"
           />
         </label>
         <button type="submit" class="btn variant-filled-primary w-full"

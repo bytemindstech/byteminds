@@ -12,7 +12,8 @@
     closeQuery: "li",
   };
 
-  let currentPage = $page.url.pathname;
+  //sugarcoat variable to be reactive
+  $: currentPage = $page.url.pathname;
 </script>
 
 <TabGroup

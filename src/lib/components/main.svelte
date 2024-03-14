@@ -59,7 +59,7 @@
             </div>
 
             <h5 class="text-lg text-justify mt-5 h5">
-              At KodePipz, we also offer online tutorial for kids and adults on
+              At ByteMinds, we also offer online tutorial for kids and adults on
               different subjects. You can pick your preferred teachers or
               tutors. Do you want to check our available teachers/tutors as well
               as the subjects we're currently offering?

@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+  import type { AfterNavigate } from "@sveltejs/kit";
+  import { afterNavigate } from "$app/navigation";
   import { page } from "$app/stores";
   import { Navigation, Footer, Join } from "$lib/components";
   import {
@@ -25,10 +27,19 @@
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
   $: currentPath = $page.url.pathname;
+
+  //scroll to top on navigation
+  afterNavigate((params: AfterNavigate) => {
+    const isNewPage = params.from?.url.pathname !== params.to?.url.pathname;
+    const elemPage = document.querySelector("#page");
+    if (isNewPage && elemPage !== null) {
+      elemPage.scrollTop = 0;
+    }
+  });
 </script>
 
-<AppShell>
-  <svelte:fragment slot="header">
+<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
+  <svelte:fragment slot="pageHeader">
     <AppBar>
       <svelte:fragment slot="lead"
         ><h2 class="h2">

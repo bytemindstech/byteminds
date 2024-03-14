@@ -12,6 +12,8 @@
             type="text"
             name="firstName"
             placeholder="First Name"
+            autocomplete="off"
+            autocapitalize="on"
           />
         </label>
 
@@ -22,6 +24,8 @@
             type="text"
             name="lastName"
             placeholder="Last Name"
+            autocomplete="off"
+            autocapitalize="on"
           />
         </label>
 
@@ -33,13 +37,20 @@
             type="tel"
             name="phone"
             placeholder="0917-xxx-xxxx"
+            autocomplete="off"
             required
           />
         </label>
 
         <label class="label"
           ><span>Email</span>
-          <input class="input" type="email" name="email" placeholder="E-mail" />
+          <input
+            class="input"
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            autocomplete="off"
+          />
         </label>
         <button type="submit" class="btn variant-filled-primary">Submit</button>
       </form>

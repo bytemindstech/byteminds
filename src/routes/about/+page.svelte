@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Founders } from "$lib/components";
+  import { Founders, MissionVision } from "$lib/components";
 </script>
 
+<MissionVision />
 <Founders />
