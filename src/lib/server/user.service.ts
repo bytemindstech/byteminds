@@ -1,5 +1,5 @@
 import type { RequestEvent } from "../../routes/login/$types";
-import { fail, redirect, type ActionFailure } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 import { db } from "./db";
 import { Argon2id } from "oslo/password";
 import { lucia } from "./auth";
@@ -46,7 +46,15 @@ export const getUserByUsername = async (username: string) => {
 export const createUser = async (
   user: Omit<User, "createdAt">,
 ): Promise<User> => {
-  const { id, username, email, firstName, lastName, hashed_password } = user;
+  const {
+    id,
+    username,
+    email,
+    firstName,
+    lastName,
+    hashed_password,
+    email_verified,
+  } = user;
   return db.user.create({
     data: {
       id,
@@ -55,6 +63,7 @@ export const createUser = async (
       firstName,
       lastName,
       hashed_password,
+      email_verified,
     },
     select: {
       id: true,
@@ -63,6 +72,7 @@ export const createUser = async (
       firstName: true,
       lastName: true,
       hashed_password: true,
+      email_verified: true,
     },
   });
 };

@@ -27,6 +27,7 @@ declare global {
     firstName: string;
     lastName: string;
     hashed_password: string;
+    email_verified: boolean;
   };
 
   type LoginSuccess = {
@@ -38,6 +39,14 @@ declare global {
   }>;
 
   type LoginResult = LoginSuccess | LoginFailure;
+
+  type EmailVerificationCode = {
+    id: string;
+    code: string;
+    userId: string;
+    email: string;
+    expiresAt: Date;
+  };
 }
 
 export {};

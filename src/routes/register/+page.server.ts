@@ -4,6 +4,7 @@ import * as UserService from "$lib/server/user.service";
 import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
 import type { Actions } from "./$types";
+import { generateEmailVerificationCode, sendVerificationCode } from "$lib/util";
 
 export const actions: Actions = {
   default: async ({ cookies, request }) => {
@@ -40,7 +41,13 @@ export const actions: Actions = {
       firstName,
       lastName,
       hashed_password: hashedPassword,
+      email_verified: false,
     });
+
+    const verificationCode = await generateEmailVerificationCode(userId, email);
+    console.log(`Verification Code: ${verificationCode}`);
+
+    await sendVerificationCode(email, verificationCode);
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);

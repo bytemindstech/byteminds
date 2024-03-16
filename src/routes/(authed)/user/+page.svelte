@@ -3,5 +3,16 @@
   export let data: PageData;
 </script>
 
-
-<h2 class="h2 text-center mt-10">Welcome, {data.name}</h2>
+<div
+  class="container mx-auto min-h-screen flex flex-col justify-center items-center"
+>
+  <h2 class="h2 text-center mt-10">Welcome, {data.name}</h2>
+  <p class="text-center text-lg">
+    Email Verified: {#if data.emailVerified}
+      Yes
+    {:else}
+      No
+    {/if}
+  </p>
+  <p class="text-center text-sm">Email: {data.email}</p>
+</div>
