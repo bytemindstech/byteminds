@@ -52,7 +52,12 @@
             autocomplete="off"
           />
         </label>
-        <button type="submit" class="btn variant-filled-primary">Submit</button>
+
+        <label class="label"
+          ><span>Message</span>
+          <textarea class="textarea" name="message" autocomplete="off" />
+        </label>
+        <button type="submit" class="btn variant-filled-primary">Send</button>
       </form>
     </div>
   </div>

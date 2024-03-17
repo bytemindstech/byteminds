@@ -22,10 +22,18 @@ export const createEmailVerificationCode = async (
   });
 };
 
+export const getEmailVerificationCodeById = async (id: string) => {
+  return db.emailVerificationCode.findUnique({ where: { id } });
+};
+
 export const getEmailVerificationCodeByUserId = async (userId: string) => {
   return db.emailVerificationCode.findUnique({ where: { userId } });
 };
 
 export const deleteEmailVerificationCodeByUserId = async (userId: string) => {
   return db.emailVerificationCode.delete({ where: { userId } });
+};
+
+export const deleteEmailVerificationCodeById = async (id: string) => {
+  return db.emailVerificationCode.delete({ where: { id } });
 };

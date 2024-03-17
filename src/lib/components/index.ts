@@ -7,6 +7,5 @@ export { default as Founders } from "./founders.svelte";
 export { default as Videos } from "./video.svelte";
 export { default as Join } from "./join.svelte";
 export { default as Register } from "./register.svelte";
-export { default as ContactForm } from "./contactForm.svelte";
 export { default as Login } from "./login.svelte";
 export { default as MissionVision } from "./mission-vision.svelte";

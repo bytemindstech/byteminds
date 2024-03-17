@@ -77,6 +77,32 @@ export const createUser = async (
   });
 };
 
+export const updateEmailVerified = async (
+  user: Omit<
+    User,
+    "id" | "username" | "email" | "firstName" | "lastName" | "hashed_password"
+  >,
+  id: string,
+): Promise<User> => {
+  const { email_verified } = user;
+
+  return db.user.update({
+    where: { id },
+    data: {
+      email_verified,
+    },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      hashed_password: true,
+      email_verified: true,
+    },
+  });
+};
+
 export const loginUser = async (event: RequestEvent): Promise<LoginResult> => {
   const data = await event.request.formData();
   const username = data.get("username");

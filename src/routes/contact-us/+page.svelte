@@ -1,5 +1,5 @@
 <script>
-  import { ContactForm } from "$lib/components";
+  import { ContactForm } from "$lib/components/ui";
 </script>
 
 <ContactForm />

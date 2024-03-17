@@ -1,6 +1,7 @@
-import { TimeSpan, createDate } from "oslo";
+import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
 import { env } from "$env/dynamic/private";
+import type { User } from "lucia";
 import nodemailer from "nodemailer";
 import * as EmailService from "./server/email.service";
 
@@ -53,4 +54,31 @@ export const sendVerificationCode = async (
   } catch (error) {
     console.error("Error sending verification code", (error as Error).message);
   }
+};
+
+export const validateVerificationCode = async (
+  user: User,
+  code: string,
+): Promise<boolean> => {
+  const existingVerificationCode =
+    await EmailService.getEmailVerificationCodeByUserId(user.id);
+
+  console.log("Existing Verification Code: %o", existingVerificationCode);
+  if (!existingVerificationCode || existingVerificationCode.code !== code) {
+    console.log("Invalid Code or no code");
+    return false;
+  }
+
+  console.log("Existing Verification Code: %o", existingVerificationCode);
+
+  await EmailService.deleteEmailVerificationCodeByUserId(user.id);
+  if (!isWithinExpirationDate(existingVerificationCode.expiresAt)) {
+    console.log("Code expired");
+    return false;
+  }
+
+  if (existingVerificationCode.email !== user.email) {
+    return false;
+  }
+  return true;
 };
