@@ -63,7 +63,6 @@ export const validateVerificationCode = async (
   const existingVerificationCode =
     await EmailService.getEmailVerificationCodeByUserId(user.id);
 
-  console.log("Existing Verification Code: %o", existingVerificationCode);
   if (!existingVerificationCode || existingVerificationCode.code !== code) {
     console.log("Invalid Code or no code");
     return false;

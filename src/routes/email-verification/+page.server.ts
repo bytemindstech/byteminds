@@ -11,13 +11,13 @@ export const actions: Actions = {
       return fail(401, { error: "Unauthorized" });
     }
     console.log("User: %s", user);
-    const formData = Object.fromEntries(await request.formData());
-    const { code } = formData as { [key: string]: string | undefined };
-
+    const formData = await request.formData();
+    const code = formData.get("code") as string;
+    console.log(code);
+    
     if (!code) {
       return fail(401, { error: "Missing code" });
     }
-    console.log(code);
 
     const isValid = await validateVerificationCode(user, code);
 
