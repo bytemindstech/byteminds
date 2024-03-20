@@ -1,8 +1,4 @@
-import type { RequestEvent } from "../../routes/login/$types";
-import { fail } from "@sveltejs/kit";
 import { db } from "./db";
-import { Argon2id } from "oslo/password";
-import { lucia } from "./auth";
 
 /**
  * @function
@@ -75,78 +71,4 @@ export const createUser = async (
       email_verified: true,
     },
   });
-};
-
-export const updateEmailVerified = async (
-  user: Omit<
-    User,
-    "id" | "username" | "email" | "firstName" | "lastName" | "hashed_password"
-  >,
-  id: string,
-): Promise<User> => {
-  const { email_verified } = user;
-
-  return db.user.update({
-    where: { id },
-    data: {
-      email_verified,
-    },
-    select: {
-      id: true,
-      username: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      hashed_password: true,
-      email_verified: true,
-    },
-  });
-};
-
-export const loginUser = async (event: RequestEvent): Promise<LoginResult> => {
-  const data = await event.request.formData();
-  const username = data.get("username");
-  const password = data.get("password");
-
-  if (
-    typeof username !== "string" ||
-    username.length < 3 ||
-    username.length > 31 ||
-    !/^[a-z0-9_-]+$/.test(username)
-  ) {
-    return fail(400, { message: "Invalid username" });
-  }
-
-  if (
-    typeof password !== "string" ||
-    password.length < 6 ||
-    password.length > 255
-  ) {
-    return fail(400, { message: "Invalid password" });
-  }
-
-  const existingUser = await getUserByUsername(username as string);
-
-  if (!existingUser) {
-    return fail(400, { message: "Incorrect username or password" });
-  }
-
-  const validPassword = await new Argon2id().verify(
-    existingUser.hashed_password,
-    password,
-  );
-  if (!validPassword) {
-    console.log("incorrect password");
-    return fail(400, { message: "Incorrect username or password" });
-  }
-
-  const session = await lucia.createSession(existingUser.id, {});
-  const sessionCookie = lucia.createSessionCookie(session.id);
-  event.cookies.set(sessionCookie.name, sessionCookie.value, {
-    path: ".",
-    ...sessionCookie.attributes,
-  });
-
-  console.log("login successful");
-  return { success: true };
 };

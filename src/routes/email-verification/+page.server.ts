@@ -2,7 +2,7 @@ import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import { validateVerificationCode } from "$lib/util";
 import type { Actions } from "./$types";
-import * as UserService from "$lib/server/user.service";
+import * as EmailService from "$lib/server/email.service";
 
 export const actions: Actions = {
   default: async ({ request, locals, cookies }) => {
@@ -14,7 +14,7 @@ export const actions: Actions = {
     const formData = await request.formData();
     const code = formData.get("code") as string;
     console.log(code);
-    
+
     if (!code) {
       return fail(401, { error: "Missing code" });
     }
@@ -27,7 +27,7 @@ export const actions: Actions = {
     console.log("Is code Valid: %o", isValid);
 
     await lucia.invalidateUserSessions(user.id);
-    await UserService.updateEmailVerified({ email_verified: true }, user.id);
+    await EmailService.updateEmailVerified({ email_verified: true }, user.id);
     console.log("Code updated to user table");
 
     const session = await lucia.createSession(user.id, {});

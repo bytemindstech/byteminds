@@ -2,7 +2,8 @@
   import type { AfterNavigate } from "@sveltejs/kit";
   import { afterNavigate } from "$app/navigation";
   import { page } from "$app/stores";
-  import { Navigation, Footer, Join } from "$lib/components";
+  import { enhance } from "$app/forms";
+  import { MainNav, Footer, Join, UserNav } from "$lib/components";
   import {
     LightSwitch,
     storePopup,
@@ -10,6 +11,7 @@
     AppBar,
     AppRail,
     AppRailAnchor,
+    Avatar,
   } from "@skeletonlabs/skeleton";
   import {
     computePosition,
@@ -19,9 +21,9 @@
     flip,
     arrow,
   } from "@floating-ui/dom";
+  import logo from "../assets/images/logo.webp";
 
   import "../app.pcss";
-  import { enhance } from "$app/forms";
 
   //requirement for popup
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -42,14 +44,18 @@
   <svelte:fragment slot="pageHeader">
     <AppBar>
       <svelte:fragment slot="lead"
-        ><h2 class="h2">
+        ><h2 class="h2 hidden md:block">
           <span class="text-primary-800 dark:text-dark-token">Byte</span><span
             class="text-red-700"
             >Minds
           </span>
         </h2>
       </svelte:fragment>
-      <Navigation />
+      {#if currentPath !== "/user"}
+        <MainNav />
+      {:else}
+        <UserNav />
+      {/if}
       <svelte:fragment slot="trail">
         {#if currentPath !== "/user"}
           <a href="/login" class="btn hover:variant-soft-primary">Login</a>
@@ -63,9 +69,14 @@
     </AppBar>
   </svelte:fragment>
 
-  <svelte:fragment slot="sidebarLeft"
-    ><AppRail class="md:hidden">
+  <svelte:fragment slot="sidebarLeft">
+    <AppRail class="md:hidden">
       <svelte:fragment slot="lead">
+        <div class="flex justify-center mt-3">
+          <Avatar src={logo} width="w-14" />
+        </div>
+      </svelte:fragment>
+      {#if currentPath !== "/user"}
         <AppRailAnchor href="/" selected={currentPath === "/"}
           >Home
         </AppRailAnchor>
@@ -75,10 +86,11 @@
         <AppRailAnchor href="/blog" selected={currentPath === "/blog"}
           >Blog
         </AppRailAnchor>
-        <AppRailAnchor href="/faqs" selected={currentPath === "/faqs"}
-          >FAQs
-        </AppRailAnchor>
-      </svelte:fragment>
+      {:else}
+        <AppRailAnchor href="https://classroom.jhenbert.com" target="_blank"
+          >Virtual Classroom</AppRailAnchor
+        >
+      {/if}
     </AppRail>
   </svelte:fragment>
 
@@ -86,7 +98,10 @@
   <slot />
 
   <!-- ---- / ---- -->
-  <Join />
+  {#if currentPath !== "/user"}
+    <Join />
+  {/if}
+
   <svelte:fragment slot="pageFooter">
     <Footer year={2024} brand="ByteMinds" />
   </svelte:fragment>

@@ -7,7 +7,11 @@
 
 <ul class="logo-cloud grid-cols-1 lg:!grid-cols-5 gap-1 mb-7">
   <li>
-    <a href="/" class="logo-item"
+    <a
+      href="https://www.facebook.com/byteminds"
+      target="_blank"
+      rel="noreferrer"
+      class="logo-item"
       ><span><Icon icon="uiw:facebook" width="32" height="32" /></span><span
         >Facebook</span
       ></a

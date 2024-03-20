@@ -1,11 +1,11 @@
 import type { Actions } from "./$types";
-import * as UserService from "$lib/server/user.service";
 import { redirect } from "@sveltejs/kit";
+import { loginUser } from "$lib/util";
 
 export const actions: Actions = {
   default: async (event) => {
     console.log(event.url);
-    const loginResult = await UserService.loginUser(event);
+    const loginResult = await loginUser(event);
 
     if (loginResult && loginResult.success) {
       const redirectTo = event.url.searchParams.get("redirectTo");
