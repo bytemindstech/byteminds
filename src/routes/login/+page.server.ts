@@ -15,6 +15,7 @@ export const actions: Actions = {
       }
       redirect(302, "/user");
     }
+    console.log("login failed");
     redirect(302, "/");
   },
 };

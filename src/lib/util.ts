@@ -70,7 +70,7 @@ export const validateVerificationCode = async (
     await EmailService.getEmailVerificationCodeByUserId(user.id);
 
   if (!existingVerificationCode || existingVerificationCode.code !== code) {
-    console.log("Invalid Code or no code");
+    console.log("No code or invalide code");
     return false;
   }
 
@@ -89,25 +89,11 @@ export const validateVerificationCode = async (
 };
 
 export const loginUser = async (event: RequestEvent): Promise<LoginResult> => {
-  const data = await event.request.formData();
-  const username = data.get("username");
-  const password = data.get("password");
+  const formData = Object.fromEntries(await event.request.formData());
+  const { username, password } = formData as { [key: string]: string };
 
-  if (
-    typeof username !== "string" ||
-    username.length < 3 ||
-    username.length > 31 ||
-    !/^[a-z0-9_-]+$/.test(username)
-  ) {
-    return fail(400, { message: "Invalid username" });
-  }
-
-  if (
-    typeof password !== "string" ||
-    password.length < 6 ||
-    password.length > 255
-  ) {
-    return fail(400, { message: "Invalid password" });
+  if (!isValid(username, password)) {
+    return fail(400, { message: "Invalid username or password" });
   }
 
   const existingUser = await UserService.getUserByUsername(username as string);
@@ -134,4 +120,30 @@ export const loginUser = async (event: RequestEvent): Promise<LoginResult> => {
 
   console.log("login successful");
   return { success: true };
+};
+
+/**
+ *
+ * @param username must be 6 - 255 characters
+ * @param password must be 3 - 31 alphanumeric characters
+ * @returns a boolean
+ */
+export const isValid = (username: string, password: string) => {
+  if (
+    typeof password !== "string" ||
+    password.length < 6 ||
+    password.length > 255
+  ) {
+    return false;
+  }
+
+  if (
+    typeof username !== "string" ||
+    username.length < 3 ||
+    username.length > 31 ||
+    !/^[a-z0-9_-]+$/.test(username)
+  ) {
+    return false;
+  }
+  return true;
 };

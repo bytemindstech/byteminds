@@ -1,5 +1,5 @@
 <section class="flex items-center min-h-screen">
-  <div class="container mx-auto mt-7">
+  <div class="container mx-auto">
     <div
       class="grid grid-cols-1 gap-5 lg:flex lg:justify-center lg:items-center lg:space-x-7"
     >
