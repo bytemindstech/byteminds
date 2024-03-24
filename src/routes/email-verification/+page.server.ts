@@ -1,11 +1,15 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
-import { validateVerificationCode } from "$lib/util";
+import {
+  generateEmailVerificationCode,
+  validateVerificationCode,
+  sendVerificationCode,
+} from "$lib/util";
 import type { Actions } from "./$types";
 import * as EmailService from "$lib/server/email.service";
 
 export const actions: Actions = {
-  default: async ({ request, locals, cookies }) => {
+  verifyEmail: async ({ request, locals, cookies }) => {
     const { user } = await lucia.validateSession(locals.session?.id as string);
     if (!user) {
       return fail(401, { error: "Unauthorized" });
@@ -37,5 +41,28 @@ export const actions: Actions = {
       ...sessionCookie.attributes,
     });
     redirect(302, "/user");
+  },
+
+  resendVerificationCode: async ({ locals, cookies }) => {
+    const { user } = await lucia.validateSession(locals.session?.id as string);
+    if (!user) {
+      return fail(401, { error: "Unauthorized" });
+    }
+
+    const verificationCode = await generateEmailVerificationCode(
+      user.id,
+      user.email,
+    );
+    console.log("Verification Code: %o", verificationCode);
+    await lucia.invalidateUserSessions(user.id);
+    await sendVerificationCode(user.email, verificationCode);
+    const session = await lucia.createSession(user.id, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    cookies.set(sessionCookie.name, sessionCookie.value, {
+      path: ".",
+      ...sessionCookie.attributes,
+    });
+
+    redirect(302, "/");
   },
 };

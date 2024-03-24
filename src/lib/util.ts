@@ -51,7 +51,7 @@ export const sendVerificationCode = async (
     from: env.EMAIL_USER,
     to: email,
     subject: "Byteminds Verification Code",
-    html: `<center><p>Your verification code is: <span><b>${verificationCode}</b></span></p><a href=${url}>Click to verify email</a></center>`,
+    html: `<center><h1>Your verification code is: <span><b>${verificationCode}</b></span></h1><a href=${url}>Click to verify email</a></center>`,
   };
 
   try {
