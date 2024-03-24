@@ -14,7 +14,7 @@
       />
 
       <Profile
-        name="Will Atienza"
+        name="Wil Atienza Jr"
         imgSrc="https://avatars.githubusercontent.com/u/120021268?v=4"
         position="Co-founder"
         designation="CFO / Business Relations for ByteMinds"
