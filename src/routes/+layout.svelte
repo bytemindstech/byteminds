@@ -24,6 +24,7 @@
   import logo from "../assets/images/logo.webp";
 
   import "../app.pcss";
+  import Icon from "@iconify/svelte";
 
   //requirement for popup
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -57,14 +58,34 @@
         <UserNav />
       {/if}
       <svelte:fragment slot="trail">
-        {#if currentPath !== "/user"}
-          <a href="/login" class="btn hover:variant-soft-primary">Login</a>
-        {:else}
-          <form method="post" action="/logout" use:enhance>
-            <button class="btn hover:variant-soft-primary">Logout</button>
-          </form>
-        {/if}
-        <LightSwitch />
+        <div class="flex items-center justify-end space-x-1">
+          {#if currentPath !== "/user"}
+            <a href="/login" class="btn hover:variant-soft-primary">Login</a>
+          {:else}
+            <form method="post" action="/logout" use:enhance>
+              <button class="btn hover:variant-soft-primary">Logout</button>
+            </form>
+          {/if}
+          <a
+            href="https://facebook.com/byteminds"
+            target="_blank"
+            type="button"
+            class="btn-icon hover:variant-soft-primary"
+            ><Icon icon="bi:facebook" width="20" height="20" /></a
+          >
+          <a
+            href="/"
+            target="_blank"
+            type="button"
+            class="btn-icon hover:variant-soft-primary"
+            ><Icon
+              icon="entypo-social:youtube-with-circle"
+              width="20"
+              height="20"
+            /></a
+          >
+          <LightSwitch />
+        </div>
       </svelte:fragment>
     </AppBar>
   </svelte:fragment>

@@ -5,21 +5,19 @@
         <h3 class="h3 mb-3">Services</h3>
         <ul>
           <li>
-            <h5 class="h5"><a href="/">Web Development</a></h5>
+            <h5 class="h5">Web Development</h5>
           </li>
           <li>
-            <h5 class="h5"><a href="/">Search Engine Optimization</a></h5>
+            <h5 class="h5">Search Engine Optimization</h5>
           </li>
           <li>
-            <h5 class="h5">
-              <a href="/">Communication Skills Enhancement Training</a>
-            </h5>
+            <h5 class="h5">Communication Skills Enhancement Training</h5>
           </li>
           <li>
-            <h5 class="h5"><a href="/">Facebook Ads</a></h5>
+            <h5 class="h5">Facebook Ads</h5>
           </li>
           <li>
-            <h5 class="h5"><a href="/">Social Media Management</a></h5>
+            <h5 class="h5">Social Media Management</h5>
           </li>
         </ul>
       </div>
@@ -28,16 +26,16 @@
         <h3 class="h3 mb-3">Join Our Team</h3>
         <ul>
           <li>
-            <h5 class="h5"><a href="/">Social Media Manager</a></h5>
+            <h5 class="h5">Social Media Manager</h5>
           </li>
           <li>
-            <h5 class="h5"><a href="/">Facebook Ads Manager</a></h5>
+            <h5 class="h5">Facebook Ads Manager</h5>
           </li>
           <li>
-            <h5 class="h5"><a href="/">Acquisition Specialist</a></h5>
+            <h5 class="h5">Acquisition Specialist</h5>
           </li>
           <li>
-            <h5 class="h5"><a href="/">Online Teacher</a></h5>
+            <h5 class="h5">Online Teacher</h5>
           </li>
         </ul>
       </div>
