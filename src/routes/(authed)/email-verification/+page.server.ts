@@ -8,6 +8,14 @@ import {
 import type { Actions } from "./$types";
 import * as EmailService from "$lib/server/email.service";
 
+export const load = async ({ url, locals }) => {
+  if (!locals.user) {
+    throw redirect(302, `/login?redirectTo=${url.pathname}`);
+  }
+
+  return { emailVerified: locals.user.email_verified };
+};
+
 export const actions: Actions = {
   verifyEmail: async ({ request, locals, cookies }) => {
     const { user } = await lucia.validateSession(locals.session?.id as string);

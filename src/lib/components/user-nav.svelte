@@ -1,18 +1,5 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { TabAnchor, TabGroup } from "@skeletonlabs/skeleton";
-
-  import type { PopupSettings } from "@skeletonlabs/skeleton";
-
-  const popupBox: PopupSettings = {
-    event: "click",
-    target: "popupBox",
-    placement: "bottom",
-    closeQuery: "li",
-  };
-
-  //sugarcoat variable to be reactive
-  $: currentPage = $page.url.pathname;
 </script>
 
 <TabGroup

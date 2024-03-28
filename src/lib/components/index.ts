@@ -10,3 +10,4 @@ export { default as Register } from "./register.svelte";
 export { default as Login } from "./login.svelte";
 export { default as MissionVision } from "./mission-vision.svelte";
 export { default as UserNav } from "./user-nav.svelte";
+export { default as ContactForm } from "./contact-form.svelte";

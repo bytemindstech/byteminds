@@ -52,14 +52,14 @@
           </span>
         </h2>
       </svelte:fragment>
-      {#if currentPath !== "/user"}
+      {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
         <MainNav />
       {:else}
         <UserNav />
       {/if}
       <svelte:fragment slot="trail">
         <div class="flex items-center justify-end space-x-1">
-          {#if currentPath !== "/user"}
+          {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
             <a href="/login" class="btn hover:variant-soft-primary">Login</a>
           {:else}
             <form method="post" action="/logout" use:enhance>
@@ -97,7 +97,7 @@
           <Avatar src={logo} width="w-14" />
         </div>
       </svelte:fragment>
-      {#if currentPath !== "/user"}
+      {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
         <AppRailAnchor href="/" selected={currentPath === "/"}
           >Home
         </AppRailAnchor>
@@ -119,7 +119,7 @@
   <slot />
 
   <!-- ---- / ---- -->
-  {#if currentPath !== "/user"}
+  {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
     <Join />
   {/if}
 

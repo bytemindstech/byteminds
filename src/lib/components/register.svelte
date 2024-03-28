@@ -1,5 +1,4 @@
 <script lang="ts">
-  // import { enhance } from "$app/forms";
   export let form: any;
   export let errors: any;
   export let constraints: any;
@@ -28,8 +27,8 @@
           />
           {#if $errors.username}
             <span
-              ><p class="text-sm text-warning-900">{$errors.username}</p></span
-            >
+              ><p class="text-sm text-warning-900">{$errors.username}</p>
+            </span>
           {/if}
         </label>
 
