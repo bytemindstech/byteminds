@@ -42,6 +42,6 @@ model EmailVerificationCode {
   id        String   @unique @default(uuid())
   code      String
   userId    String   @unique
-  email     String
+  email     String   @unique
   expiresAt DateTime
 }

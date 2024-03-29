@@ -30,6 +30,10 @@ export const getEmailVerificationCodeByUserId = async (userId: string) => {
   return db.emailVerificationCode.findUnique({ where: { userId } });
 };
 
+export const getEmailVerificationCodeByEmail = async (email: string) => {
+  return db.emailVerificationCode.findUnique({ where: { email } });
+};
+
 export const updateEmailVerified = async (
   user: Omit<
     User,

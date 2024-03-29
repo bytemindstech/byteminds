@@ -11,7 +11,11 @@ import type { PageServerLoad } from "./$types";
 import * as UserService from "$lib/server/user.service";
 
 const userSchema = z.object({
-  username: z.string().min(4).max(31),
+  username: z
+    .string()
+    .min(4)
+    .max(31)
+    .regex(/.*\d.*/),
   email: z.string().email(),
   firstName: z.string(),
   lastName: z.string(),
@@ -29,7 +33,7 @@ export const actions: Actions = {
 
     console.log(form);
     if (!form.valid) {
-      return fail(400, { form });
+      return message(form, "Invalid form");
     }
 
     const userId = generateId(15);
@@ -60,7 +64,6 @@ export const actions: Actions = {
       ...sessionCookie.attributes,
     });
 
-    // redirect(302, "/");
     return message(form, "Registered successfully");
   },
 };

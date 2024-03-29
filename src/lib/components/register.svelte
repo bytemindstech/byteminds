@@ -10,7 +10,7 @@
   <div class="card lg:w-1/3">
     <div class="flex flex-col justify-center p-6">
       {#if $message}
-        <h2>{$message}</h2>
+        <h3 class="h3 text-success-700 mb-3">{$message}</h3>
       {/if}
       <form class="space-y-5" method="post" use:enhance>
         <label class="label">
@@ -23,11 +23,12 @@
             autocomplete="off"
             aria-invalid={$errors.username ? "true" : undefined}
             bind:value={$form.username}
-            {...$constraints.usrename}
+            {...$constraints.username}
           />
           {#if $errors.username}
             <span
-              ><p class="text-sm text-warning-900">{$errors.username}</p>
+              ><p class="text-sm text-error-600">{$errors.username}</p>
+              <p class="text-sm text-error-600">username must contain number</p>
             </span>
           {/if}
         </label>
@@ -45,7 +46,7 @@
             {...$constraints.email}
           />
           {#if $errors.email}
-            <span><p class="text-sm text-warning-900">{$errors.email}</p></span>
+            <span><p class="text-sm text-error-600">{$errors.email}</p></span>
           {/if}
         </label>
 
@@ -64,7 +65,7 @@
           />
           {#if $errors.firstName}
             <span
-              ><p class="text-sm text-warning-900">{$errors.firstName}</p></span
+              ><p class="text-sm text-error-600">{$errors.firstName}</p></span
             >
           {/if}
         </label>
@@ -83,8 +84,7 @@
             {...$constraints.lastName}
           />
           {#if $errors.lastName}
-            <span
-              ><p class="text-sm text-warning-900">{$errors.lastName}</p></span
+            <span><p class="text-sm text-error-600">{$errors.lastName}</p></span
             >
           {/if}
         </label>
@@ -102,8 +102,7 @@
             {...$constraints.password}
           />
           {#if $errors.password}
-            <span
-              ><p class="text-sm text-warning-900">{$errors.password}</p></span
+            <span><p class="text-sm text-error-600">{$errors.password}</p></span
             >
           {/if}
         </label>

@@ -1,7 +1,21 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
+  import { superForm } from "sveltekit-superforms/client";
   import type { PageData } from "./$types";
+
   export let data: PageData;
+
+  const { form, errors, constraints, message, enhance } = superForm(
+    data.verifyEmailForm,
+    {
+      resetForm: true,
+    },
+  );
+
+  const {
+    message: resendCodeMessage,
+    enhance: resendCodeEnhance,
+    formId,
+  } = superForm(data.resendCodeForm, { resetForm: true });
 </script>
 
 <section>
@@ -23,20 +37,37 @@
             <input
               class="input"
               type="text"
-              name="code"
               placeholder="Enter verification code"
+              name="code"
               autocomplete="off"
+              aria-invalid={$errors.code ? "true" : undefined}
+              bind:value={$form.code}
+              {...$constraints.code}
             />
+            {#if $errors.code}
+              <p class="text-sm text-error-600">{$errors.code}</p>
+            {/if}
           </label>
           <button type="submit" class="btn variant-filled-primary"
-            >Verify</button
+            >Verify Email</button
           >
         </form>
-        <form method="post" action="?/resendVerificationCode" use:enhance>
+        {#if $message}
+          <p class="text-sm text-error-600">{$message}</p>
+        {/if}
+        <form
+          method="post"
+          action="?/resendVerificationCode"
+          use:resendCodeEnhance
+        >
+          <input type="hidden" name="__superform_id" bind:value={$formId} />
           <button type="submit" class="btn btn-sm !bg-transparent text-sm"
             >Resend Verification Code</button
           >
         </form>
+        {#if $resendCodeMessage}
+          <p class="text-sm text-success-700">{$resendCodeMessage}</p>
+        {/if}
       {/if}
     </div>
   </div>

@@ -1,40 +1,62 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
+import { z } from "zod";
+import { message, superValidate } from "sveltekit-superforms/server";
+import { zod } from "sveltekit-superforms/adapters";
+import type { Actions, PageServerLoad } from "./$types";
+import * as EmailService from "$lib/server/email.service";
 import {
   generateEmailVerificationCode,
   validateVerificationCode,
   sendVerificationCode,
 } from "$lib/util";
-import type { Actions } from "./$types";
-import * as EmailService from "$lib/server/email.service";
 
-export const load = async ({ url, locals }) => {
+const verifyEmailSchema = z.object({ code: z.string() });
+const resendCodeSchema = z.object({
+  id: z.string(),
+  email: z.string().email(),
+});
+
+export const load: PageServerLoad = async ({ url, locals }) => {
   if (!locals.user) {
     throw redirect(302, `/login?redirectTo=${url.pathname}`);
   }
+  const verifyEmailForm = await superValidate(zod(verifyEmailSchema));
+  const resendCodeForm = await superValidate(zod(resendCodeSchema));
 
-  return { emailVerified: locals.user.email_verified };
+  return {
+    verifyEmailForm,
+    resendCodeForm,
+    emailVerified: locals.user.email_verified,
+  };
 };
 
 export const actions: Actions = {
-  verifyEmail: async ({ request, locals, cookies }) => {
+  verifyEmail: async ({ request, locals, cookies, url }) => {
     const { user } = await lucia.validateSession(locals.session?.id as string);
     if (!user) {
       return fail(401, { error: "Unauthorized" });
     }
     console.log("User: %s", user);
-    const formData = await request.formData();
-    const code = formData.get("code") as string;
-    console.log(code);
 
-    if (!code) {
-      return fail(401, { error: "Missing code" });
+    const verifyEmailForm = await superValidate(
+      request,
+      zod(verifyEmailSchema),
+    );
+
+    console.log(verifyEmailForm.data.code);
+
+    if (!verifyEmailForm.data.code) {
+      return message(verifyEmailForm, "No code");
     }
 
-    const isValid = await validateVerificationCode(user, code);
+    const isValid = await validateVerificationCode(
+      user,
+      verifyEmailForm.data.code,
+    );
 
     if (!isValid) {
-      return fail(401, { error: "Invalid code" });
+      return message(verifyEmailForm, "Invalid code");
     }
     console.log("Is code Valid: %o", isValid);
 
@@ -48,22 +70,31 @@ export const actions: Actions = {
       path: ".",
       ...sessionCookie.attributes,
     });
+
+    const redirectTo = url.searchParams.get("redirectTo");
+    if (redirectTo !== null) {
+      throw redirect(302, `${redirectTo.slice(1)}`);
+    }
     redirect(302, "/user");
   },
 
-  resendVerificationCode: async ({ locals, cookies }) => {
+  resendVerificationCode: async ({ request, locals, cookies }) => {
     const { user } = await lucia.validateSession(locals.session?.id as string);
     if (!user) {
       return fail(401, { error: "Unauthorized" });
     }
+
+    const resendCodeForm = await superValidate(request, zod(resendCodeSchema));
 
     const verificationCode = await generateEmailVerificationCode(
       user.id,
       user.email,
     );
     console.log("Verification Code: %o", verificationCode);
+
     await lucia.invalidateUserSessions(user.id);
     await sendVerificationCode(user.email, verificationCode);
+
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies.set(sessionCookie.name, sessionCookie.value, {
@@ -71,6 +102,9 @@ export const actions: Actions = {
       ...sessionCookie.attributes,
     });
 
-    redirect(302, "/");
+    return message(
+      resendCodeForm,
+      "Code succesfully sent, please check your email",
+    );
   },
 };
