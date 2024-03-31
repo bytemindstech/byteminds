@@ -34,6 +34,13 @@
             summary="<h5 class='h5'>Other question here</h5>"
             content="<p class='text-lg'>Lorem ipsum.....</p>"
           />
+
+          <AccordionItem
+            open={false}
+            icon={LaptopCode}
+            summary="<h5 class='h5'>Other question here</h5>"
+            content="<p class='text-lg'>Lorem ipsum.....</p>"
+          />
         </svelte:fragment>
       </Accordion>
     </div>

@@ -36,6 +36,19 @@ export const actions: Actions = {
       return message(form, "Invalid form");
     }
 
+    //get all users
+    const users = await UserService.getAllUsers();
+
+    //check if user exists
+    if (users.some((user) => user.username === form.data.username)) {
+      return message(form, "Username already taken");
+    }
+
+    //check if email exists
+    if (users.some((user) => user.email === form.data.email)) {
+      return message(form, "Email already exists");
+    }
+
     const userId = generateId(15);
     const hashedPassword = await new Argon2id().hash(form.data.password);
 
