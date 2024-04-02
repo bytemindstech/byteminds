@@ -1,28 +1,26 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
-import { z } from "zod";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
 import * as EmailService from "$lib/server/email.service";
+import * as ZodValidationSchema from "$lib/validations/zodSchema";
 import {
   generateEmailVerificationCode,
   validateVerificationCode,
   sendVerificationCode,
 } from "$lib/util";
 
-const verifyEmailSchema = z.object({ code: z.string() });
-const resendCodeSchema = z.object({
-  id: z.string(),
-  email: z.string().email(),
-});
-
 export const load: PageServerLoad = async ({ url, locals }) => {
   if (!locals.user) {
     throw redirect(302, `/login?redirectTo=${url.pathname}`);
   }
-  const verifyEmailForm = await superValidate(zod(verifyEmailSchema));
-  const resendCodeForm = await superValidate(zod(resendCodeSchema));
+  const verifyEmailForm = await superValidate(
+    zod(ZodValidationSchema.verifyEmailSchema),
+  );
+  const resendCodeForm = await superValidate(
+    zod(ZodValidationSchema.resendSchema),
+  );
 
   return {
     verifyEmailForm,
@@ -41,7 +39,7 @@ export const actions: Actions = {
 
     const verifyEmailForm = await superValidate(
       request,
-      zod(verifyEmailSchema),
+      zod(ZodValidationSchema.verifyEmailSchema),
     );
 
     console.log(verifyEmailForm.data.code);
@@ -84,7 +82,10 @@ export const actions: Actions = {
       return fail(401, { error: "Unauthorized" });
     }
 
-    const resendCodeForm = await superValidate(request, zod(resendCodeSchema));
+    const resendCodeForm = await superValidate(
+      request,
+      zod(ZodValidationSchema.resendSchema),
+    );
 
     const verificationCode = await generateEmailVerificationCode(
       user.id,
@@ -104,7 +105,7 @@ export const actions: Actions = {
 
     return message(
       resendCodeForm,
-      "Code succesfully sent, please check your email",
+      "Verification code succesfully sent, please check your email",
     );
   },
 };

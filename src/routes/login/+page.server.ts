@@ -1,29 +1,23 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import { z } from "zod";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
 import * as UserService from "$lib/server/user.service";
-
-const userSchema = z.object({
-  username: z
-    .string()
-    .min(4)
-    .max(31)
-    .regex(/.*\d.*/),
-  password: z.string().min(8),
-});
+import * as ZodValidationSchema from "$lib/validations/zodSchema";
 
 export const load: PageServerLoad = async () => {
-  const form = await superValidate(zod(userSchema));
+  const form = await superValidate(zod(ZodValidationSchema.loginSchema));
   return { form };
 };
 
 export const actions: Actions = {
   default: async ({ request, url, cookies }) => {
-    const form = await superValidate(request, zod(userSchema));
+    const form = await superValidate(
+      request,
+      zod(ZodValidationSchema.loginSchema),
+    );
 
     const existingUser = await UserService.getUserByUsername(
       form.data.username,

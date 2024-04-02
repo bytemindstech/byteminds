@@ -1,35 +1,25 @@
 import { lucia } from "$lib/server/auth";
-import { fail } from "@sveltejs/kit";
 import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
 import { generateEmailVerificationCode, sendVerificationCode } from "$lib/util";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
-import { z } from "zod";
 import type { Actions } from "./$types";
 import type { PageServerLoad } from "./$types";
 import * as UserService from "$lib/server/user.service";
-
-const userSchema = z.object({
-  username: z
-    .string()
-    .min(4)
-    .max(31)
-    .regex(/.*\d.*/),
-  email: z.string().email(),
-  firstName: z.string(),
-  lastName: z.string(),
-  password: z.string().min(8),
-});
+import * as ZodValidationSchema from "$lib/validations/zodSchema";
 
 export const load: PageServerLoad = async () => {
-  const form = await superValidate(zod(userSchema));
+  const form = await superValidate(zod(ZodValidationSchema.registerSchema));
   return { form };
 };
 
 export const actions: Actions = {
   default: async ({ cookies, request }) => {
-    const form = await superValidate(request, zod(userSchema));
+    const form = await superValidate(
+      request,
+      zod(ZodValidationSchema.registerSchema),
+    );
 
     console.log(form);
     if (!form.valid) {

@@ -27,8 +27,9 @@
           />
           {#if $errors.username}
             <span
-              ><p class="text-sm text-error-600">{$errors.username}</p>
-              <p class="text-sm text-error-600">username must contain number</p>
+              ><p class="text-sm text-error-600">
+                {$errors.username}, username must contain number
+              </p>
             </span>
           {/if}
         </label>
