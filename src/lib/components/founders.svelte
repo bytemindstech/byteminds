@@ -10,42 +10,42 @@
         name="Rizaldy Britanico"
         imgSrc="https://avatars.githubusercontent.com/u/120020713?v=4"
         position="Co-founder"
-        designation="CEO / Front End Web Developer"
-      />
-
-      <Profile
-        name="Wil Atienza Jr"
-        imgSrc="https://avatars.githubusercontent.com/u/120021268?v=4"
-        position="Co-founder"
-        designation="CFO / Business Relations for ByteMinds"
-      />
-
-      <Profile
-        name="Jhenbert Villamucho"
-        imgSrc="https://avatars.githubusercontent.com/u/81309377?v=4"
-        position="Co-founder"
-        designation="CTO / Full Stack Web Developer"
-      />
-
-      <Profile
-        name="Frederick Del Mar"
-        imgSrc="https://avatars.githubusercontent.com/u/111483079?v=4"
-        position="Co-founder"
-        designation="Chief, Digital Officer / Full Stack Web Developer"
-      />
-
-      <Profile
-        name="Segundino Balbuena"
-        imgSrc="https://avatars.githubusercontent.com/u/120021196?v=4"
-        position="Co-founder"
-        designation="Full Stack Web Developer"
+        designation="Chief Executive Officer"
       />
 
       <Profile
         name="Ferdinand Guiang"
         imgSrc="https://avatars.githubusercontent.com/u/64579217?v=4"
         position="Co-founder"
-        designation="Full Stack Web Developer"
+        designation="Chief Operations Officer"
+      />
+
+      <Profile
+        name="Wil Atienza Jr"
+        imgSrc="https://avatars.githubusercontent.com/u/120021268?v=4"
+        position="Co-founder"
+        designation="Chief Financial Officer"
+      />
+
+      <Profile
+        name="Jhenbert Villamucho"
+        imgSrc="https://avatars.githubusercontent.com/u/81309377?v=4"
+        position="Co-founder"
+        designation="Chief Technology Officer"
+      />
+
+      <Profile
+        name="Frederick Del Mar"
+        imgSrc="https://avatars.githubusercontent.com/u/111483079?v=4"
+        position="Co-founder"
+        designation="Chief Marketing Officer"
+      />
+
+      <Profile
+        name="Segundino Balbuena"
+        imgSrc="https://avatars.githubusercontent.com/u/120021196?v=4"
+        position="Co-founder"
+        designation="Product Director"
       />
     </div>
   </div>

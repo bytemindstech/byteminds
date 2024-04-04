@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { route } from "$lib/ROUTES";
   import Icon from "@iconify/svelte";
   import { TabAnchor, TabGroup, popup } from "@skeletonlabs/skeleton";
 
@@ -26,11 +27,11 @@
   spacing=""
   class="bg-surface-100-800-token w-full hidden md:block"
 >
-  <TabAnchor href="/" selected={currentPage === "/"}>
+  <TabAnchor href={route("/")} selected={currentPage === route("/")}>
     <svelte:fragment slot="lead">Home</svelte:fragment>
   </TabAnchor>
 
-  <TabAnchor href="/about" selected={currentPage === "/about"}>
+  <TabAnchor href={route("/about")} selected={currentPage === route("/about")}>
     <svelte:fragment slot="lead">About</svelte:fragment>
   </TabAnchor>
 
@@ -47,14 +48,14 @@
       <ul class="grid-col p-2">
         <li>
           <a
-            href="/blog"
+            href={route("/blog")}
             class="btn hover:variant-soft-primary min-w-full rounded-none"
             >Blog</a
           >
         </li>
         <li>
           <a
-            href="/faqs"
+            href={route("/faqs")}
             class="btn hover:variant-soft-primary min-w-full rounded-none"
             >FAQs</a
           >
@@ -70,14 +71,13 @@
         <hr class="md:hidden !my-4 border dark:border-surface-500-400-token" />
         <li>
           <a
-            href="/register"
+            href={route("/register")}
             class="btn hover:variant-soft-primary min-w-full rounded-none"
             >Register</a
           >
         </li>
       </ul>
     </nav>
-
     <div class="arrow bg-surface-100-800-token" />
   </div>
 </TabGroup>

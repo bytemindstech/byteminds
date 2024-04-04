@@ -1,6 +1,7 @@
 <script lang="ts">
   import { superForm } from "sveltekit-superforms/client";
   import type { PageData } from "./$types";
+  import { route } from "$lib/ROUTES";
 
   export let data: PageData;
 
@@ -29,7 +30,7 @@
         <form
           class="flex flex-col space-y-3"
           method="post"
-          action="?/verifyEmail"
+          action={route("verifyEmail /email-verification")}
           use:enhance
         >
           <label class="label space-y-3">
@@ -57,7 +58,7 @@
         {/if}
         <form
           method="post"
-          action="?/resendVerificationCode"
+          action={route("resendVerificationCode /email-verification")}
           use:resendCodeEnhance
         >
           <input type="hidden" name="__superform_id" bind:value={$formId} />

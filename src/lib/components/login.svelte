@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { route } from "$lib/ROUTES";
+
   export let enhance: any;
   export let form: any;
   export let errors: any;
@@ -44,8 +46,9 @@
           />
         </label>
         <p class="text-sm">
-          Don't have an account yet? <a href="/register" class="hover:underline"
-            >Register</a
+          Don't have an account yet? <a
+            href={route("/register")}
+            class="hover:underline">Register</a
           >
         </p>
         <button class="btn variant-filled-primary min-w-full" type="submit"

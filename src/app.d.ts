@@ -1,5 +1,4 @@
 // See https://kit.svelte.dev/docs/types#app
-
 import type { PrismaClient } from "@prisma/client";
 
 // for information about these interfaces
@@ -29,16 +28,6 @@ declare global {
     hashed_password: string;
     email_verified: boolean;
   };
-
-  type LoginSuccess = {
-    success?: boolean;
-  };
-
-  type LoginFailure = ActionFailure<{
-    message: string;
-  }>;
-
-  type LoginResult = LoginSuccess | LoginFailure;
 
   type EmailVerificationCode = {
     id: string;

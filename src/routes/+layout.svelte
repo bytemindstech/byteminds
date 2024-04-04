@@ -4,6 +4,7 @@
   import { page } from "$app/stores";
   import { enhance } from "$app/forms";
   import { MainNav, Footer, Join, UserNav } from "$lib/components";
+  import { route } from "$lib/ROUTES";
   import {
     LightSwitch,
     storePopup,
@@ -22,9 +23,10 @@
     arrow,
   } from "@floating-ui/dom";
   import logo from "../assets/images/logo.webp";
-
-  import "../app.pcss";
   import Icon from "@iconify/svelte";
+
+  //global css
+  import "../app.pcss";
 
   //requirement for popup
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -52,17 +54,19 @@
           </span>
         </h2>
       </svelte:fragment>
-      {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
+      {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
         <MainNav />
       {:else}
         <UserNav />
       {/if}
       <svelte:fragment slot="trail">
         <div class="flex items-center justify-end space-x-1">
-          {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
-            <a href="/login" class="btn hover:variant-soft-primary">Login</a>
+          {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
+            <a href={route("/login")} class="btn hover:variant-soft-primary"
+              >Login</a
+            >
           {:else}
-            <form method="post" action="/logout" use:enhance>
+            <form method="post" action={route("default /logout")} use:enhance>
               <button class="btn hover:variant-soft-primary">Logout</button>
             </form>
           {/if}
@@ -97,14 +101,18 @@
           <Avatar src={logo} width="w-14" />
         </div>
       </svelte:fragment>
-      {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
-        <AppRailAnchor href="/" selected={currentPath === "/"}
+      {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
+        <AppRailAnchor href={route("/")} selected={currentPath === route("/")}
           >Home
         </AppRailAnchor>
-        <AppRailAnchor href="/about" selected={currentPath === "/about"}
+        <AppRailAnchor
+          href={route("/about")}
+          selected={currentPath === route("/about")}
           >About
         </AppRailAnchor>
-        <AppRailAnchor href="/blog" selected={currentPath === "/blog"}
+        <AppRailAnchor
+          href={route("/blog")}
+          selected={currentPath === route("/blog")}
           >Blog
         </AppRailAnchor>
       {:else}
@@ -119,10 +127,9 @@
   <slot />
 
   <!-- ---- / ---- -->
-  {#if typeof currentPath === "string" && currentPath !== "/user" && currentPath !== "/email-verification"}
+  {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
     <Join />
   {/if}
-
   <svelte:fragment slot="pageFooter">
     <Footer year={2024} brand="ByteMinds" />
   </svelte:fragment>
