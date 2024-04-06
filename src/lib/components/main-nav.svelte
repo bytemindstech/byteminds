@@ -62,7 +62,7 @@
         </li>
         <li>
           <a
-            href="https://classroom.jhenbert.com"
+            href={route("classroom")}
             class="btn hover:variant-soft-primary min-w-full rounded-none text-wrap"
             target="_blank"
             rel="noreferrer">Virtual Classroom</a

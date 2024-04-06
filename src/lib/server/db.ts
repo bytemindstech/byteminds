@@ -1,9 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 
-// Initialize the PrismaClient instance if it hasn't been initialized yet
-if (!global.__db) {
-  global.__db = new PrismaClient();
+declare global {
+  var __db: PrismaClient | undefined;
 }
 
-// Export the initialized PrismaClient instance
-export const db = global.__db;
+/**
+ * if the instance of PrismaClient is already initialized, use it
+ * if it's not initialized, initialize it and save it to the global object
+ */
+export const db = global.__db || (global.__db = new PrismaClient());

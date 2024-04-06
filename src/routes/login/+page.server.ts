@@ -5,7 +5,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
 import * as UserService from "$lib/server/user.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchema";
+import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load: PageServerLoad = async () => {
   const form = await superValidate(zod(ZodValidationSchema.loginSchema));
@@ -25,7 +25,7 @@ export const actions: Actions = {
 
     if (!existingUser) {
       console.log("user not found");
-      return message(form, "User not found");
+      return message(form, "User not found", { status: 406 });
     }
 
     const validPassword = await new Argon2id().verify(
@@ -34,8 +34,8 @@ export const actions: Actions = {
     );
 
     if (!validPassword) {
-      console.log("incorrect password");
-      return message(form, "Invalid password");
+      console.log("Invalid password");
+      return message(form, "Invalid password", { status: 406 });
     }
 
     const session = await lucia.createSession(existingUser.id, {});

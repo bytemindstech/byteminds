@@ -45,7 +45,11 @@ const ACTIONS = {
  * LINKS
  */
 const LINKS = {
-  
+  "facebook": `https://facebook.com/byteminds`,
+  "classroom": `https://classroom.jhenbert.com`,
+  "githubAvatar": (params: { avatarId: (string | number) }) => {
+    return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
+  }
 }
 
 type ParamValue = string | number | undefined
@@ -151,6 +155,6 @@ export type KIT_ROUTES = {
   PAGES: { '/': never, '/email-verification': never, '/user': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /login': never, 'default /logout': never, 'default /register': never }
-  LINKS: Record<string, never>
-  Params: { slug: never }
+  LINKS: { 'facebook': never, 'classroom': never, 'githubAvatar': 'avatarId' }
+  Params: { slug: never, avatarId: never }
 }

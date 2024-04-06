@@ -13,6 +13,8 @@
     AppRail,
     AppRailAnchor,
     Avatar,
+    initializeStores,
+    Toast,
   } from "@skeletonlabs/skeleton";
   import {
     computePosition,
@@ -41,8 +43,11 @@
       elemPage.scrollTop = 0;
     }
   });
+
+  initializeStores();
 </script>
 
+<Toast />
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
   <svelte:fragment slot="pageHeader">
     <AppBar>
@@ -71,7 +76,7 @@
             </form>
           {/if}
           <a
-            href="https://facebook.com/byteminds"
+            href={route("facebook")}
             target="_blank"
             type="button"
             class="btn-icon hover:variant-soft-primary"
@@ -116,7 +121,7 @@
           >Blog
         </AppRailAnchor>
       {:else}
-        <AppRailAnchor href="https://classroom.jhenbert.com" target="_blank"
+        <AppRailAnchor href={route("classroom")} target="_blank"
           >Virtual Classroom</AppRailAnchor
         >
       {/if}

@@ -1,5 +1,16 @@
 import { db } from "./db";
 
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  createdAt?: Date;
+  firstName: string;
+  lastName: string;
+  hashed_password: string;
+  email_verified: boolean;
+};
+
 /**
  * @function
  * Retrieve all users from the database
@@ -59,6 +70,32 @@ export const createUser = async (
       firstName,
       lastName,
       hashed_password,
+      email_verified,
+    },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      hashed_password: true,
+      email_verified: true,
+    },
+  });
+};
+
+export const updateUserEmailVerified = async (
+  user: Omit<
+    User,
+    "id" | "username" | "email" | "firstName" | "lastName" | "hashed_password"
+  >,
+  id: string,
+): Promise<User> => {
+  const { email_verified } = user;
+
+  return db.user.update({
+    where: { id },
+    data: {
       email_verified,
     },
     select: {

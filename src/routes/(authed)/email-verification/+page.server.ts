@@ -3,13 +3,13 @@ import { fail, redirect } from "@sveltejs/kit";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
-import * as EmailService from "$lib/server/email.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchema";
+import * as UserService from "$lib/server/user.service";
+import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import {
   generateEmailVerificationCode,
   validateVerificationCode,
   sendVerificationCode,
-} from "$lib/util";
+} from "$lib/util.sever";
 
 export const load: PageServerLoad = async ({ url, locals }) => {
   if (!locals.user) {
@@ -59,7 +59,10 @@ export const actions: Actions = {
     console.log("Is code Valid: %o", isValid);
 
     await lucia.invalidateUserSessions(user.id);
-    await EmailService.updateEmailVerified({ email_verified: true }, user.id);
+    await UserService.updateUserEmailVerified(
+      { email_verified: true },
+      user.id,
+    );
     console.log("Code updated to user table");
 
     const session = await lucia.createSession(user.id, {});

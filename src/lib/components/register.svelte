@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { page } from "$app/stores";
+  import { Toast } from "./ui";
+
   export let form: any;
   export let errors: any;
   export let constraints: any;
@@ -6,12 +9,16 @@
   export let enhance: any;
 </script>
 
+{#if typeof $message === "string" && $message}
+  {#if $page.status === 200}
+    <Toast message={$message} type="success" />
+  {:else}
+    <Toast message={$message} type="error" />
+  {/if}
+{/if}
 <div class="container mx-auto min-h-screen flex justify-center items-center">
   <div class="card lg:w-1/3">
     <div class="flex flex-col justify-center p-6">
-      {#if $message}
-        <h3 class="h3 text-success-700 mb-3">{$message}</h3>
-      {/if}
       <form class="space-y-5" method="post" use:enhance>
         <label class="label">
           <span>Username</span>

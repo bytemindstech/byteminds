@@ -1,13 +1,16 @@
 import { lucia } from "$lib/server/auth";
 import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
-import { generateEmailVerificationCode, sendVerificationCode } from "$lib/util";
+import {
+  generateEmailVerificationCode,
+  sendVerificationCode,
+} from "$lib/util.sever";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions } from "./$types";
 import type { PageServerLoad } from "./$types";
 import * as UserService from "$lib/server/user.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchema";
+import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load: PageServerLoad = async () => {
   const form = await superValidate(zod(ZodValidationSchema.registerSchema));
@@ -21,9 +24,8 @@ export const actions: Actions = {
       zod(ZodValidationSchema.registerSchema),
     );
 
-    console.log(form);
     if (!form.valid) {
-      return message(form, "Invalid form");
+      return message(form, "Invalid form", { status: 406 });
     }
 
     //get all users
@@ -31,12 +33,12 @@ export const actions: Actions = {
 
     //check if user exists
     if (users.some((user) => user.username === form.data.username)) {
-      return message(form, "Username already taken");
+      return message(form, "Username already exists", { status: 406 });
     }
 
     //check if email exists
     if (users.some((user) => user.email === form.data.email)) {
-      return message(form, "Email already exists");
+      return message(form, "Email already exists", { status: 406 });
     }
 
     const userId = generateId(15);

@@ -1,3 +1,7 @@
+/**
+ * PUT YOUR REUSABLE SERVER SIDE FUNCTIONS HERE
+ */
+
 import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
 import { env } from "$env/dynamic/private";
@@ -45,26 +49,29 @@ export const sendVerificationCode = async (
   const existingVerificationCode =
     await EmailService.getEmailVerificationCodeByEmail(email);
 
+  if (!existingVerificationCode) {
+    return;
+  }
+
   const dteOptions: Intl.DateTimeFormatOptions = {
     dateStyle: "full",
     timeStyle: "long",
     timeZone: "Asia/Manila",
   };
 
-  const formatDate = new Intl.DateTimeFormat("en-US", dteOptions).format(
-    existingVerificationCode?.expiresAt,
+  const formatDate = new Intl.DateTimeFormat("en-PH", dteOptions).format(
+    existingVerificationCode.expiresAt,
   );
 
   const message = {
     from: env.EMAIL_USER,
     to: email,
     subject: `Email verification code: ${verificationCode}`,
-    html: `<div><p>Verify your email, you've registered to ByteMinds using ${existingVerificationCode?.email}</p><p>Use this code to finish setting up your profile: ${verificationCode}</p><p>This code will expire at ${formatDate}</p></div>`,
+    html: `<div><p>Verify your email, you've registered to ByteMinds using ${existingVerificationCode.email}</p><p>Use this code to finish setting up your profile: ${verificationCode}</p><p>This code will expire at ${formatDate}</p></div>`,
   };
 
   try {
-    const info = await transporter.sendMail(message);
-    console.log(`Message sent: ${info.messageId}`);
+    await transporter.sendMail(message);
   } catch (error) {
     console.error("Error sending verification code", (error as Error).message);
   }

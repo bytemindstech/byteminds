@@ -1,5 +1,13 @@
 import { db } from "./db";
 
+type EmailVerificationCode = {
+  id: string;
+  code: string;
+  userId: string;
+  email: string;
+  expiresAt: Date;
+};
+
 export const createEmailVerificationCode = async (
   verificationCode: Omit<EmailVerificationCode, "id">,
 ): Promise<EmailVerificationCode> => {
@@ -32,32 +40,6 @@ export const getEmailVerificationCodeByUserId = async (userId: string) => {
 
 export const getEmailVerificationCodeByEmail = async (email: string) => {
   return db.emailVerificationCode.findUnique({ where: { email } });
-};
-
-export const updateEmailVerified = async (
-  user: Omit<
-    User,
-    "id" | "username" | "email" | "firstName" | "lastName" | "hashed_password"
-  >,
-  id: string,
-): Promise<User> => {
-  const { email_verified } = user;
-
-  return db.user.update({
-    where: { id },
-    data: {
-      email_verified,
-    },
-    select: {
-      id: true,
-      username: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      hashed_password: true,
-      email_verified: true,
-    },
-  });
 };
 
 export const deleteEmailVerificationCodeByUserId = async (userId: string) => {
