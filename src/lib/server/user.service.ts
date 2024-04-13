@@ -84,6 +84,12 @@ export const createUser = async (
   });
 };
 
+/**
+ * 
+ * @param user 
+ * @param id 
+ * @returns user object
+ */
 export const updateUserEmailVerified = async (
   user: Omit<
     User,
