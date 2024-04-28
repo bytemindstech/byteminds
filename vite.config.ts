@@ -10,6 +10,7 @@ export default defineConfig({
     kitRoutes<KIT_ROUTES>({
       LINKS: {
         facebook: "https://facebook.com/byteminds",
+        youtube: "https://www.youtube.com/@bytemindstech",
         classroom: "https://classroom.jhenbert.com",
         githubAvatar: "https://avatars.githubusercontent.com/u/[avatarId]?v=4",
       },

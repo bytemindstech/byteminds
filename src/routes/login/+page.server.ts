@@ -6,6 +6,7 @@ import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
 import * as UserService from "$lib/server/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import { route } from "$lib/ROUTES";
 
 export const load: PageServerLoad = async () => {
   const form = await superValidate(zod(ZodValidationSchema.loginSchema));
@@ -50,6 +51,6 @@ export const actions: Actions = {
     if (redirectTo !== null) {
       throw redirect(302, `${redirectTo.slice(1)}`);
     }
-    redirect(302, "/user");
+    redirect(302, route("/students"));
   },
 };

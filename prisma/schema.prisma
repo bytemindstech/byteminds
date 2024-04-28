@@ -27,8 +27,9 @@ model User {
   profile         Profile?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  sessions        Session[]
   email_verified  Boolean
+  sessions        Session[]
+  Role            Role[]
 }
 
 model Session {
@@ -44,4 +45,14 @@ model EmailVerificationCode {
   userId    String   @unique
   email     String   @unique
   expiresAt DateTime
+}
+
+model Role {
+  id        String  @unique @default(uuid())
+  userId    String
+  isStudent Boolean
+  isParent  Boolean
+  isTutor   Boolean
+  isAdmin   Boolean
+  user      User    @relation(references: [id], fields: [userId], onDelete: Cascade)
 }

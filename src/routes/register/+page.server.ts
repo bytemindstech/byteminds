@@ -10,6 +10,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import type { Actions } from "./$types";
 import type { PageServerLoad } from "./$types";
 import * as UserService from "$lib/server/user.service";
+import * as RoleService from "$lib/server/role.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load: PageServerLoad = async () => {
@@ -54,12 +55,19 @@ export const actions: Actions = {
       email_verified: false,
     });
 
+    //will be dynamically input from event listener
+    // await RoleService.createRole({
+    //   userId: userId,
+    //   isStudent: false,
+    //   isParent: false,
+    //   isTutor: false,
+    //   isAdmin: false,
+    // });
+
     const verificationCode = await generateEmailVerificationCode(
       userId,
       form.data.email,
     );
-    console.log(`Verification Code: ${verificationCode}`);
-
     await sendVerificationCode(form.data.email, verificationCode);
 
     const session = await lucia.createSession(userId, {});

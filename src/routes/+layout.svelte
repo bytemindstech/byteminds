@@ -59,14 +59,14 @@
           </span>
         </h2>
       </svelte:fragment>
-      {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
+      {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
         <MainNav />
       {:else}
         <UserNav />
       {/if}
       <svelte:fragment slot="trail">
         <div class="flex items-center justify-end space-x-1">
-          {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
+          {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
             <a href={route("/login")} class="btn hover:variant-soft-primary"
               >Login</a
             >
@@ -83,7 +83,7 @@
             ><Icon icon="bi:facebook" width="20" height="20" /></a
           >
           <a
-            href="/"
+            href={route("youtube")}
             target="_blank"
             type="button"
             class="btn-icon hover:variant-soft-primary"
@@ -106,7 +106,7 @@
           <Avatar src={logo} width="w-14" />
         </div>
       </svelte:fragment>
-      {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
+      {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
         <AppRailAnchor href={route("/")} selected={currentPath === route("/")}
           >Home
         </AppRailAnchor>
@@ -132,7 +132,7 @@
   <slot />
 
   <!-- ---- / ---- -->
-  {#if typeof currentPath === "string" && currentPath !== route("/user") && currentPath !== route("/email-verification")}
+  {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
     <Join />
   {/if}
   <svelte:fragment slot="pageFooter">

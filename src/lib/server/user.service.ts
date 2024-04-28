@@ -1,15 +1,5 @@
 import { db } from "./db";
-
-type User = {
-  id: string;
-  username: string;
-  email: string;
-  createdAt?: Date;
-  firstName: string;
-  lastName: string;
-  hashed_password: string;
-  email_verified: boolean;
-};
+import type { User } from "@prisma/client";
 
 /**
  * @function
@@ -51,7 +41,7 @@ export const getUserByUsername = async (username: string) => {
  * Create a new user in the database
  */
 export const createUser = async (
-  user: Omit<User, "createdAt">,
+  user: Omit<User, "createdAt" | "updatedAt">,
 ): Promise<User> => {
   const {
     id,
@@ -79,21 +69,30 @@ export const createUser = async (
       firstName: true,
       lastName: true,
       hashed_password: true,
+      createdAt: true,
+      updatedAt: true,
       email_verified: true,
     },
   });
 };
 
 /**
- * 
- * @param user 
- * @param id 
+ *
+ * @param user
+ * @param id
  * @returns user object
  */
 export const updateUserEmailVerified = async (
   user: Omit<
     User,
-    "id" | "username" | "email" | "firstName" | "lastName" | "hashed_password"
+    | "id"
+    | "username"
+    | "email"
+    | "firstName"
+    | "lastName"
+    | "hashed_password"
+    | "createdAt"
+    | "updatedAt"
   >,
   id: string,
 ): Promise<User> => {
@@ -111,6 +110,8 @@ export const updateUserEmailVerified = async (
       firstName: true,
       lastName: true,
       hashed_password: true,
+      createdAt: true,
+      updatedAt: true,
       email_verified: true,
     },
   });

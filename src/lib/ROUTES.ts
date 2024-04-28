@@ -11,7 +11,7 @@
 const PAGES = {
   "/": `/`,
   "/email-verification": `/email-verification`,
-  "/user": `/user`,
+  "/students": `/students`,
   "/about": `/about`,
   "/blog": `/blog`,
   "/blog/[slug]": (params: { slug: (string | number) }) => {
@@ -46,6 +46,7 @@ const ACTIONS = {
  */
 const LINKS = {
   "facebook": `https://facebook.com/byteminds`,
+  "youtube": `https://www.youtube.com/@bytemindstech`,
   "classroom": `https://classroom.jhenbert.com`,
   "githubAvatar": (params: { avatarId: (string | number) }) => {
     return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
@@ -152,9 +153,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/email-verification': never, '/user': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
+  PAGES: { '/': never, '/email-verification': never, '/students': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /login': never, 'default /logout': never, 'default /register': never }
-  LINKS: { 'facebook': never, 'classroom': never, 'githubAvatar': 'avatarId' }
+  LINKS: { 'facebook': never, 'youtube': never, 'classroom': never, 'githubAvatar': 'avatarId' }
   Params: { slug: never, avatarId: never }
 }
