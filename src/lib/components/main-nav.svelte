@@ -44,7 +44,7 @@
   </button>
 
   <div class="card w-40 shadow-xl py-2" data-popup="popupBox">
-    <nav>
+    <nav class="list-nav">
       <ul class="grid-col p-2">
         <li>
           <a

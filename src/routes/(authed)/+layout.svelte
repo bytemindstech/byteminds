@@ -5,7 +5,8 @@
   //   export let data: LayoutData;
 </script>
 
-<AppShell>
-  <svelte:fragment slot="sidebarLeft">sidebar</svelte:fragment>
+<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4" slotSidebarRight="bg-surface-500/5 w-56 p-4">
+  <svelte:fragment slot="sidebarLeft">left sidebar</svelte:fragment>
+  <svelte:fragment slot="sidebarRight">right sidebar</svelte:fragment>
   <slot />
 </AppShell>

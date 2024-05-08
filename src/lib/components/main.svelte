@@ -44,7 +44,7 @@
 </section>
 
 <section class="min-h-screen flex items-center">
-  <div class="container p-4">
+  <div class="container mx-auto p-5">
     <div class="md:flex md:items-center md:justify-center p-4">
       <div class="md:w-1/2 md:pr-8">
         <div class="md:flex md:items-center mt-5 gap-3 space-y-3">
