@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { route } from "$lib/ROUTES";
   import type { PageData } from "./$types";
   export let data: PageData;
 </script>
+
+<!-- Ma'am Jammie's task,  
+input your idea about tutors dashboard, showing basic profile of a user, you can just hardcode the data, not necessarily to fetch data from database -->
 
 <div
   class="container mx-auto min-h-screen flex flex-col justify-center items-center"
@@ -17,7 +21,7 @@
   <p class="text-center text-sm">Email: {data.email}</p>
   {#if !data.emailVerified}
     <a
-      href="/email-verification"
+      href={route("/email-verification")}
       type="button"
       class="btn variant-filled-primary mt-5">Verify Email</a
     >
