@@ -4,9 +4,9 @@
 </script>
 
 <section>
-  <div class="container mx-auto">
+  <div class="container mx-auto p-5">
     <h2 class="h2 text-center mb-7 mt-16">The Team</h2>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <Profile
         name="Rizaldy Britanico"
         imgSrc={route("githubAvatar", { avatarId: 120020713 })}
@@ -33,20 +33,6 @@
         imgSrc={route("githubAvatar", { avatarId: 81309377 })}
         position="Co-founder"
         designation="Chief Technology Officer"
-      />
-
-      <Profile
-        name="Frederick Del Mar"
-        imgSrc={route("githubAvatar", { avatarId: 111483079 })}
-        position="Co-founder"
-        designation="Chief Marketing Officer"
-      />
-
-      <Profile
-        name="Segundino Balbuena"
-        imgSrc={route("githubAvatar", { avatarId: 120021196 })}
-        position="Co-founder"
-        designation="Product Director"
       />
     </div>
   </div>

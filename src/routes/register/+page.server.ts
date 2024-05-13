@@ -52,6 +52,7 @@ export const actions: Actions = {
       firstName: form.data.firstName,
       lastName: form.data.lastName,
       hashed_password: hashedPassword,
+      source_info: form.data.sourceInfo,
       email_verified: false,
     });
 

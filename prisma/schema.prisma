@@ -24,6 +24,7 @@ model User {
   firstName       String
   lastName        String
   hashed_password String
+  source_info     String
   profile         Profile?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt

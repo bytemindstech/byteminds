@@ -9,7 +9,7 @@
 
 <div class="card card-hover p-7">
   <div class="flex flex-col items-center justify-center">
-    <h4 class="h4 mb-2 underline">{name}</h4>
+    <h6 class="h6 mb-2">{name}</h6>
     <Avatar src={imgSrc} width="w-[200px]" />
     <h5 class="h5 mt-2">{position}</h5>
     <p class="text-sm">{designation}</p>

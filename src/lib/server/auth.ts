@@ -1,4 +1,4 @@
-import { Lucia, type Adapter } from "lucia";
+import { Lucia, TimeSpan, type Adapter } from "lucia";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { dev } from "$app/environment";
 import { db } from "./db";
@@ -13,6 +13,7 @@ export const lucia = new Lucia(adapter, {
       secure: !dev,
     },
   },
+  sessionExpiresIn: new TimeSpan(2, "w"),
   getUserAttributes: (attributes) => {
     return {
       firstName: attributes.firstName,

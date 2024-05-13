@@ -17,6 +17,8 @@ export const getAllUsers = async () => {
       firstName: true,
       lastName: true,
       hashed_password: true,
+      source_info: true,
+      email_verified: true,
       profile: true,
     },
   });
@@ -50,6 +52,7 @@ export const createUser = async (
     firstName,
     lastName,
     hashed_password,
+    source_info,
     email_verified,
   } = user;
   return db.user.create({
@@ -60,6 +63,7 @@ export const createUser = async (
       firstName,
       lastName,
       hashed_password,
+      source_info,
       email_verified,
     },
     select: {
@@ -69,6 +73,7 @@ export const createUser = async (
       firstName: true,
       lastName: true,
       hashed_password: true,
+      source_info: true,
       createdAt: true,
       updatedAt: true,
       email_verified: true,
@@ -110,6 +115,7 @@ export const updateUserEmailVerified = async (
       firstName: true,
       lastName: true,
       hashed_password: true,
+      source_info: true,
       createdAt: true,
       updatedAt: true,
       email_verified: true,

@@ -6,7 +6,6 @@ export const load: PageServerLoad = async ({ url, locals }) => {
     throw redirect(302, `/login?redirectTo=${url.pathname}`);
   }
 
-  console.log(url);
   return {
     name: locals.user.firstName,
     emailVerified: locals.user.email_verified,

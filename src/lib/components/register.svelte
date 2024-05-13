@@ -114,6 +114,30 @@
             >
           {/if}
         </label>
+
+        <label class="label"
+          ><span>Source of Information</span>
+          <select
+            class="select"
+            name="sourceInfo"
+            bind:value={$form.sourceInfo}
+            {...$constraints.sourceInfo}
+          >
+            <option value="" selected disabled hidden>Choose one</option>
+            {#each ["facebook", "youtube", "tiktok", "search-engine", "others"] as source}
+              <option
+                value={source}
+                selected={$form.sourceInfo === source}
+                class="capitalize">{source}</option
+              >
+            {/each}
+          </select>
+          {#if $errors.sourceInfo}
+            <span
+              ><p class="text-sm text-error-600">{$errors.sourceInfo}</p></span
+            >
+          {/if}
+        </label>
         <button type="submit" class="btn variant-filled-primary w-full"
           >Register</button
         >

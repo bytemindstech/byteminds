@@ -1,9 +1,7 @@
 <script>
-  import { Hero, Main, Videos } from "$lib/components";
+  import { Hero, Main } from "$lib/components";
 </script>
 
 <Hero />
 
 <Main />
-
-<Videos />

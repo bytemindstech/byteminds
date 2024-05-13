@@ -10,6 +10,7 @@ export const registerSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   password: z.string().min(8),
+  sourceInfo: z.string(),
 });
 
 export const verifyEmailSchema = z.object({ code: z.string() });

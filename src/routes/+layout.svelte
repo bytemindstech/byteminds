@@ -3,18 +3,17 @@
   import { afterNavigate } from "$app/navigation";
   import { page } from "$app/stores";
   import { enhance } from "$app/forms";
-  import { MainNav, Footer, Join, UserNav } from "$lib/components";
+  import { Footer, Join, UserNav, Navigation } from "$lib/components";
   import { route } from "$lib/ROUTES";
+  import Icon from "@iconify/svelte";
   import {
-    LightSwitch,
     storePopup,
     AppShell,
     AppBar,
-    AppRail,
-    AppRailAnchor,
-    Avatar,
     initializeStores,
     Toast,
+    Drawer,
+    getDrawerStore,
   } from "@skeletonlabs/skeleton";
   import {
     computePosition,
@@ -24,16 +23,12 @@
     flip,
     arrow,
   } from "@floating-ui/dom";
-  import logo from "../assets/images/logo.webp";
-  import Icon from "@iconify/svelte";
 
   //global css
   import "../app.pcss";
 
   //requirement for popup
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
-
-  $: currentPath = $page.url.pathname;
 
   //scroll to top on navigation
   afterNavigate((params: AfterNavigate) => {
@@ -45,98 +40,111 @@
   });
 
   initializeStores();
+
+  const drawerStore = getDrawerStore();
+
+  const drawerOpen = () => {
+    drawerStore.open({});
+  };
+
+  $: currentPath = $page.url.pathname;
+
+  $: positionClasses = $drawerStore.open ? "translate-x[50%]" : "";
+
+  $: hiddenClass =
+    currentPath === route("/students")
+      ? "hidden"
+      : "" || currentPath === route("/parents")
+        ? "hidden"
+        : "" || currentPath === route("/tutors")
+          ? "hidden"
+          : "" || currentPath === route("/admin")
+            ? "hidden"
+            : "" || currentPath === route("/email-verification")
+              ? "hidden"
+              : "";
+
+  $: showClass =
+    currentPath === route("/students")
+      ? ""
+      : "md:hidden" && currentPath === route("/parents")
+        ? ""
+        : "md:hidden" && currentPath === route("/tutors")
+          ? ""
+          : "md:hidden" && currentPath === route("/admin")
+            ? ""
+            : "md:hidden" && currentPath === route("/email-verification")
+              ? ""
+              : "md:hidden";
+
+  $: showLogoutBtn =
+    $page.url.pathname === route("/students")
+      ? ""
+      : "hidden md:block" && currentPath === route("/parents")
+        ? ""
+        : "hidden md:block" && currentPath === route("/tutors")
+          ? ""
+          : "hidden md:block" && currentPath === route("/admin")
+            ? ""
+            : "hidden md:block" && currentPath === route("/email-verification")
+              ? ""
+              : "hidden md:block";
 </script>
 
 <Toast />
-<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
+
+<AppShell
+  class="transition-transform {positionClasses}"
+  regionPage="relative"
+  slotPageHeader="sticky top-0 z-10 {showClass}"
+  slotSidebarLeft="bg-surface-700/5 w-0 md:w-64 {hiddenClass}"
+>
+  <Drawer><Navigation /></Drawer>
   <svelte:fragment slot="pageHeader">
     <AppBar>
       <svelte:fragment slot="lead"
-        ><h2 class="h2 hidden md:block">
+        ><span class={hiddenClass}
+          ><button class="btn btn-sm" on:click={drawerOpen}
+            ><Icon
+              icon="icon-park-outline:hamburger-button"
+              width="48"
+              height="48"
+            /></button
+          ></span
+        >
+        <h2 class="h2">
           <span class="text-primary-800 dark:text-dark-token">Byte</span><span
             class="text-red-700"
             >Minds
           </span>
         </h2>
       </svelte:fragment>
-      {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
-        <MainNav />
-      {:else}
-        <UserNav />
-      {/if}
+
+      <UserNav />
+
       <svelte:fragment slot="trail">
-        <div class="flex items-center justify-end space-x-1">
-          {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
-            <a href={route("/login")} class="btn hover:variant-soft-primary"
-              >Login</a
-            >
-          {:else}
-            <form method="post" action={route("default /logout")} use:enhance>
-              <button class="btn hover:variant-soft-primary">Logout</button>
-            </form>
-          {/if}
-          <a
-            href={route("facebook")}
-            target="_blank"
-            type="button"
-            class="btn-icon hover:variant-soft-primary"
-            ><Icon icon="bi:facebook" width="20" height="20" /></a
-          >
-          <a
-            href={route("youtube")}
-            target="_blank"
-            type="button"
-            class="btn-icon hover:variant-soft-primary"
-            ><Icon
-              icon="entypo-social:youtube-with-circle"
-              width="20"
-              height="20"
-            /></a
-          >
-          <LightSwitch />
+        <div class="items-center justify-end space-x-1 {showLogoutBtn}">
+          <form method="post" action={route("default /logout")} use:enhance>
+            <button class="btn hover:variant-soft-primary">Logout</button>
+          </form>
         </div>
       </svelte:fragment>
     </AppBar>
   </svelte:fragment>
 
   <svelte:fragment slot="sidebarLeft">
-    <AppRail class="md:hidden">
-      <svelte:fragment slot="lead">
-        <div class="flex justify-center mt-3">
-          <Avatar src={logo} width="w-14" />
-        </div>
-      </svelte:fragment>
-      {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
-        <AppRailAnchor href={route("/")} selected={currentPath === route("/")}
-          >Home
-        </AppRailAnchor>
-        <AppRailAnchor
-          href={route("/about")}
-          selected={currentPath === route("/about")}
-          >About
-        </AppRailAnchor>
-        <AppRailAnchor
-          href={route("/blog")}
-          selected={currentPath === route("/blog")}
-          >Blog
-        </AppRailAnchor>
-      {:else}
-        <AppRailAnchor href={route("classroom")} target="_blank"
-          >Virtual Classroom</AppRailAnchor
-        >
-      {/if}
-    </AppRail>
+    <Navigation />
   </svelte:fragment>
 
   <!-- Router Slot -->
   <slot />
 
-  <!-- ---- / ---- -->
-  {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/email-verification")}
+  {#if typeof currentPath === "string" && currentPath !== route("/students") && currentPath !== route("/parents") && currentPath !== route("/admin") && currentPath !== route("/email-verification")}
     <Join />
   {/if}
+
+  <!-- (footer) -->
   <svelte:fragment slot="pageFooter">
     <Footer year={2024} brand="ByteMinds" />
   </svelte:fragment>
-  <!-- (footer) -->
 </AppShell>
