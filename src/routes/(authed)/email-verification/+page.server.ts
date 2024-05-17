@@ -11,23 +11,11 @@ import {
   sendVerificationCode,
 } from "$lib/util.sever";
 
-export const load: PageServerLoad = async ({ url, locals }) => {
-  if (!locals.user) {
-    throw redirect(302, `/login?redirectTo=${url.pathname}`);
-  }
-  const verifyEmailForm = await superValidate(
-    zod(ZodValidationSchema.verifyEmailSchema),
-  );
-  const resendCodeForm = await superValidate(
-    zod(ZodValidationSchema.resendSchema),
-  );
+export const load = (async ({ parent }) => {
+  await parent();
 
-  return {
-    verifyEmailForm,
-    resendCodeForm,
-    emailVerified: locals.user.email_verified,
-  };
-};
+  return {};
+}) satisfies PageServerLoad;
 
 export const actions: Actions = {
   verifyEmail: async ({ request, locals, cookies, url }) => {
@@ -35,34 +23,37 @@ export const actions: Actions = {
     if (!user) {
       return fail(401, { error: "Unauthorized" });
     }
-    console.log("User: %s", user);
 
     const verifyEmailForm = await superValidate(
       request,
       zod(ZodValidationSchema.verifyEmailSchema),
     );
 
-    console.log(verifyEmailForm.data.code);
+    console.log(verifyEmailForm);
+
+    if (!verifyEmailForm.valid) {
+      return message(verifyEmailForm, "Invalid form", { status: 406 });
+    }
 
     if (!verifyEmailForm.data.code) {
       return message(verifyEmailForm, "No code");
     }
 
-    const isValid = await validateVerificationCode(
+    const codeStatus = await validateVerificationCode(
       user,
       verifyEmailForm.data.code,
     );
 
-    if (!isValid) {
-      return message(verifyEmailForm, "Invalid code");
+    if (!codeStatus.valid) {
+      return message(verifyEmailForm, codeStatus.message);
     }
-    console.log("Is code Valid: %o", isValid);
 
     await lucia.invalidateUserSessions(user.id);
     await UserService.updateUserEmailVerified(
       { email_verified: true },
       user.id,
     );
+
     console.log("Code updated to user table");
 
     const session = await lucia.createSession(user.id, {});
@@ -81,6 +72,9 @@ export const actions: Actions = {
 
   resendVerificationCode: async ({ request, locals, cookies }) => {
     const { user } = await lucia.validateSession(locals.session?.id as string);
+
+    console.log(user);
+
     if (!user) {
       return fail(401, { error: "Unauthorized" });
     }
@@ -94,7 +88,6 @@ export const actions: Actions = {
       user.id,
       user.email,
     );
-    console.log("Verification Code: %o", verificationCode);
 
     await lucia.invalidateUserSessions(user.id);
     await sendVerificationCode(user.email, verificationCode);

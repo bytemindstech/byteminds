@@ -13,12 +13,12 @@
 {#if typeof $message === "string" && $message && $page.status >= 400}
   <Toast message={$message} type="error" />
 {/if}
-<div class="container mx-auto min-h-screen flex justify-center items-center">
-  <div class="card lg:w-1/3">
+<div class="container mx-auto flex justify-center items-center min-h-full">
+  <div class="card">
     <header class="card-header">
       <h2 class="h2">Login</h2>
     </header>
-    <section class="flex min-h-full flex-col justify-center p-5">
+    <section class="flex flex-col justify-center p-6">
       <form class="space-y-5" method="post" use:enhance>
         <label class="label"
           ><span>Username</span>

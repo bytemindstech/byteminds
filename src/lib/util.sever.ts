@@ -80,25 +80,23 @@ export const sendVerificationCode = async (
 export const validateVerificationCode = async (
   user: User,
   code: string,
-): Promise<boolean> => {
+): Promise<any> => {
   const existingVerificationCode =
     await EmailService.getEmailVerificationCodeByUserId(user.id);
 
   if (!existingVerificationCode || existingVerificationCode.code !== code) {
     console.log("invalid code");
-    return false;
+    return { valid: false, message: "Invalid Code" };
   }
-
-  console.log("Existing Verification Code: %o", existingVerificationCode);
 
   await EmailService.deleteEmailVerificationCodeByUserId(user.id);
   if (!isWithinExpirationDate(existingVerificationCode.expiresAt)) {
     console.log("Code expired");
-    return false;
+    return { valid: false, message: "Code Expired" };
   }
 
   if (existingVerificationCode.email !== user.email) {
-    return false;
+    return {valid: false};
   }
-  return true;
+  return { valid: true };
 };

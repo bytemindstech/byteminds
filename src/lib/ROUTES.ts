@@ -9,12 +9,15 @@
  * PAGES
  */
 const PAGES = {
-  "/": `/`,
   "/admin": `/admin`,
+  "/admin/parents": `/admin/parents`,
+  "/admin/students": `/admin/students`,
+  "/admin/tutors": `/admin/tutors`,
   "/email-verification": `/email-verification`,
   "/parents": `/parents`,
   "/students": `/students`,
   "/tutors": `/tutors`,
+  "/": `/`,
   "/about": `/about`,
   "/blog": `/blog`,
   "/blog/[slug]": (params: { slug: (string | number) }) => {
@@ -156,7 +159,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/admin': never, '/email-verification': never, '/parents': never, '/students': never, '/tutors': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
+  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parents': never, '/students': never, '/tutors': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /login': never, 'default /logout': never, 'default /register': never }
   LINKS: { 'facebook': never, 'youtube': never, 'classroom': never, 'githubAvatar': 'avatarId' }

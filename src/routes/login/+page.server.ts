@@ -8,13 +8,13 @@ import * as UserService from "$lib/server/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import { route } from "$lib/ROUTES";
 
-export const load: PageServerLoad = async () => {
+export const load = (async () => {
   const form = await superValidate(zod(ZodValidationSchema.loginSchema));
   return { form };
-};
+}) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  default: async ({ request, url, cookies }) => {
+  default: async ({ request, url, cookies, locals }) => {
     const form = await superValidate(
       request,
       zod(ZodValidationSchema.loginSchema),
@@ -51,6 +51,23 @@ export const actions: Actions = {
     if (redirectTo !== null) {
       throw redirect(302, `${redirectTo.slice(1)}`);
     }
+
+    // if (locals.user?.role.isAdmin) {
+    //   redirect(302, route("/admin"));
+    // }
+
+    // if (locals.user?.role.isParent) {
+    //   redirect(302, route("/parents"));
+    // }
+
+    // if (locals.user?.role.isTutor) {
+    //   redirect(302, route("/tutors"));
+    // }
+
+    // if (locals.user?.role.isStudent) {
+    //   redirect(302, route("/students"));
+    // }
+
     redirect(302, route("/students"));
   },
 };

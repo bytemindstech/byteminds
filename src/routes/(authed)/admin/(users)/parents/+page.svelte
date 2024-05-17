@@ -4,4 +4,4 @@
   // export let data: PageData;
 </script>
 
-<div class="container mx-auto p-4"><h2 class="h2">Data Summary</h2></div>
+<div class="container mx-auto p-4"><h2 class="h2">Parents Data</h2></div>

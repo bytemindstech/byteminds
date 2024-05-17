@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { route } from "$lib/ROUTES";
+  type Paths = {
+    route: string;
+    name: string;
+  };
+
   import { page } from "$app/stores";
   import logo from "../../assets/images/logo.webp";
   import { Avatar, getDrawerStore } from "@skeletonlabs/skeleton";
@@ -10,14 +14,10 @@
     drawerStore.close();
   };
 
-  const paths = [
-    { name: "home", route: route("/") },
-    { name: "about", route: route("/about") },
-    { name: "faqs", route: route("/faqs") },
-  ];
-
   $: classActive = (href: string) =>
     href === $page.url.pathname ? "!variant-soft-secondary" : "";
+
+  export let paths: Paths[];
 </script>
 
 <nav class="list-nav p-4">
@@ -36,8 +36,3 @@
     {/each}
   </ul>
 </nav>
-<a
-  href={route("/register")}
-  class="btn btn-lg variant-ghost-primary m-5"
-  on:click={drawerClose}>Apply Now</a
->

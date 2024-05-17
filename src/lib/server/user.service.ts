@@ -96,6 +96,7 @@ export const updateUserEmailVerified = async (
     | "firstName"
     | "lastName"
     | "hashed_password"
+    | "source_info"
     | "createdAt"
     | "updatedAt"
   >,

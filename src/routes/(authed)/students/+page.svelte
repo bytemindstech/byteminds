@@ -8,9 +8,22 @@
 input your idea about tutors dashboard, showing basic profile of a user, you can just hardcode the data, not necessarily to fetch data from database -->
 
 <div
-  class="container mx-auto min-h-screen flex flex-col justify-center items-center"
+  class="container mx-auto flex flex-col justify-center items-center min-h-full"
 >
-  <h2 class="h2 text-center mt-10">Welcome, {data.name}</h2>
+  <h2 class="h2 text-center mt-10">Welcome, {data.firstName}</h2>
+  <!-- <p class="text-center">
+    Role: {#if data.role.isAdmin}
+      Admin
+    {:else if data.role.isParent}
+      Parent
+    {:else if data.role.isStudent}
+      Student
+    {:else if data.role.isTutor}
+      Tutor
+    {:else}
+      No role yet
+    {/if}
+  </p> -->
   <p class="text-center text-lg">
     Email Verified: {#if data.emailVerified}
       Yes

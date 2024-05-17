@@ -1,5 +1,5 @@
 <script>
-  import icon from "../../assets/images/blogicon.png";
+  import icon from "../../../assets/images/blogicon.png";
 
   export let data;
 </script>
