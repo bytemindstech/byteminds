@@ -77,10 +77,15 @@ export const sendVerificationCode = async (
   }
 };
 
+type ValidateVerificationCode = {
+  valid: boolean;
+  message: string;
+};
+
 export const validateVerificationCode = async (
   user: User,
   code: string,
-): Promise<any> => {
+): Promise<ValidateVerificationCode> => {
   const existingVerificationCode =
     await EmailService.getEmailVerificationCodeByUserId(user.id);
 
@@ -96,7 +101,7 @@ export const validateVerificationCode = async (
   }
 
   if (existingVerificationCode.email !== user.email) {
-    return {valid: false};
+    return { valid: false, message: "Email mismatch" };
   }
-  return { valid: true };
+  return { valid: true, message: "Verification code valid" };
 };

@@ -48,13 +48,15 @@ export const actions: Actions = {
       return message(verifyEmailForm, codeStatus.message);
     }
 
+    console.log(codeStatus.message);
+
     await lucia.invalidateUserSessions(user.id);
     await UserService.updateUserEmailVerified(
       { email_verified: true },
       user.id,
     );
 
-    console.log("Code updated to user table");
+    console.log("email verified updated to user table");
 
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
