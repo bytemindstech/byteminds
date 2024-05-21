@@ -1,9 +1,7 @@
 <script>
-  import { Hero, Join, Main } from "$lib/components";
+  import { Hero, CallToAction } from "$lib/components";
 </script>
 
 <Hero />
 
-<Main />
-
-<Join />
+<CallToAction />

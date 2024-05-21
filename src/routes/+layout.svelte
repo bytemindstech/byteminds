@@ -55,14 +55,17 @@
 
 <Drawer
   ><Navigation {paths} />
-  <a
-    href={route("/register")}
-    class="btn btn-lg variant-ghost-primary m-5"
-    on:click={drawerClose}>Apply Now</a
-  >
+
+  <div class="flex justify-center mt-5">
+    <a
+      href={route("/register")}
+      class="btn btn-lg variant-ghost-tertiary hover:variant-filled-primary"
+      on:click={drawerClose}>Register Now</a
+    >
+  </div>
 </Drawer>
 
-<AppShell>
+<AppShell slotPageFooter="bg-secondary">
   <slot />
 
   <svelte:fragment slot="pageFooter">

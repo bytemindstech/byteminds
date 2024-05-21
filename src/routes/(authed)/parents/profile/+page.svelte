@@ -4,4 +4,4 @@
   // export let data: PageData;
 </script>
 
-<div class="container mx-auto">Parent's Homepage</div>
+<div class="container mx-auto">Parent's Profile Page</div>

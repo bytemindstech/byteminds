@@ -6,7 +6,9 @@
 </script>
 
 <div class="card card-hover p-4 {cardBg}">
-  <header><h6 class="h6">{title}</h6></header>
-  <div class="flex justify-between">{icon}<span>{data}</span></div>
+  <header class="card-header"><h6 class="h6">{title}</h6></header>
+  <section class="flex justify-between">
+    {icon}<span><p>{data}</p></span>
+  </section>
   <footer></footer>
 </div>

@@ -1,47 +1,40 @@
 <script lang="ts">
-  import {
-    Accordion,
-    AccordionItem,
-    CertIcon,
-    TimeIcon,
-    LaptopCode,
-  } from "$lib/components/ui";
+  import { Accordion } from "$lib/components/ui";
+  import * as Icons from "$lib/components/icons";
+
+  const items = [
+    {
+      icon: Icons.Certificate,
+      summary: "Do you have certificate after the training?",
+      content: "Yes! We provide certificate after the training class.",
+    },
+
+    {
+      icon: Icons.Time,
+      summary: "Sample question here",
+      content: "Lorem ipsum.....",
+    },
+    {
+      icon: Icons.Laptop,
+      summary: "Other question",
+      content: "Lorem ipsum.....",
+    },
+  ];
 </script>
 
 <div class="container mx-auto mt-5">
   <div class="flex flex-col items-center justify-center p-6">
     <h2 class="h2 mb-5">Frequently Asked Questions</h2>
     <div class="card lg:w-2/3 p-5">
-      <Accordion autocollapse
-        ><svelte:fragment slot="accordionItem"
-          ><AccordionItem
-            open={true}
-            icon={CertIcon}
-            summary="<h5 class='h5'>Do you have certificate after the training?</h5>"
-            content="<p class='text-lg'>Yes! We provide certificate after the training class.</p>"
-          />
-
+      <Accordion autocollapse let:AccordionItem>
+        {#each items as item, i}
           <AccordionItem
-            open={false}
-            icon={TimeIcon}
-            summary="<h5 class='h5'>Sample question here</h5>"
-            content="<p class='text-lg'>Lorem ipsum.....</p>"
+            open={i === 0 ? true : false}
+            icon={item.icon}
+            summary={`<h5 class="h5">${item.summary}</h5>`}
+            content={`<p class="text-md">${item.content}</p>`}
           />
-
-          <AccordionItem
-            open={false}
-            icon={LaptopCode}
-            summary="<h5 class='h5'>Other question here</h5>"
-            content="<p class='text-lg'>Lorem ipsum.....</p>"
-          />
-
-          <AccordionItem
-            open={false}
-            icon={LaptopCode}
-            summary="<h5 class='h5'>Other question here</h5>"
-            content="<p class='text-lg'>Lorem ipsum.....</p>"
-          />
-        </svelte:fragment>
+        {/each}
       </Accordion>
     </div>
   </div>

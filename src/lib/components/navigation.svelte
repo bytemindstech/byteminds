@@ -5,7 +5,7 @@
   };
 
   import { page } from "$app/stores";
-  import logo from "../../assets/images/logo.webp";
+  import logo from "$lib/assets/images/logo.webp";
   import { Avatar, getDrawerStore } from "@skeletonlabs/skeleton";
 
   const drawerStore = getDrawerStore();
@@ -15,7 +15,7 @@
   };
 
   $: classActive = (href: string) =>
-    href === $page.url.pathname ? "!variant-soft-secondary" : "";
+    href === $page.url.pathname ? "!variant-filled-primary" : "";
 
   export let paths: Paths[];
 </script>

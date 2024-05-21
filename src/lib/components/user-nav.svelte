@@ -3,19 +3,19 @@
   import { route } from "$lib/ROUTES";
   import { TabAnchor, TabGroup } from "@skeletonlabs/skeleton";
 
-  $: show =
-    $page.url.pathname === route("/students")
-      ? ""
-      : "hidden md:block" && $page.url.pathname === route("/parents")
-        ? ""
-        : "hidden md:block" && $page.url.pathname === route("/tutors")
-          ? ""
-          : "hidden md:block" && $page.url.pathname === route("/admin")
-            ? ""
-            : "hidden md:block" &&
-                $page.url.pathname === route("/email-verification")
-              ? ""
-              : "hidden md:block";
+  // $: show =
+  //   $page.url.pathname === route("/students")
+  //     ? ""
+  //     : "hidden md:block" && $page.url.pathname === route("/parents")
+  //       ? ""
+  //       : "hidden md:block" && $page.url.pathname === route("/tutors")
+  //         ? ""
+  //         : "hidden md:block" && $page.url.pathname === route("/admin")
+  //           ? ""
+  //           : "hidden md:block" &&
+  //               $page.url.pathname === route("/email-verification")
+  //             ? ""
+  //             : "hidden md:block";
 </script>
 
 <TabGroup
@@ -26,9 +26,9 @@
   rounded="rounded-full"
   border=""
   spacing=""
-  class="bg-surface-100-800-token w-full {show}"
+  class="bg-surface-100-800-token w-full"
 >
-  <TabAnchor href="https://classroom.jhenbert.com" target="_blank">
+  <TabAnchor href={route("classroom")} target="_blank">
     <svelte:fragment slot="lead">Virtual Classroom</svelte:fragment>
   </TabAnchor>
 </TabGroup>

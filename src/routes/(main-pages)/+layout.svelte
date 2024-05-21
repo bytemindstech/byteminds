@@ -14,7 +14,7 @@
 
   const paths = [
     { route: route("/"), name: "home" },
-    { route: route("/about"), name: "about" },
+    { route: route("/about"), name: "who we are" },
     { route: route("/faqs"), name: "faqs" },
   ];
 </script>
@@ -50,9 +50,13 @@
   <svelte:fragment slot="sidebarLeft">
     <Navigation {paths} />
 
-    <a href={route("/register")} class="btn btn-lg variant-ghost-primary m-5"
-      >Apply Now</a
-    >
+    <div class="flex justify-center mt-5">
+      <a
+        href={route("/register")}
+        class="btn btn-xl variant-ghost-tertiary hover:variant-filled-primary"
+        >Register Now</a
+      >
+    </div>
   </svelte:fragment>
 
   <slot />

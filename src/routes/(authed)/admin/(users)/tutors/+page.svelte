@@ -1,7 +1,9 @@
 <script lang="ts">
   // import type { PageData } from './$types';
 
+  import { Tutors } from "$lib/components";
+
   // export let data: PageData;
 </script>
 
-<div class="container mx-auto p-4"><h2 class="h2">Tutors Data</h2></div>
+<div class="container mx-auto"><Tutors /></div>

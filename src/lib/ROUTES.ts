@@ -15,6 +15,9 @@ const PAGES = {
   "/admin/tutors": `/admin/tutors`,
   "/email-verification": `/email-verification`,
   "/parents": `/parents`,
+  "/parents/courses": `/parents/courses`,
+  "/parents/profile": `/parents/profile`,
+  "/parents/tutors": `/parents/tutors`,
   "/students": `/students`,
   "/tutors": `/tutors`,
   "/": `/`,
@@ -54,6 +57,7 @@ const LINKS = {
   "facebook": `https://facebook.com/byteminds`,
   "youtube": `https://www.youtube.com/@bytemindstech`,
   "classroom": `https://classroom.jhenbert.com`,
+  "tiktok": `https://tiktok.com`,
   "githubAvatar": (params: { avatarId: (string | number) }) => {
     return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
   }
@@ -159,9 +163,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parents': never, '/students': never, '/tutors': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
+  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parents': never, '/parents/courses': never, '/parents/profile': never, '/parents/tutors': never, '/students': never, '/tutors': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /login': never, 'default /logout': never, 'default /register': never }
-  LINKS: { 'facebook': never, 'youtube': never, 'classroom': never, 'githubAvatar': 'avatarId' }
+  LINKS: { 'facebook': never, 'youtube': never, 'classroom': never, 'tiktok': never, 'githubAvatar': 'avatarId' }
   Params: { slug: never, avatarId: never }
 }

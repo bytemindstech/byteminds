@@ -12,6 +12,7 @@ export default defineConfig({
         facebook: "https://facebook.com/byteminds",
         youtube: "https://www.youtube.com/@bytemindstech",
         classroom: "https://classroom.jhenbert.com",
+        tiktok: "https://tiktok.com",
         githubAvatar: "https://avatars.githubusercontent.com/u/[avatarId]?v=4",
       },
     }),

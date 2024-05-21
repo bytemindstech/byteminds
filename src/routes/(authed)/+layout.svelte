@@ -5,6 +5,7 @@
   import { AppBar, AppShell, Avatar, popup } from "@skeletonlabs/skeleton";
   import type { PopupSettings } from "@skeletonlabs/skeleton";
   import type { LayoutData } from "./$types";
+  import { Notification } from "$lib/components/ui";
 
   export let data: LayoutData;
 
@@ -32,6 +33,10 @@
       <UserNav />
 
       <svelte:fragment slot="trail">
+        <a class="btn-icon hover:variant-soft-primary" href="/"
+          ><Notification notify="10" /></a
+        >
+
         <button class="btn hover:variant-soft-primary" use:popup={popupQuery}>
           <span class="hidden md:block"
             >{data.firstName}

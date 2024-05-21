@@ -1,8 +1,9 @@
 <script lang="ts">
   import { Accordion } from "@skeletonlabs/skeleton";
+  import { AccordionItem } from ".";
   export let autocollapse: boolean;
 </script>
 
 <Accordion {autocollapse}>
-  <slot name="accordionItem" />
+  <slot {AccordionItem} />
 </Accordion>

@@ -1,64 +1,21 @@
-<script lang="ts">
-  import img1 from "/src/assets/images/web1.jfif";
-  import img2 from "/src/assets/images/web3.jfif";
-  import img3 from "/src/assets/images/web5.jfif";
-</script>
-
-<section class="min-h-screen flex items-center">
-  <div class="container my-5 mx-auto p-5">
-    <div class="md:flex md:items-center md:justify-between p-4">
-      <div class="md:w-1/2 md:pr-8">
-        <h1 class="md:text-6xl text-4xl font-bold mb-7 h1">
-          Welcome to our site
-        </h1>
-
-        <h5 class="font-light text-xl text-justify mb-7 h5">
-          Embark on a journey to start web development with our cutting-edge
-          courses and professional services. Unlock the secrets of coding,
-          design stunning websites, and launch your career in the digital realm.
-        </h5>
-
-        <button class="btn btn-xl variant-filled-primary" type="button"
-          >Get Started
-        </button>
-      </div>
-
-      <div
-        class="flex mt-8 space-x-4 items-center justify-center md:w-1/2 md:mt-0 md:relative md:ps-4"
+<section
+  class="min-h-screen flex items-center bg-cover bg-center bg-[url('$lib/assets/images/bg-hero.webp')]"
+>
+  <div class="container mx-auto p-5">
+    <div class="w-1/2">
+      <h1
+        class="lg:text-4xl text-xl font-semibold h1 uppercase text-wrap bg-gradient-to-r from-primary-900 to-secondary-600 bg-clip-text text-transparent"
       >
-        <img
-          src={img1}
-          alt="hero-img"
-          class="shrink md:absolute md:left-0 md:bottom-0 rounded-lg"
-        />
-        <img
-          src={img2}
-          alt="hero-img"
-          class="hidden md:block md:absolute md:left-0 md:bottom-0 md:translate-x-full md:translate-y-full rounded-lg"
-        />
-        <img
-          src={img3}
-          alt="hero-img"
-          class="hidden md:block md:absolute md:left-0 md:bottom-0 md:translate-x-full md:translate-y-1/2 rounded-lg"
-        />
-      </div>
+        empowering minds, transforming futures
+      </h1>
+
+      <article
+        class="lg:text-xl font-medium text-justify indent-10 whitespace-normal mt-5"
+      >
+        Unlock your potential with our personalized online tutoring services,
+        offering expert support in various subjects anytime, anywhere, on a
+        child-friendly, engaging, and interactive platform.
+      </article>
     </div>
   </div>
 </section>
-
-<style>
-  .container img:nth-child(1) {
-    z-index: 3;
-    min-height: 200px;
-  }
-
-  .container img:nth-child(2) {
-    z-index: 2;
-    min-height: 180px;
-  }
-
-  .container img:nth-child(3) {
-    z-index: 1;
-    min-height: 230px;
-  }
-</style>
