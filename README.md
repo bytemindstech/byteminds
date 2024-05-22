@@ -1,38 +1,55 @@
-# create-svelte
+## Onboarding Development
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+### Requirements
 
-## Creating a project
+- [MySQL](https://hub.docker.com/_/mysql)
+- [NodeJS](https://nodejs.org/en/download/package-manager) 18+
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Setup Environemnt and install requirements
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
+#Copy .env.example to .env and fill in your credentials.
+cp .env.example .env
 
-# create a new project in my-app
-npm create svelte@latest my-app
+# Edit DATABASE_URL Depending on your mySQL Server. with the following format
+DATABASE_URL="mysql://{user}:{password}@{server}:3306/{dbname}"
+
+# Example without password and server is localhost db name is awesome
+DATABASE_URL="mysql://root:@localhost:3306/awesome"
+# Same as above but with password
+DATABASE_URL="mysql://root:secret@localhost:3306/awesome"
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Running dev server
 
 ```bash
+#1. Install dependencies
+npm i
+
+#2. For development use db push, when changes are made to the schema
+npm run db:sync # This commands uses db push to sync the db with schema and generate prisma client
+
+#4. Run dev server
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+### REFERENCES
 
-To create a production version of your app:
+#### Setup MySQL Docker Compose
 
-```bash
-npm run build
+```yaml
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:latest
+    volumes:
+      - /var/lib/docker/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_DATABASE=mysql
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Run the container using `docker-compose up -d`
