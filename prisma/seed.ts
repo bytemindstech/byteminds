@@ -7,18 +7,33 @@ const prisma = new PrismaClient();
 
 async function main() {
   //Create admin user
-  const admin = await prisma.user.upsert({
-    where: { email: "admin.admin.com" },
+  await prisma.user.upsert({
+    where: { email: "admin@admin.com" },
     update: {},
     create: {
       id: generateId(15),
-      email: "admin.admin.com",
+      email: "admin@admin.com",
       email_verified: true,
       firstName: "Admin",
       lastName: "Admin",
       source_info: "others",
       hashed_password: await new Argon2id().hash("admin1337"),
       username: "admin1337",
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: "admin.admin.com" },
+    update: {},
+    create: {
+      id: generateId(15),
+      email: "user@user.com",
+      email_verified: true,
+      firstName: "User2",
+      lastName: "User2",
+      source_info: "others",
+      hashed_password: await new Argon2id().hash("user1337"),
+      username: "user1337",
     },
   });
 }
