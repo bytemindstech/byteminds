@@ -1,7 +1,10 @@
 import { lucia } from "$lib/server/auth";
 import type { Handle } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
+import { useServer } from "vite-sveltekit-node-ws";
+import { Server } from "socket.io";
 
-export const handle: Handle = async ({ event, resolve }) => {
+const authHandler: Handle = async ({ event, resolve }) => {
   const sessionId = event.cookies.get(lucia.sessionCookieName);
   if (!sessionId) {
     event.locals.user = null;
@@ -30,4 +33,32 @@ export const handle: Handle = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-// TODO: Initialize wbscoket handler here
+useServer((server) => {
+  const ws = new Server(server);
+
+  ws.setMaxListeners(0);
+
+  ws.on("connect", (socket) => {
+    socket.join("notifications");
+    socket.on(
+      "notify",
+      ({
+        notifyUserId,
+        message,
+        type,
+      }: {
+        notifyUserId: string;
+        message: string;
+        type: "success" | "error";
+      }) => {
+        console.log("Sending notification to", notifyUserId);
+        socket.to("notifications").emit(notifyUserId, {
+          message,
+          type,
+        });
+      },
+    );
+  });
+});
+
+export const handle = sequence(authHandler);
