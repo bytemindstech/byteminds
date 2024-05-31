@@ -31,13 +31,17 @@ export const generateEmailVerificationCode = async (
   return code;
 };
 
+const SMTP_HOST = env.SMTP_HOST ?? "smtp.gmail.com";
+const SMTP_PORT = env.SMTP_PORT ? Number(env.SMTP_PORT) : 465;
+const SMTP_SECURE = env.SMTP_SECURE === "true";
+
 export const sendVerificationCode = async (
   email: string,
   verificationCode: string,
 ) => {
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
+    host: SMTP_HOST,
+    port: SMTP_PORT,
     secure: true, // use SSL
     service: "gmail",
     auth: {

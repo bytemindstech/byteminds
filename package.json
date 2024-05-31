@@ -7,6 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "db:sync": "npx prisma db push",
+    "db:studio": "npx prisma studio",
+    "db:seed": "tsx prisma/seed.ts",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
@@ -34,16 +36,21 @@
     "tailwindcss": "^3.3.6",
     "ts-node": "^10.9.2",
     "tslib": "^2.4.1",
+    "tsx": "^4.10.5",
     "typescript": "^5.3.3",
     "vite": "^5.0.3",
     "vite-plugin-kit-routes": "^0.6.1",
+    "vite-sveltekit-node-ws": "^0.0.8",
     "zod": "^3.22.4"
   },
   "type": "module",
   "dependencies": {
     "@floating-ui/dom": "^1.6.3",
     "@lucia-auth/adapter-prisma": "^4.0.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "@prisma/client": "^5.13.0",
+    "dotenv": "^16.4.5",
     "nodemailer": "^6.9.12",
     "oslo": "^1.1.3"
   }
