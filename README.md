@@ -5,7 +5,7 @@
 - [MySQL](https://hub.docker.com/_/mysql)
 - [NodeJS](https://nodejs.org/en/download/package-manager) 18+
 
-### Setup Environemnt and install requirements
+### Setup Environment and install requirements
 
 ```bash
 #Copy .env.example to .env and fill in your credentials.

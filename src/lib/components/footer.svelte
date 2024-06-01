@@ -8,8 +8,8 @@
 <section class="container mx-auto p-7">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-y-3">
     <dl class="list-dl">
-      <div class="flex-auto flex-col md:!items-start mt-4">
-        <h5 class="h5 ml-4">&copy {year} {brand}</h5>
+      <div class="flex-auto flex-col md:!items-start mt-3">
+        <h5 class="h5 ml-4"><a href={route("/")}>&copy {year} {brand}</a></h5>
         <p class="text-sm text-gray-600">
           ByteMinds Inc., A Company Registered in the Philippines
         </p>
