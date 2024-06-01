@@ -1,6 +1,6 @@
 <section class="min-h-screen flex items-center">
   <div class="container mx-auto p-5">
-    <div class="w-1/2 flex flex-col space-y-5">
+    <div class="flex flex-col space-y-5 lg:w-1/2">
       <div class="card bg-transparent border-2 border-primary-500">
         <header class="card-header">
           <h2

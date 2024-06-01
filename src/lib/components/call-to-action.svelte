@@ -1,31 +1,36 @@
 <script lang="ts">
   import { route } from "$lib/ROUTES";
-  import onlineTeacher from "$lib/assets/images/online-teacher.jpg";
   import Icon from "@iconify/svelte";
 </script>
 
-<section class="min-h-screen flex items-center">
-  <div class="container mx-auto p-5">
-    <div class="lg:flex lg:items-center lg:justify-center p-4">
-      <div class="lg:w-1/2 p-4">
-        <div class="lg:flex lg:flex-col lg:items-start space-y-3">
-          <div class="flex flex-auto items-center gap-2">
-            <Icon icon="material-symbols:wifi" width="56" height="56" />
-            <h2 class="h2">100% Online</h2>
-          </div>
+<div class="px-2 py-20 w-full flex justify-center">
+  <div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg">
+    <div class="lg:w-1/2">
+      <div
+        class="lg:scale-110 h-80 bg-cover lg:h-full rounded-b-none border lg:rounded-lg bg-[url('$lib/assets/images/online-teacher.jpg')]"
+      ></div>
+    </div>
 
-          <article class="lg:text-lg text-justify">
-            At ByteMinds, we also offer online tutorials for kids and adults on
-            different subjects. You can choose your preferred teacher or tutor.
-            Would you like to explore our available teachers/tutors as well as
-            the subjects we're currently offering?
-          </article>
-          <a class="btn variant-filled-primary" href={route("/register")}
-            >Signup now!</a
-          >
-        </div>
+    <div
+      class="py-12 px-6 lg:px-12 max-w-xl lg:max-w-5xl lg:w-1/2 rounded-t-none border lg:rounded-lg"
+    >
+      <h2 class="flex justify-start items-center text-3xl font-bold space-x-4">
+        <Icon icon="material-symbols:wifi" width="56" height="56" />
+        <span class="text-primary-700">100% Online</span>
+      </h2>
+      <p class="mt-4 text-lg text-justify whitespace-normal">
+        At ByteMinds, we also offer online tutorials for kids and adults on
+        different subjects. You can choose your preferred teacher or tutor.
+        Would you like to explore our available teachers/tutors as well as the
+        subjects we're currently offering?
+      </p>
+      <div class="mt-8">
+        <a
+          href={route("/contact-us")}
+          class="btn btn-lg variant-filled-primary px-5 py-3 font-semibold"
+          >Inquire Now</a
+        >
       </div>
-      <img src={onlineTeacher} alt="teacher-img" class="flex-1 rounded-lg" />
     </div>
   </div>
-</section>
+</div>

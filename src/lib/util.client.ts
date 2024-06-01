@@ -30,3 +30,10 @@ export const triggerToast = (message: string, type: TriggerToast) => {
   };
   toastStore.trigger(t);
 };
+
+// This returns the socket URL
+export const socketUrl = (pathname: string = "") => {
+  const browser = typeof window !== "undefined";
+  if (browser) return `ws${location.origin.slice(4)}${pathname}`;
+  return "";
+};
