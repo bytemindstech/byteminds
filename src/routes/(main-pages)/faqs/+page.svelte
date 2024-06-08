@@ -22,10 +22,10 @@
   ];
 </script>
 
-<div class="container mx-auto mt-5">
+<div class="container mx-auto min-h-screen mt-8">
   <div class="flex flex-col items-center justify-center p-6">
     <h2 class="h2 mb-5">Frequently Asked Questions</h2>
-    <div class="card lg:w-2/3 p-5">
+    <div class="card lg:w-2/3 p-5 mt-8">
       <Accordion autocollapse let:AccordionItem>
         {#each items as item, i}
           <AccordionItem

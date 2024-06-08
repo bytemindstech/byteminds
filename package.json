@@ -2,6 +2,9 @@
   "name": "byteminds",
   "version": "1.0.0",
   "private": true,
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -9,7 +12,7 @@
     "preview": "vite preview",
     "db:sync": "npx prisma db push",
     "db:studio": "npx prisma studio",
-    "db:seed": "tsx prisma/seed.ts",
+    "db:seed": "npx prisma db seed",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },

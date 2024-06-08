@@ -1,7 +1,9 @@
 //mock data - this will be deleted in production
 
+//tutors
 export const tutors = [
   {
+    id: 1,
     courseImgSrc:
       "https://images.pexels.com/photos/256417/pexels-photo-256417.jpeg",
     avatarImgSrc:
@@ -13,6 +15,7 @@ export const tutors = [
     verified: true,
   },
   {
+    id: 2,
     courseImgSrc:
       "https://images.pexels.com/photos/1329295/pexels-photo-1329295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     avatarImgSrc:
@@ -24,6 +27,7 @@ export const tutors = [
     verified: false,
   },
   {
+    id: 3,
     courseImgSrc:
       "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     avatarImgSrc:
@@ -35,6 +39,7 @@ export const tutors = [
     verified: false,
   },
   {
+    id: 4,
     courseImgSrc:
       "https://images.pexels.com/photos/5212320/pexels-photo-5212320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     avatarImgSrc:
@@ -44,5 +49,97 @@ export const tutors = [
     rate: 45,
     rating: "4.0 (5.635)",
     verified: true,
+  },
+];
+
+//reviews
+export const reviews = [
+  {
+    avatarImg:
+      "https://images.pexels.com/photos/3586091/pexels-photo-3586091.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    user: "Jane Doe",
+    profession: "Teacher",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aliquid quo eum quae quos illo earum ipsa doloribus nostrum minus libero aspernatur laborum cum, a suscipit, ratione ea totam ullam! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto laboriosam deleniti aperiam ab veniam sint non cumque quis tempore cupiditate. Sint libero voluptas veniam at reprehenderit, veritatis harum et rerum.",
+  },
+
+  {
+    avatarImg:
+      "https://images.pexels.com/photos/8129903/pexels-photo-8129903.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    user: "Johana Doe",
+    profession: "Engineer",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aliquid quo eum quae quos illo earum ipsa doloribus nostrum minus libero aspernatur laborum cum, a suscipit, ratione ea totam ullam! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto laboriosam deleniti aperiam ab veniam sint non cumque quis tempore cupiditate. Sint libero voluptas veniam at reprehenderit, veritatis harum et rerum.",
+  },
+
+  {
+    avatarImg:
+      "https://images.pexels.com/photos/6274712/pexels-photo-6274712.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    user: "John Doe",
+    profession: "Web Dev",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aliquid quo eum quae quos illo earum ipsa doloribus nostrum minus libero aspernatur laborum cum, a suscipit, ratione ea totam ullam! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto laboriosam deleniti aperiam ab veniam sint non cumque quis tempore cupiditate. Sint libero voluptas veniam at reprehenderit, veritatis harum et rerum.",
+  },
+  {
+    avatarImg:
+      "https://images.pexels.com/photos/4946515/pexels-photo-4946515.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    user: "Jane Doe",
+    profession: "Teacher",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aliquid quo eum quae quos illo earum ipsa doloribus nostrum minus libero aspernatur laborum cum, a suscipit, ratione ea totam ullam! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto laboriosam deleniti aperiam ab veniam sint non cumque quis tempore cupiditate. Sint libero voluptas veniam at reprehenderit, veritatis harum et rerum.",
+  },
+
+  {
+    avatarImg:
+      "https://images.pexels.com/photos/5615665/pexels-photo-5615665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    user: "John Doe",
+    profession: "Engineer",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aliquid quo eum quae quos illo earum ipsa doloribus nostrum minus libero aspernatur laborum cum, a suscipit, ratione ea totam ullam! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto laboriosam deleniti aperiam ab veniam sint non cumque quis tempore cupiditate. Sint libero voluptas veniam at reprehenderit, veritatis harum et rerum.",
+  },
+
+  {
+    avatarImg:
+      "https://images.pexels.com/photos/3454298/pexels-photo-3454298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    user: "Johana Doe",
+    profession: "Web Dev",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aliquid quo eum quae quos illo earum ipsa doloribus nostrum minus libero aspernatur laborum cum, a suscipit, ratione ea totam ullam! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto laboriosam deleniti aperiam ab veniam sint non cumque quis tempore cupiditate. Sint libero voluptas veniam at reprehenderit, veritatis harum et rerum.",
+  },
+];
+
+//courses
+export const courses = [
+  {
+    id: 1,
+    title: "Math",
+    description: "Lorem Ipsum",
+    href: "",
+    imgSrc:
+      "https://images.pexels.com/photos/714699/pexels-photo-714699.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    id: 2,
+    title: "English",
+    description: "Lorem Ipsum",
+    href: "",
+    imgSrc:
+      "https://images.pexels.com/photos/267669/pexels-photo-267669.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    id: 3,
+    title: "Reading",
+    description: "Lorem ipsum",
+    href: "",
+    imgSrc:
+      "https://images.pexels.com/photos/256417/pexels-photo-256417.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    id: 4,
+    title: "Algebra",
+    description: "Lorem ipsum",
+    href: "",
+    imgSrc:
+      "https://images.pexels.com/photos/6256072/pexels-photo-6256072.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
 ];

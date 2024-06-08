@@ -16,22 +16,21 @@
     flip,
     arrow,
   } from "@floating-ui/dom";
-  import image from "$lib/assets/images/logo.webp";
+  import { paths } from "$lib/util.client";
+  import { route } from "$lib/ROUTES";
+  import { page } from "$app/stores";
+  import { afterNavigate } from "$app/navigation";
+  import type { AfterNavigate } from "@sveltejs/kit";
 
   //global css
   import "../app.pcss";
-  import { afterNavigate } from "$app/navigation";
-  import type { AfterNavigate } from "@sveltejs/kit";
-  import { route } from "$lib/ROUTES";
-  import { page } from "$app/stores";
 
   //SEO Meta tags
-
   const metaDefaults = {
     title: "ByteMinds PH - Online Tutoring for Academic Excellence",
     description:
       "ByteMinds PH - your trusted partner in online education. Access expert tutoring services anytime, anywhere, and elevate your learning experience.",
-    image: `${image}`,
+    image: `${route("githubAvatar", { avatarId: 159615949 })}`,
   };
 
   const meta = {
@@ -73,16 +72,9 @@
   initializeStores();
 
   const drawerStore = getDrawerStore();
-
   const drawerClose = () => {
     drawerStore.close();
   };
-
-  const paths = [
-    { route: route("/"), name: "home" },
-    { route: route("/about"), name: "about" },
-    { route: route("/faqs"), name: "faqs" },
-  ];
 </script>
 
 <svelte:head
@@ -104,9 +96,9 @@
   <meta property="og:description" content={meta.description} />
   <meta property="og:image" content={meta.image} />
   <meta property="og:image:secure_url" content={meta.image} />
-  <meta property="og:image:type" content="image/webp" />
-  <meta property="og:image:width" content="338" />
-  <meta property="og:image:height" content="338" />
+  <meta property="og:image:type" content="image/jpg" />
+  <meta property="og:image:width" content="460" />
+  <meta property="og:image:height" content="460" />
   <meta property="og:image:alt" content="ByteMinds PH logo" />
   <!-- Open Graph: Twitter -->
   <meta name="twitter:card" content="summary" />
@@ -124,9 +116,9 @@
 
   <div class="flex justify-center mt-5">
     <a
-      href={route("/register")}
-      class="btn btn-lg variant-ghost-tertiary hover:variant-filled-primary"
-      on:click={drawerClose}>Register Now</a
+      href={route("/signin-signup")}
+      class="btn btn-lg variant-filled-tertiary font-bold"
+      on:click={drawerClose}>Apply Now</a
     >
   </div>
 </Drawer>

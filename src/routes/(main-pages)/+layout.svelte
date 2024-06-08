@@ -3,8 +3,7 @@
   import { route } from "$lib/ROUTES";
   import Icon from "@iconify/svelte";
   import { AppShell, AppBar, getDrawerStore } from "@skeletonlabs/skeleton";
-
-  
+  import { paths } from "$lib/util.client";
 
   const drawerStore = getDrawerStore();
 
@@ -13,12 +12,6 @@
   };
 
   $: positionClasses = $drawerStore.open ? "translate-x[50%]" : "";
-
-  const paths = [
-    { route: route("/"), name: "home" },
-    { route: route("/about"), name: "who we are" },
-    { route: route("/faqs"), name: "faqs" },
-  ];
 </script>
 
 <AppShell
@@ -50,15 +43,14 @@
   </svelte:fragment>
 
   <svelte:fragment slot="sidebarLeft">
-    <Navigation {paths} />
-
-    <div class="flex justify-center mt-5">
-      <a
-        href={route("/register")}
-        class="btn btn-xl variant-ghost-tertiary hover:variant-filled-primary"
-        >Register Now</a
-      >
-    </div>
+    <Navigation {paths}
+      ><svelte:fragment slot="button"
+        ><a
+          href={route("/signin-signup")}
+          class="btn btn-xl variant-filled-tertiary font-bold">Apply Now</a
+        ></svelte:fragment
+      ></Navigation
+    >
   </svelte:fragment>
 
   <slot />

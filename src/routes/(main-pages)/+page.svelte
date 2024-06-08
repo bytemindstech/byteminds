@@ -1,7 +1,9 @@
 <script>
-  import { Hero, CallToAction } from "$lib/components";
+  import { Hero, CallToAction, CommunityFeedback } from "$lib/components";
 </script>
 
 <Hero />
 
 <CallToAction />
+
+<CommunityFeedback />

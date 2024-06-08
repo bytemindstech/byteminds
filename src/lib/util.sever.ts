@@ -7,7 +7,7 @@ import { generateRandomString, alphabet } from "oslo/crypto";
 import { env } from "$env/dynamic/private";
 import nodemailer from "nodemailer";
 import * as EmailService from "./server/email.service";
-import type { User } from "lucia";
+import { generateId, type User } from "lucia";
 
 export const generateEmailVerificationCode = async (
   userId: string,
@@ -22,6 +22,7 @@ export const generateEmailVerificationCode = async (
 
   const code = generateRandomString(6, alphabet("0-9", "A-Z"));
   await EmailService.createEmailVerificationCode({
+    id: generateId(15),
     userId,
     email,
     code,
@@ -59,7 +60,7 @@ export const sendVerificationCode = async (
 
   const dteOptions: Intl.DateTimeFormatOptions = {
     dateStyle: "full",
-    timeStyle: "long",
+    timeStyle: "full",
     timeZone: "Asia/Manila",
   };
 

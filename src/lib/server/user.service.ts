@@ -1,4 +1,4 @@
-import { db } from "./db";
+import db from "./db";
 import type { User } from "@prisma/client";
 
 /**
@@ -13,13 +13,15 @@ export const getAllUsers = async () => {
       id: true,
       username: true,
       email: true,
-      createdAt: true,
       firstName: true,
       lastName: true,
       hashed_password: true,
       source_info: true,
       email_verified: true,
       profile: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 };
@@ -34,7 +36,7 @@ export const getAllUsers = async () => {
 export const getUserByUsername = async (username: string) => {
   return db.user.findUnique({
     where: { username },
-    include: { profile: true },
+    include: { profile: true, role: true },
   });
 };
 
@@ -55,30 +57,40 @@ export const createUser = async (
     source_info,
     email_verified,
   } = user;
-  return db.user.create({
-    data: {
-      id,
-      username,
-      email,
-      firstName,
-      lastName,
-      hashed_password,
-      source_info,
-      email_verified,
-    },
-    select: {
-      id: true,
-      username: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      hashed_password: true,
-      source_info: true,
-      createdAt: true,
-      updatedAt: true,
-      email_verified: true,
-    },
-  });
+
+  try {
+    const createdUser = await db.$transaction(async (prisma) => {
+      return await prisma.user.create({
+        data: {
+          id,
+          username,
+          email,
+          firstName,
+          lastName,
+          hashed_password,
+          source_info,
+          email_verified,
+        },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          hashed_password: true,
+          source_info: true,
+          createdAt: true,
+          updatedAt: true,
+          email_verified: true,
+        },
+      });
+    });
+
+    return createdUser;
+  } catch (error) {
+    console.error("Error creating user", error);
+    throw new Error("Unable to create user");
+  }
 };
 
 /**

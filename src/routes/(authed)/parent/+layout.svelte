@@ -8,10 +8,10 @@
 
   // export let data: LayoutData;
   const paths = [
-    { name: "home", route: route("/parents") },
-    { name: "profile", route: route("/parents/profile") },
-    { name: "tutors", route: route("/parents/tutors") },
-    { name: "courses", route: route("/parents/courses") },
+    { name: "home", route: route("/parent") },
+    { name: "profile", route: route("/parent/profile") },
+    { name: "tutors", route: route("/parent/tutors") },
+    { name: "courses", route: route("/parent/courses") },
   ];
 </script>
 

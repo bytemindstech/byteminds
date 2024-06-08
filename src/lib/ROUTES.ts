@@ -14,12 +14,13 @@ const PAGES = {
   "/admin/students": `/admin/students`,
   "/admin/tutors": `/admin/tutors`,
   "/email-verification": `/email-verification`,
-  "/parents": `/parents`,
-  "/parents/courses": `/parents/courses`,
-  "/parents/profile": `/parents/profile`,
-  "/parents/tutors": `/parents/tutors`,
-  "/students": `/students`,
-  "/tutors": `/tutors`,
+  "/parent": `/parent`,
+  "/parent/courses": `/parent/courses`,
+  "/parent/profile": `/parent/profile`,
+  "/parent/tutors": `/parent/tutors`,
+  "/student": `/student`,
+  "/tutor": `/tutor`,
+  "/user-profile": `/user-profile`,
   "/": `/`,
   "/about": `/about`,
   "/blog": `/blog`,
@@ -27,9 +28,18 @@ const PAGES = {
     return `/blog/${params.slug}`
   },
   "/contact-us": `/contact-us`,
+  "/courses": `/courses`,
+  "/courses/[courseId]": (params: { courseId: (string | number) }) => {
+    return `/courses/${params.courseId}`
+  },
   "/faqs": `/faqs`,
-  "/login": `/login`,
-  "/register": `/register`
+  "/tutors": `/tutors`,
+  "/tutors/[tutorId]": (params: { tutorId: (string | number) }) => {
+    return `/tutors/${params.tutorId}`
+  },
+  "/privacy-policy": `/privacy-policy`,
+  "/signin-signup": `/signin-signup`,
+  "/tos": `/tos`
 }
 
 /**
@@ -45,9 +55,9 @@ const SERVERS = {
 const ACTIONS = {
   "verifyEmail /email-verification": `/email-verification?/verifyEmail`,
   "resendVerificationCode /email-verification": `/email-verification?/resendVerificationCode`,
-  "default /login": `/login`,
   "default /logout": `/logout`,
-  "default /register": `/register`
+  "login /signin-signup": `/signin-signup?/login`,
+  "register /signin-signup": `/signin-signup?/register`
 }
 
 /**
@@ -56,8 +66,10 @@ const ACTIONS = {
 const LINKS = {
   "facebook": `https://facebook.com/byteminds`,
   "youtube": `https://www.youtube.com/@bytemindstech`,
-  "classroom": `https://classroom.jhenbert.com`,
+  "linkedin": `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`,
   "tiktok": `https://tiktok.com`,
+  "github": `https://github.com/bytemindstech`,
+  "classroom": `https://classroom.jhenbert.com`,
   "githubAvatar": (params: { avatarId: (string | number) }) => {
     return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
   }
@@ -163,9 +175,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parents': never, '/parents/courses': never, '/parents/profile': never, '/parents/tutors': never, '/students': never, '/tutors': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/faqs': never, '/login': never, '/register': never }
+  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/privacy-policy': never, '/signin-signup': never, '/tos': never }
   SERVERS: Record<string, never>
-  ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /login': never, 'default /logout': never, 'default /register': never }
-  LINKS: { 'facebook': never, 'youtube': never, 'classroom': never, 'tiktok': never, 'githubAvatar': 'avatarId' }
-  Params: { slug: never, avatarId: never }
+  ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /logout': never, 'login /signin-signup': never, 'register /signin-signup': never }
+  LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'github': never, 'classroom': never, 'githubAvatar': 'avatarId' }
+  Params: { slug: never, courseId: never, tutorId: never, avatarId: never }
 }

@@ -3,6 +3,7 @@ import type { Handle } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { useServer } from "vite-sveltekit-node-ws";
 import { Server } from "socket.io";
+import db from "$lib/server/db";
 
 const authHandler: Handle = async ({ event, resolve }) => {
   const sessionId = event.cookies.get(lucia.sessionCookieName);
@@ -28,6 +29,7 @@ const authHandler: Handle = async ({ event, resolve }) => {
       ...sessionCookie.attributes,
     });
   }
+
   event.locals.user = user;
   event.locals.session = session;
   return resolve(event);
@@ -59,6 +61,21 @@ useServer((server) => {
       },
     );
   });
+});
+
+// Ensure PrismaClient disconnect on app shutdown
+process.on("beforeExit", async () => {
+  await db.$disconnect();
+});
+
+process.on("SIGINT", async () => {
+  await db.$disconnect();
+  process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+  await db.$disconnect();
+  process.exit(0);
 });
 
 export const handle = sequence(authHandler);

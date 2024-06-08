@@ -3,7 +3,8 @@
   import { route } from "$lib/ROUTES";
   import { Avatar } from "@skeletonlabs/skeleton";
   import { Toast } from "./ui";
-  import image from "$lib/assets/images/logo.webp";
+  import { fly } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
 
   export let enhance: any;
   export let form: any;
@@ -15,13 +16,24 @@
 {#if typeof $message === "string" && $message && $page.status >= 400}
   <Toast message={$message} type="error" />
 {/if}
-<div class="container flex justify-center items-center h-full">
+<div
+  class="min-h-screen flex justify-center items-center"
+  in:fly={{ delay: 250, duration: 300, easing: quintOut, x: 100 }}
+>
   <div class="card p-5">
     <header class="card-header flex justify-center">
-      <Avatar src={image} width="w-20" />
+      <Avatar
+        src={route("githubAvatar", { avatarId: 159615949 })}
+        width="w-20"
+      />
     </header>
     <section class="flex flex-col justify-center p-6">
-      <form class="space-y-5" method="post" use:enhance>
+      <form
+        class="space-y-5"
+        method="post"
+        action={route("login /signin-signup")}
+        use:enhance
+      >
         <label class="label text-primary-500"
           ><span>Username</span>
           <input
@@ -50,8 +62,8 @@
           />
         </label>
         <button
-          class="btn variant-filled-primary min-w-full font-bold text-white hover:bg-error-700"
-          type="submit">Submit</button
+          class="btn variant-filled-tertiary min-w-full font-bold capitalize"
+          type="submit">login</button
         >
       </form>
     </section>
@@ -59,10 +71,6 @@
       <a
         class="text-primary-700 hover:text-error-700 text-sm float-left"
         href={route("/")}>Forgot Password?</a
-      >
-      <a
-        class="text-primary-700 hover:text-error-700 text-sm float-right"
-        href={route("/register")}>Create Account</a
       >
     </footer>
   </div>

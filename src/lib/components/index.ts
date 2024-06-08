@@ -10,3 +10,8 @@ export { default as UserNav } from "./user-nav.svelte";
 export { default as ContactForm } from "./contact-form.svelte";
 export { default as Navigation } from "./navigation.svelte";
 export { default as Tutors } from "./tutors.svelte";
+export { default as CommunityFeedback } from "./community-feedback.svelte";
+export { default as UserProfileLayout } from "./user-profile-layout.svelte";
+export { default as UserProfile } from "./user-profile.svelte";
+export { default as UserBio } from "./user-bio.svelte";
+export { default as Courses } from "./courses.svelte";

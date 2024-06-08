@@ -11,49 +11,66 @@ datasource db {
 }
 
 model Profile {
-  id     String  @unique @default(uuid())
-  bio    String? @db.Text
-  userId String  @unique
-  user   User    @relation(references: [id], fields: [userId], onDelete: Cascade)
-}
-
-model User {
-  id              String    @id @unique
-  username        String    @unique
-  email           String    @unique
-  firstName       String
-  lastName        String
-  hashed_password String
-  source_info     String
-  profile         Profile?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  email_verified  Boolean
-  sessions        Session[]
-  Role            Role[]
-}
-
-model Session {
-  id        String   @unique @default(uuid())
-  userId    String
-  expiresAt DateTime
-  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
-}
-
-model EmailVerificationCode {
-  id        String   @unique @default(uuid())
-  code      String
-  userId    String   @unique
-  email     String   @unique
-  expiresAt DateTime
+  id     String @id
+  userId String @unique
+  bio    String @db.Text
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Role {
-  id        String  @unique @default(uuid())
-  userId    String
+  id        String  @id
+  userId    String  @unique
   isStudent Boolean
   isParent  Boolean
   isTutor   Boolean
   isAdmin   Boolean
-  user      User    @relation(references: [id], fields: [userId], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Feedback {
+  id      String @id
+  userId  String
+  comment String @db.LongText
+  star    Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id              String     @id
+  username        String     @unique
+  email           String     @unique
+  firstName       String
+  lastName        String
+  hashed_password String
+  source_info     String
+  email_verified  Boolean
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  profile         Profile?
+  role            Role?
+  sessions        Session[]
+  feedback        Feedback[]
+}
+
+model EmailVerificationCode {
+  id        String   @id
+  userId    String   @unique
+  email     String   @unique
+  code      String
+  expiresAt DateTime
+}
+
+model Contact {
+  id               String  @id
+  firstName        String
+  lastName         String
+  message          String
+  isSendNewsLetter Boolean
 }

@@ -1,86 +1,124 @@
 <script lang="ts">
   import { route } from "$lib/ROUTES";
   import Icon from "@iconify/svelte";
+  import { Avatar } from "@skeletonlabs/skeleton";
+
   export let year: number;
   export let brand: string;
 </script>
 
-<section class="container mx-auto p-7">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-y-3">
-    <dl class="list-dl">
-      <div class="flex-auto flex-col md:!items-start mt-3">
-        <h5 class="h5 ml-4"><a href={route("/")}>&copy {year} {brand}</a></h5>
-        <p class="text-sm text-gray-600">
-          ByteMinds Inc., A Company Registered in the Philippines
-        </p>
-        <div>
-          <span class="text-md text-gray-600">Follow us:</span>
+<footer>
+  <div class="bg-surface-800 py-4 text-surface-300">
+    <div class="container px-4 mx-auto">
+      <div class="-mx-4 flex flex-wrap justify-between">
+        <div class="px-4 my-4 w-full xl:w-1/5">
+          <a href="/" class="flex flex-wrap items-center gap-4 w-56 mb-8">
+            <Avatar
+              src={route("githubAvatar", { avatarId: 159615949 })}
+              width="w-14"
+            />
+            <h3 class="h3">{brand}</h3>
+          </a>
+          <p class="whitespace-normal">
+            ByteMinds PH Inc., A Company Registered in the Philippines
+          </p>
+        </div>
+
+        <div class="px-4 my-4 w-full sm:w-auto">
+          <div>
+            <h3 class="h3 inline-block pb-4 mb-4 border-b-4 border-primary-600">
+              Company
+            </h3>
+          </div>
+          <ul class="leading-8">
+            <li>
+              <a href={route("/about")} class="hover:text-primary-400"
+                >About Us</a
+              >
+            </li>
+            <li>
+              <a href={route("/tos")} class="hover:text-primary-400"
+                >Terms &amp; Conditions</a
+              >
+            </li>
+            <li>
+              <a href={route("/privacy-policy")} class="hover:text-primary-400"
+                >Privacy Policy</a
+              >
+            </li>
+            <li>
+              <a href={route("/contact-us")} class="hover:text-primary-400"
+                >Contact Us</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="px-4 my-4 w-full sm:w-auto">
+          <div>
+            <h3 class="h3 inline-block pb-4 mb-4 border-b-4 border-primary-600">
+              Tutorial Services
+            </h3>
+          </div>
+          <ul class="leading-8">
+            <li>English</li>
+            <li>Math</li>
+            <li>Reading</li>
+            <li>Science</li>
+            <li>Advance Math</li>
+          </ul>
+        </div>
+        <div class="px-4 my-4 w-full sm:w-auto xl:w-1/5">
+          <div>
+            <h3 class="h3 inline-block pb-4 mb-4 border-b-4 border-primary-600">
+              Connect With Us
+            </h3>
+          </div>
+          <!-- facebook -->
           <a
             href={route("facebook")}
-            target="_blank"
-            type="button"
-            class="btn-icon hover:variant-soft-primary"
-            ><Icon icon="bi:facebook" width="24" height="24" /></a
+            class="inline-flex items-center justify-center h-8 w-8 border border-surface-100 rounded-full mr-1 hover:text-primary-400 hover:border-primary-400"
           >
+            <Icon icon="ic:outline-facebook" width="24" height="24" />
+          </a>
+          <!-- youtube -->
           <a
             href={route("youtube")}
-            target="_blank"
-            type="button"
-            class="btn-icon hover:variant-soft-primary"
-            ><Icon
-              icon="entypo-social:youtube-with-circle"
-              width="24"
-              height="24"
-            /></a
+            class="inline-flex items-center justify-center h-8 w-8 border border-surface-100 rounded-full mr-1 hover:text-primary-400 hover:border-primary-400"
           >
+            <Icon icon="mdi:youtube" width="24" height="24" />
+          </a>
+          <!-- linkedin -->
+          <a
+            href={route("linkedin")}
+            class="inline-flex items-center justify-center h-8 w-8 border border-surface-100 rounded-full mr-1 hover:text-primary-400 hover:border-primary-400"
+          >
+            <Icon icon="mdi:linkedin" width="24" height="24" />
+          </a>
+          <!-- tiktok -->
           <a
             href={route("tiktok")}
-            target="_blank"
-            type="button"
-            class="btn-icon hover:variant-soft-primary"
-            ><Icon icon="mage:tiktok-circle" width="28" height="28" /></a
+            class="inline-flex items-center justify-center h-8 w-8 border border-surface-100 rounded-full mr-1 hover:text-primary-400 hover:border-primary-400"
           >
+            <Icon icon="ic:round-tiktok" width="24" height="24" />
+          </a>
+          <!-- github -->
+          <a
+            href={route("github")}
+            class="inline-flex items-center justify-center h-8 w-8 border border-surface-100 rounded-full hover:text-primary-400 hover:border-primary-400"
+            ><Icon icon="mdi:github" width="24" height="24" />
+          </a>
         </div>
       </div>
-    </dl>
-
-    <dl class="list-dl lg:ml-4">
-      <div class="flex-auto flex-col md:!items-start">
-        <dt class="text-lg font-medium ml-4">Tutorial Services</dt>
-        <dd>English</dd>
-        <dd>Math</dd>
-        <dd>Reading</dd>
-      </div>
-    </dl>
-
-    <dl class="list-dl lg:ml-4">
-      <div class="flex-auto flex-col md:!items-start">
-        <dt class="text-lg font-medium ml-4">Join Our Team</dt>
-        <dd>In-house Tutor</dd>
-        <dd>Freelance Tutor</dd>
-      </div>
-    </dl>
-
-    <dl class="list-dl lg:ml-4">
-      <div class="flex-auto flex-col md:!items-start">
-        <dt class="text-lg font-medium ml-4">Other Links</dt>
-        <dd>
-          <a class="hover:underline underline-offset-2" href={route("/")}
-            >Terms Of Service</a
-          >
-        </dd>
-        <dd>
-          <a class="hover:underline underline-offset-2" href={route("/")}
-            >Privacy Policy</a
-          >
-        </dd>
-        <dd>
-          <a
-            class="hover:underline underline-offset-2"
-            href={route("/contact-us")}>Contact Us</a
-          >
-        </dd>
-      </div>
-    </dl>
+    </div>
   </div>
-</section>
+
+  <div class="bg-tertiary-700 py-4 text-surface-100">
+    <div class="container mx-auto px-4">
+      <div class="-mx-4 flex flex-wrap justify-center">
+        <div class="px-4 w-full text-center sm:w-auto sm:text-left">
+          Copyright &copy; {year} ByteMinds PH. All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

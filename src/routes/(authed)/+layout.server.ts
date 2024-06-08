@@ -3,10 +3,14 @@ import type { LayoutServerLoad } from "./$types";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import { route } from "$lib/ROUTES";
 
 export const load = (async ({ url, locals }) => {
   if (!locals.user) {
-    throw redirect(302, `/login?redirectTo=${url.pathname}`);
+    throw redirect(
+      302,
+      route("/signin-signup") + `?redirectTo=${url.pathname}`,
+    );
   }
 
   const verifyEmailForm = await superValidate(

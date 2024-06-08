@@ -1,18 +1,11 @@
-import { db } from "./db";
+import db from "./db";
 import type { EmailVerificationCode } from "@prisma/client";
 
 export const createEmailVerificationCode = async (
-  verificationCode: Omit<EmailVerificationCode, "id">,
+  verificationCode: EmailVerificationCode,
 ): Promise<EmailVerificationCode> => {
-  const { code, userId, email, expiresAt } = verificationCode;
-
   return db.emailVerificationCode.create({
-    data: {
-      code,
-      userId,
-      email,
-      expiresAt,
-    },
+    data: verificationCode,
     select: {
       id: true,
       code: true,

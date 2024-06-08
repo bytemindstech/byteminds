@@ -1,7 +1,9 @@
-<section class="min-h-screen flex items-center">
+<section
+  class="min-h-screen flex items-center bg-cover bg-center bg-[url('$lib/assets/images/mission-vision.webp')]"
+>
   <div class="container mx-auto p-5">
     <div class="flex flex-col space-y-5 lg:w-1/2">
-      <div class="card bg-transparent border-2 border-primary-500">
+      <div class="card bg-surface-200/40 border-2 border-primary-600">
         <header class="card-header">
           <h2
             class="h2 bg-gradient-to-r from-primary-900 to-secondary-600 bg-clip-text text-transparent"
@@ -21,7 +23,7 @@
         </section>
       </div>
 
-      <div class="card bg-transparent border-2 border-primary-500">
+      <div class="card bg-surface-200/40 border-2 border-primary-600">
         <header class="card-header">
           <h2
             class="h2 bg-gradient-to-r from-primary-900 to-secondary-600 bg-clip-text text-transparent"

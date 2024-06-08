@@ -3,6 +3,7 @@
  */
 
 import { getToastStore, type ToastSettings } from "@skeletonlabs/skeleton";
+import { route } from "./ROUTES";
 
 export type TriggerToast = "error" | "success";
 
@@ -37,3 +38,12 @@ export const socketUrl = (pathname: string = "") => {
   if (browser) return `ws${location.origin.slice(4)}${pathname}`;
   return "";
 };
+
+//main navigation paths
+export const paths = [
+  { route: route("/"), name: "home" },
+  { route: route("/about"), name: "who we are" },
+  { route: route("/courses"), name: "available courses" },
+  { route: route("/tutors"), name: "our tutors" },
+  { route: route("/faqs"), name: "faqs" },
+];

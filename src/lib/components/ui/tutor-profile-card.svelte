@@ -2,6 +2,7 @@
   import Icon from "@iconify/svelte";
   import { Avatar } from "@skeletonlabs/skeleton";
   import VerifiedBadge from "./verified-badge.svelte";
+  import { route } from "$lib/ROUTES";
 
   export let course;
   export let name;
@@ -10,9 +11,13 @@
   export let rating;
   export let verified;
   export let rate;
+  export let id;
 </script>
 
-<a class="card card-hover overflow-hidden min-w-[100]" href="/">
+<a
+  class="card card-hover overflow-hidden min-w-[100]"
+  href={route("/tutors/[tutorId]", { tutorId: id })}
+>
   <header>
     <img
       src={courseImgSrc}

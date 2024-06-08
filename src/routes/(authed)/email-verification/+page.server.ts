@@ -10,9 +10,14 @@ import {
   validateVerificationCode,
   sendVerificationCode,
 } from "$lib/util.sever";
+import { route } from "$lib/ROUTES";
 
-export const load = (async ({ parent }) => {
+export const load = (async ({ parent, locals, url }) => {
   await parent();
+
+  if (locals.user?.email_verified) {
+    redirect(302, route("/user-profile"));
+  }
 
   return {};
 }) satisfies PageServerLoad;
@@ -20,6 +25,7 @@ export const load = (async ({ parent }) => {
 export const actions: Actions = {
   verifyEmail: async ({ request, locals, cookies, url }) => {
     const { user } = await lucia.validateSession(locals.session?.id as string);
+
     if (!user) {
       return fail(401, { error: "Unauthorized" });
     }
@@ -41,7 +47,7 @@ export const actions: Actions = {
 
     const codeStatus = await validateVerificationCode(
       user,
-      verifyEmailForm.data.code,
+      verifyEmailForm.data.code.toUpperCase(),
     );
 
     if (!codeStatus.valid) {
@@ -69,7 +75,8 @@ export const actions: Actions = {
     if (redirectTo !== null) {
       throw redirect(302, `${redirectTo.slice(1)}`);
     }
-    redirect(302, "/user");
+
+    redirect(302, route("/user-profile"));
   },
 
   resendVerificationCode: async ({ request, locals, cookies }) => {

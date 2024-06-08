@@ -13,8 +13,10 @@ export default defineConfig({
       LINKS: {
         facebook: "https://facebook.com/byteminds",
         youtube: "https://www.youtube.com/@bytemindstech",
-        classroom: "https://classroom.jhenbert.com",
+        linkedin: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         tiktok: "https://tiktok.com",
+        github: "https://github.com/bytemindstech",
+        classroom: "https://classroom.jhenbert.com",
         githubAvatar: "https://avatars.githubusercontent.com/u/[avatarId]?v=4",
       },
     }),

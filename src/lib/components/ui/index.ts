@@ -6,3 +6,4 @@ export { default as Course } from "./course-card.svelte";
 export { default as Statistics } from "./stat-card.svelte";
 export { default as Tutor } from "./tutor-profile-card.svelte";
 export { default as Notification } from "./notification.svelte";
+export { default as ReviewCard } from "./review-card.svelte";

@@ -6,4 +6,4 @@
   // export let data: PageData;
 </script>
 
-<div class="container mx-auto"><Tutors /></div>
+<div class="container mx-auto p-6"><Tutors /></div>
