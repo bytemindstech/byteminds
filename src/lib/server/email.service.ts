@@ -74,12 +74,11 @@ export const getEmailVerificationCodeByEmail = async (
 
 export const deleteEmailVerificationCodeByUserId = async (
   userId: string,
-): Promise<EmailVerificationCode> => {
+): Promise<void> => {
   try {
-    const deletedVerificationCode = await db.$transaction(async (tx) => {
-      return await tx.emailVerificationCode.delete({ where: { userId } });
+    await db.$transaction(async (tx) => {
+      await tx.emailVerificationCode.delete({ where: { userId } });
     });
-    return deletedVerificationCode;
   } catch (e) {
     console.error("Unable to delete verification code", e);
     error(404, { message: "Unable to delete verification code" });
@@ -88,13 +87,11 @@ export const deleteEmailVerificationCodeByUserId = async (
 
 export const deleteEmailVerificationCodeById = async (
   id: string,
-): Promise<EmailVerificationCode> => {
+): Promise<void> => {
   try {
-    const deletedVerificationCode = await db.$transaction(async (tx) => {
-      return tx.emailVerificationCode.delete({ where: { id } });
+    await db.$transaction(async (tx) => {
+      await tx.emailVerificationCode.delete({ where: { id } });
     });
-
-    return deletedVerificationCode;
   } catch (e) {
     console.error("Unable to delete verification code", e);
     error(404, { message: "Unable to delete verification code" });
