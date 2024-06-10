@@ -24,7 +24,7 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  login: async ({ request, url, cookies }) => {
+  login: async ({ request, url, cookies, locals }) => {
     const loginForm = await superValidate(
       request,
       zod(ZodValidationSchema.loginSchema),
