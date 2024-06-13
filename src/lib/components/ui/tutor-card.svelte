@@ -29,7 +29,7 @@
   </header>
   <section class="p-4">
     <h5 class="h5">{course}</h5>
-    <p class="text-sm text-gray-600">Rate: {rate}/hr</p>
+    <p class="text-sm text-surface-600">Rate: {rate}/hr</p>
   </section>
   <hr class="opacity-50 mb-4" />
   <footer class="card-footer flex justify-start items-center space-x-3">

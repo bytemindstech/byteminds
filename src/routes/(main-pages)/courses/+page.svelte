@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { route } from "$lib/ROUTES";
   import { Courses } from "$lib/components";
 
   // import type { PageData } from './$types';

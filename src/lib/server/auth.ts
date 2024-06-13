@@ -12,7 +12,7 @@ export const lucia = new Lucia(adapter, {
       //set to `true` when using HTTPS
       // secure: !dev,
 
-      //test prod non https
+      //test prod deploy in non https server
       secure: false,
     },
   },

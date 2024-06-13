@@ -45,6 +45,7 @@
         >
       </div>
     </div>
+    
     <div class="col-span-4 md:col-span-9">
       <div class="bg-surface-100 shadow rounded-lg p-6"><UserBio /></div>
     </div>

@@ -12,7 +12,7 @@ import {
 } from "$lib/util.sever";
 import { route } from "$lib/ROUTES";
 
-export const load = (async ({ parent, locals, url }) => {
+export const load = (async ({ parent, locals }) => {
   await parent();
 
   if (locals.user?.email_verified) {

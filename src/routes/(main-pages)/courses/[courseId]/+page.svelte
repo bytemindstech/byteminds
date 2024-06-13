@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { courses } from "$lib/mock.data";
+  import { Course } from "$lib/components";
+  import { courses, tutors } from "$lib/mock.data";
   // import type { PageData } from './$types';
   // export let data: PageData;
   const courseId = $page.params.courseId;
@@ -9,14 +10,22 @@
     return courses.find((course) => course.id === id);
   };
 
+  const getCoach = (course: string) => {
+    return tutors.find(
+      (tutor) => tutor.course.toLowerCase() === course.toLowerCase(),
+    );
+  };
+
   const course = getCourse(Number(courseId));
 </script>
 
-<div
-  class="container mx-auto min-h-screen flex justify-center items-center py-8"
->
-  <div class="px-4">
-    <h2 class="h2">Subject: {course?.title}</h2>
-    <p class="text-surface-600">{course?.description}</p>
-  </div>
-</div>
+{#if course}
+  <Course
+    courseTitle={course.title}
+    rate={getCoach(course.title)?.rate}
+    description={course.description}
+    courseImg={course.imgSrc}
+    coach={getCoach(course.title)?.name}
+    coachId={getCoach(course.title)?.id}
+  />
+{/if}

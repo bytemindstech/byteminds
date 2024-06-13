@@ -1,10 +1,9 @@
 <script lang="ts">
   import { route } from "$lib/ROUTES";
 
-  export let imgSrc;
-  export let title;
-  export let description;
-  export let id;
+  export let id: number;
+  export let imgSrc: string;
+  export let title: string;
 </script>
 
 <a
@@ -19,9 +18,8 @@
       height="100"
     />
   </header>
-  <div class="card-footer">
+  <div class="p-4">
     <h5 class="h5">{title}</h5>
-    <p class="text-surface-600 text-sm">{description}</p>
   </div>
   <hr class="opacity-50" />
 </a>

@@ -39,7 +39,7 @@ export const socketUrl = (pathname: string = "") => {
   return "";
 };
 
-//main navigation paths
+// main navigation paths
 export const paths = [
   { route: route("/"), name: "home" },
   { route: route("/about"), name: "who we are" },

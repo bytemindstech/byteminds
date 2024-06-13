@@ -4,7 +4,7 @@ import { route } from "$lib/ROUTES";
 
 export const load = (async ({ locals, url, parent }) => {
   await parent();
-
+  
   if (!locals.user?.email_verified) {
     throw redirect(
       302,

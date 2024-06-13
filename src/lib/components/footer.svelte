@@ -3,6 +3,8 @@
   import Icon from "@iconify/svelte";
   import { Avatar } from "@skeletonlabs/skeleton";
 
+  const tutorials = ["english", "reading", "math", "science", "algebra"];
+
   export let year: number;
   export let brand: string;
 </script>
@@ -11,16 +13,16 @@
   <div class="bg-surface-800 py-4 text-surface-300">
     <div class="container px-4 mx-auto">
       <div class="-mx-4 flex flex-wrap justify-between">
-        <div class="px-4 my-4 w-full xl:w-1/5">
-          <a href="/" class="flex flex-wrap items-center gap-4 w-56 mb-8">
+        <div class="px-4 my-4 w-full xl:w-1/4">
+          <a href="/" class="flex flex-wrap items-center gap-3 w-64 mb-8">
             <Avatar
               src={route("githubAvatar", { avatarId: 159615949 })}
-              width="w-14"
+              width="w-12"
             />
             <h3 class="h3">{brand}</h3>
           </a>
           <p class="whitespace-normal">
-            ByteMinds PH Inc., A Company Registered in the Philippines
+            {brand} Inc., A Company Registered in the Philippines
           </p>
         </div>
 
@@ -60,11 +62,9 @@
             </h3>
           </div>
           <ul class="leading-8">
-            <li>English</li>
-            <li>Math</li>
-            <li>Reading</li>
-            <li>Science</li>
-            <li>Advance Math</li>
+            {#each tutorials as tutorial}
+              <li class="capitalize">{tutorial}</li>
+            {/each}
           </ul>
         </div>
         <div class="px-4 my-4 w-full sm:w-auto xl:w-1/5">
@@ -116,7 +116,8 @@
     <div class="container mx-auto px-4">
       <div class="-mx-4 flex flex-wrap justify-center">
         <div class="px-4 w-full text-center sm:w-auto sm:text-left">
-          Copyright &copy; {year} ByteMinds PH. All Rights Reserved.
+          Copyright &copy; {year}
+          {brand}. All Rights Reserved.
         </div>
       </div>
     </div>

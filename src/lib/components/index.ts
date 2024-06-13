@@ -15,3 +15,4 @@ export { default as UserProfileLayout } from "./user-profile-layout.svelte";
 export { default as UserProfile } from "./user-profile.svelte";
 export { default as UserBio } from "./user-bio.svelte";
 export { default as Courses } from "./courses.svelte";
+export { default as Course } from "./course.svelte";
