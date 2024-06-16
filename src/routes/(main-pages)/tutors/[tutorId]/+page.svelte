@@ -11,6 +11,9 @@
   };
 
   const tutor = getTutor(tutorId);
+
+  const bio =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risusrhoncus id.";
 </script>
 
 <div class="container mx-auto py-8">
@@ -45,9 +48,11 @@
         >
       </div>
     </div>
-    
+
     <div class="col-span-4 md:col-span-9">
-      <div class="bg-surface-100 shadow rounded-lg p-6"><UserBio /></div>
+      <div class="bg-surface-100 shadow rounded-lg p-6">
+        <UserBio profileBio={bio} />
+      </div>
     </div>
   </div>
 </div>

@@ -23,7 +23,6 @@ export const load = (async ({ url, locals }) => {
   return {
     verifyEmailForm,
     resendCodeForm,
-    emailVerified: locals.user.email_verified,
     email: locals.user.email,
     firstName: locals.user.firstName,
     lastName: locals.user.lastName,

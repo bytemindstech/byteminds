@@ -135,3 +135,27 @@ export const courses = [
       "https://images.pexels.com/photos/6238297/pexels-photo-6238297.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
 ];
+
+export const inhouseTutors = [
+  {
+    id: 1,
+    avatarImgSrc:
+      "https://images.pexels.com/photos/4924538/pexels-photo-4924538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    course: "Algebra",
+    name: "Juan T.",
+  },
+  {
+    id: 2,
+    avatarImgSrc:
+      "https://images.pexels.com/photos/4924538/pexels-photo-4924538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    course: "Algebra",
+    name: "Juan T.",
+  },
+  {
+    id: 3,
+    avatarImgSrc:
+      "https://images.pexels.com/photos/4924538/pexels-photo-4924538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    course: "Algebra",
+    name: "Juan T.",
+  },
+];

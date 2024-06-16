@@ -10,8 +10,8 @@
   const paths = [
     { name: "home", route: route("/parent") },
     { name: "profile", route: route("/parent/profile") },
-    { name: "freelance tutors", route: route("/parent/tutors") },
     { name: "available courses", route: route("/parent/courses") },
+    { name: "freelance tutors", route: route("/parent/tutors") },
   ];
 </script>
 

@@ -2,7 +2,6 @@ import { Lucia, TimeSpan, type Adapter } from "lucia";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { dev } from "$app/environment";
 import db from "./db";
-import type { Profile, Role } from "@prisma/client";
 
 const adapter: Adapter = new PrismaAdapter(db.session, db.user);
 
@@ -22,7 +21,6 @@ export const lucia = new Lucia(adapter, {
       id: attributes.id,
       firstName: attributes.firstName,
       lastName: attributes.lastName,
-      email_verified: attributes.email_verified,
       email: attributes.email,
     };
   },
@@ -39,6 +37,5 @@ interface DatabaseUserAttributes {
   id: string;
   firstName: string;
   lastName: string;
-  email_verified: boolean;
   email: string;
 }

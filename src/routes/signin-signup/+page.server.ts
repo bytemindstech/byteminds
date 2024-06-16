@@ -39,8 +39,12 @@ export const actions: Actions = {
       return message(loginForm, "User not found", { status: 406 });
     }
 
+    if (!existingUser.hashedPassword) {
+      return;
+    }
+
     const validPassword = await new Argon2id().verify(
-      existingUser.hashed_password,
+      existingUser.hashedPassword.hashedPassword,
       loginForm.data.password,
     );
 
@@ -76,9 +80,6 @@ export const actions: Actions = {
       case existingUser.role.isStudent:
         throw redirect(302, route("/student"));
       default:
-        if (!existingUser.email_verified) {
-          redirect(302, route("/email-verification"));
-        }
         redirect(302, route("/user-profile"));
     }
   },
@@ -115,25 +116,25 @@ export const actions: Actions = {
       registrationForm.data.password,
     );
 
-    await UserService.createUser({
-      id: userId,
-      username: registrationForm.data.username,
-      email: registrationForm.data.email,
-      firstName: registrationForm.data.firstName,
-      lastName: registrationForm.data.lastName,
-      hashed_password: hashedPassword,
-      source_info: registrationForm.data.sourceInfo,
-      email_verified: false,
-    });
-
-    await RoleService.createRole({
-      id: generateId(15),
-      userId: userId,
-      isAdmin: false,
-      isParent: false,
-      isTutor: false,
-      isStudent: false,
-    });
+    await UserService.createUser(
+      {
+        id: userId,
+        username: registrationForm.data.username,
+        email: registrationForm.data.email,
+        firstName: registrationForm.data.firstName,
+        lastName: registrationForm.data.lastName,
+        sourceInfo: registrationForm.data.sourceInfo,
+      },
+      { passwordId: generateId(15), hashedPassword: hashedPassword },
+      { emailVerifiedId: generateId(15), emailVerified: false },
+      {
+        roleId: generateId(15),
+        isAdmin: false,
+        isParent: false,
+        isTutor: false,
+        isStudent: false,
+      },
+    );
 
     const verificationCode = await generateEmailVerificationCode(
       userId,

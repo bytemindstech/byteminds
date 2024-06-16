@@ -10,8 +10,6 @@
   const name = `${data.firstName} ${data.lastName}`;
   const bio =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risusrhoncus id.";
-
-  console.log(data.user);
 </script>
 
 <div class="container mx-auto"></div>
@@ -22,7 +20,6 @@
       profileImg="https://images.pexels.com/photos/7562313/pexels-photo-7562313.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       email={data.email}
       {name}
-      role={data}
     />
   </svelte:fragment>
   <svelte:fragment slot="bio">

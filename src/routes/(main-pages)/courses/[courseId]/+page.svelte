@@ -3,6 +3,7 @@
   import { Course } from "$lib/components";
   import { courses, tutors } from "$lib/mock.data";
   // import type { PageData } from './$types';
+  
   // export let data: PageData;
   const courseId = $page.params.courseId;
 

@@ -4,7 +4,6 @@
   export let name: string;
   export let profileImg;
   export let email;
-  export let role;
 
   const getInitials = (fullName: string) => {
     const nameArr = fullName.split(" ");
@@ -26,12 +25,10 @@
     />
     <h4 class="h4 capitalize">{name}</h4>
     <p class="text-surface-700 md:text-sm">{email}</p>
-    {#if role === false}
-      <div class="mt-6 flex flex-wrap gap-4 justify-center">
-        <button class="btn btn-sm md:btn-md variant-filled-tertiary"
-          >Update Profile</button
-        >
-      </div>
-    {/if}
+    <div class="mt-6 flex flex-wrap gap-4 justify-center">
+      <button class="btn btn-sm md:btn-md variant-filled-tertiary"
+        >Update Profile</button
+      >
+    </div>
   </div>
 </div>

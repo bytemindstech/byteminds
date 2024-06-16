@@ -15,11 +15,26 @@ import { route } from "$lib/ROUTES";
 export const load = (async ({ parent, locals }) => {
   await parent();
 
-  if (locals.user?.email_verified) {
+  const user = await UserService.getUserById(locals.user?.id as string);
+
+  if (user?.emailVerified?.emailVerified) {
+    switch (true) {
+      case user.role?.isAdmin:
+        throw redirect(302, route("/admin"));
+
+      case user.role?.isParent:
+        throw redirect(302, route("/parent"));
+
+      case user.role?.isStudent:
+        throw redirect(302, route("/student"));
+    }
+
     redirect(302, route("/user-profile"));
   }
-
-  return {};
+  console.log(user);
+  return {
+    user,
+  };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
@@ -58,7 +73,7 @@ export const actions: Actions = {
 
     await lucia.invalidateUserSessions(user.id);
     await UserService.updateUserEmailVerified(
-      { email_verified: true },
+      { emailVerified: true },
       user.id,
     );
 
@@ -81,8 +96,6 @@ export const actions: Actions = {
 
   resendVerificationCode: async ({ request, locals, cookies }) => {
     const { user } = await lucia.validateSession(locals.session?.id as string);
-
-    console.log(user);
 
     if (!user) {
       return fail(401, { error: "Unauthorized" });

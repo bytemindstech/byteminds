@@ -1,5 +1,5 @@
 import db from "./db";
-import type { User } from "@prisma/client";
+import type { EmailVerified, Password, Role, User } from "@prisma/client";
 
 /**
  * @function
@@ -15,9 +15,9 @@ export const getAllUsers = async () => {
       email: true,
       firstName: true,
       lastName: true,
-      hashed_password: true,
-      source_info: true,
-      email_verified: true,
+      hashedPassword: true,
+      sourceInfo: true,
+      emailVerified: true,
       profile: true,
       role: true,
       createdAt: true,
@@ -36,14 +36,19 @@ export const getAllUsers = async () => {
 export const getUserByUsername = async (username: string) => {
   return await db.user.findUnique({
     where: { username },
-    include: { profile: true, role: true },
+    include: {
+      hashedPassword: true,
+      emailVerified: true,
+      profile: true,
+      role: true,
+    },
   });
 };
 
 export const getUserById = async (id: string) => {
   return await db.user.findUnique({
     where: { id },
-    include: { profile: true, role: true },
+    include: { profile: true, role: true, emailVerified: true },
   });
 };
 
@@ -53,17 +58,14 @@ export const getUserById = async (id: string) => {
  */
 export const createUser = async (
   user: Omit<User, "createdAt" | "updatedAt">,
+  password: Omit<Password, "userId">,
+  email_verified: Omit<EmailVerified, "userId">,
+  role: Omit<Role, "userId">,
 ) => {
-  const {
-    id,
-    username,
-    email,
-    firstName,
-    lastName,
-    hashed_password,
-    source_info,
-    email_verified,
-  } = user;
+  const { id, username, email, firstName, lastName, sourceInfo } = user;
+  const { passwordId, hashedPassword } = password;
+  const { emailVerifiedId, emailVerified } = email_verified;
+  const { roleId, isAdmin, isParent, isStudent, isTutor } = role;
 
   return await db.user.create({
     data: {
@@ -72,9 +74,10 @@ export const createUser = async (
       email,
       firstName,
       lastName,
-      hashed_password,
-      source_info,
-      email_verified,
+      sourceInfo,
+      hashedPassword: { create: { passwordId, hashedPassword } },
+      emailVerified: { create: { emailVerifiedId, emailVerified } },
+      role: { create: { roleId, isAdmin, isParent, isStudent, isTutor } },
     },
     select: {
       id: true,
@@ -82,54 +85,37 @@ export const createUser = async (
       email: true,
       firstName: true,
       lastName: true,
-      hashed_password: true,
-      source_info: true,
+      sourceInfo: true,
+      hashedPassword: true,
+      emailVerified: true,
       createdAt: true,
       updatedAt: true,
-      email_verified: true,
     },
   });
 };
 
 /**
- *
- * @param user
- * @param id
+ * @function
+ * Update the email verified status of a user in the database
+ * @param emailVerified
+ * @param userId
  * @returns user object
  */
 export const updateUserEmailVerified = async (
-  user: Omit<
-    User,
-    | "id"
-    | "username"
-    | "email"
-    | "firstName"
-    | "lastName"
-    | "hashed_password"
-    | "source_info"
-    | "createdAt"
-    | "updatedAt"
-  >,
-  id: string,
+  email_verified: Omit<EmailVerified, "emailVerifiedId" | "userId">,
+  userId: string,
 ) => {
-  const { email_verified } = user;
+  const { emailVerified } = email_verified;
 
-  return await db.user.update({
-    where: { id },
+  return await db.emailVerified.update({
+    where: { userId },
     data: {
-      email_verified,
+      emailVerified,
     },
     select: {
-      id: true,
-      username: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      hashed_password: true,
-      source_info: true,
-      createdAt: true,
-      updatedAt: true,
-      email_verified: true,
+      emailVerifiedId: true,
+      userId: true,
+      emailVerified: true,
     },
   });
 };

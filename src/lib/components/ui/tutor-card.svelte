@@ -43,7 +43,7 @@
       </div>
       <div class="flex space-x-1 items-center">
         <Icon icon="fluent-emoji-flat:star" width="1.2em" height="1.2em" />
-        <span class="text-xs text-gray-500">{rating}</span>
+        <span class="text-xs text-surface-500">{rating}</span>
       </div>
     </div>
   </footer>

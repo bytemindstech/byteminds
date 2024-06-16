@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { MissionVision } from "$lib/components";
+  import { InhouseTutors, MissionVision } from "$lib/components";
 </script>
 
 <MissionVision />
+
+<InhouseTutors />

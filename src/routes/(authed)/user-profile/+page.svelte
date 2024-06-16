@@ -18,12 +18,7 @@
 
 <UserProfileLayout>
   <svelte:fragment slot="profile"
-    ><UserProfile
-      {name}
-      profileImg=""
-      email={data.email}
-      role={data}
-    /></svelte:fragment
+    ><UserProfile {name} profileImg="" email={data.email} /></svelte:fragment
   >
   <svelte:fragment slot="bio"
     ><div class="bg-surface-100 shadow rounded-lg p-6">

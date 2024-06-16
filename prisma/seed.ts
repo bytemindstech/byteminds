@@ -13,22 +13,33 @@ const main = async () => {
       update: {},
       create: {
         id: generateId(15),
+        username: "superuser123",
         email: "admin@mail.test",
-        email_verified: true,
+
         firstName: "Super",
         lastName: "User",
-        source_info: "facebook",
-        hashed_password: await new Argon2id().hash("secret123"),
-        username: "superuser123",
+        sourceInfo: "facebook",
+        hashedPassword: {
+          create: {
+            passwordId: generateId(15),
+            hashedPassword: await new Argon2id().hash("secret123"),
+          },
+        },
+        emailVerified: {
+          create: {
+            emailVerifiedId: generateId(15),
+            emailVerified: true,
+          },
+        },
         profile: {
           create: {
-            id: generateId(15),
+            profileId: generateId(15),
             bio: "I am a super user",
           },
         },
         role: {
           create: {
-            id: generateId(15),
+            roleId: generateId(15),
             isAdmin: true,
             isParent: false,
             isStudent: false,
@@ -44,22 +55,32 @@ const main = async () => {
       update: {},
       create: {
         id: generateId(15),
+        username: "parentuser123",
         email: "parent@mail.net",
-        email_verified: true,
         firstName: "User",
         lastName: "Parent",
-        source_info: "facebook",
-        hashed_password: await new Argon2id().hash("secret123"),
-        username: "parentuser123",
+        sourceInfo: "facebook",
+        hashedPassword: {
+          create: {
+            passwordId: generateId(15),
+            hashedPassword: await new Argon2id().hash("secret123"),
+          },
+        },
+        emailVerified: {
+          create: {
+            emailVerifiedId: generateId(15),
+            emailVerified: true,
+          },
+        },
         profile: {
           create: {
-            id: generateId(15),
+            profileId: generateId(15),
             bio: "I am a parent",
           },
         },
         role: {
           create: {
-            id: generateId(15),
+            roleId: generateId(15),
             isAdmin: false,
             isParent: true,
             isStudent: false,
@@ -76,21 +97,31 @@ const main = async () => {
       create: {
         id: generateId(15),
         email: "student@mail.net",
-        email_verified: true,
+        username: "studentuser123",
         firstName: "User",
         lastName: "Student",
-        source_info: "youtube",
-        hashed_password: await new Argon2id().hash("secret123"),
-        username: "studentuser123",
+        sourceInfo: "youtube",
+        hashedPassword: {
+          create: {
+            passwordId: generateId(15),
+            hashedPassword: await new Argon2id().hash("secret123"),
+          },
+        },
+        emailVerified: {
+          create: {
+            emailVerifiedId: generateId(15),
+            emailVerified: true,
+          },
+        },
         profile: {
           create: {
-            id: generateId(15),
+            profileId: generateId(15),
             bio: "I am a student",
           },
         },
         role: {
           create: {
-            id: generateId(15),
+            roleId: generateId(15),
             isAdmin: false,
             isParent: false,
             isStudent: true,
@@ -107,21 +138,31 @@ const main = async () => {
       create: {
         id: generateId(15),
         email: "tutor@mail.net",
-        email_verified: true,
+        username: "tutoruser123",
         firstName: "User",
         lastName: "Tutor",
-        source_info: "others",
-        hashed_password: await new Argon2id().hash("secret123"),
-        username: "tutoruser123",
+        sourceInfo: "others",
+        hashedPassword: {
+          create: {
+            passwordId: generateId(15),
+            hashedPassword: await new Argon2id().hash("secret123"),
+          },
+        },
+        emailVerified: {
+          create: {
+            emailVerifiedId: generateId(15),
+            emailVerified: true,
+          },
+        },
         profile: {
           create: {
-            id: generateId(15),
+            profileId: generateId(15),
             bio: "I am a tutor",
           },
         },
         role: {
           create: {
-            id: generateId(15),
+            roleId: generateId(15),
             isAdmin: false,
             isParent: false,
             isStudent: false,

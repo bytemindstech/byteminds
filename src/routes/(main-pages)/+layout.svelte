@@ -2,7 +2,12 @@
   import { Navigation } from "$lib/components";
   import { route } from "$lib/ROUTES";
   import Icon from "@iconify/svelte";
-  import { AppShell, AppBar, getDrawerStore } from "@skeletonlabs/skeleton";
+  import {
+    AppShell,
+    AppBar,
+    getDrawerStore,
+    Avatar,
+  } from "@skeletonlabs/skeleton";
   import { paths } from "$lib/util.client";
 
   const drawerStore = getDrawerStore();
@@ -43,6 +48,12 @@
   </svelte:fragment>
 
   <svelte:fragment slot="sidebarLeft">
+    <div class="flex justify-center mt-4 p-4">
+      <Avatar
+        src={route("githubAvatar", { avatarId: 159615949 })}
+        width="w-20 md:w-32"
+      />
+    </div>
     <Navigation {paths}
       ><svelte:fragment slot="button"
         ><a

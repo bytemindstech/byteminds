@@ -21,12 +21,6 @@
 </script>
 
 <nav class="list-nav p-4">
-  <div class="flex justify-center mb-8">
-    <Avatar
-      src={route("githubAvatar", { avatarId: 159615949 })}
-      width="w-20 md:w-32"
-    />
-  </div>
   <ul>
     {#each paths as path}
       <li>

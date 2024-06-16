@@ -11,14 +11,14 @@ datasource db {
 }
 
 model Profile {
-  id     String @id
-  userId String @unique
-  bio    String @db.Text
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId String @id
+  userId    String @unique
+  bio       String @db.Text
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Role {
-  id        String  @id
+  roleId    String  @id
   userId    String  @unique
   isStudent Boolean
   isParent  Boolean
@@ -29,10 +29,24 @@ model Role {
 
 model Feedback {
   id      String @id
-  userId  String
+  userId  String @unique
   comment String @db.LongText
   star    Int
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Password {
+  passwordId     String @id
+  userId         String @unique
+  hashedPassword String
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmailVerified {
+  emailVerifiedId String  @id
+  userId          String  @unique
+  emailVerified   Boolean
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -43,20 +57,20 @@ model Session {
 }
 
 model User {
-  id              String     @id
-  username        String     @unique
-  email           String     @unique
-  firstName       String
-  lastName        String
-  hashed_password String
-  source_info     String
-  email_verified  Boolean
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  profile         Profile?
-  role            Role?
-  sessions        Session[]
-  feedback        Feedback[]
+  id             String         @id
+  username       String         @unique
+  email          String         @unique
+  firstName      String
+  lastName       String
+  sourceInfo     String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  emailVerified  EmailVerified?
+  hashedPassword Password?
+  profile        Profile?
+  role           Role?
+  sessions       Session[]
+  feedback       Feedback[]
 }
 
 model EmailVerificationCode {

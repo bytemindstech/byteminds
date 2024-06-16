@@ -20,7 +20,7 @@
 
 <div class="container mx-auto min-h-full flex items-center justify-center">
   <div class="flex flex-col items-center">
-    {#if data.emailVerified}
+    {#if data.user?.emailVerified?.emailVerified}
       <p>Thank you! Email already verified</p>
     {:else}
       <form
