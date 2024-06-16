@@ -78,7 +78,7 @@
             href={route("facebook")}
             class="inline-flex items-center justify-center h-8 w-8 border border-surface-100 rounded-full mr-1 hover:text-primary-400 hover:border-primary-400"
           >
-            <Icon icon="ic:outline-facebook" width="24" height="24" />
+            <Icon icon="mdi:facebook" width="24" height="24" />
           </a>
           <!-- youtube -->
           <a
@@ -101,11 +101,11 @@
           >
             <Icon icon="ic:round-tiktok" width="24" height="24" />
           </a>
-          <!-- github -->
+          <!-- instagram -->
           <a
-            href={route("github")}
+            href={route("instagram")}
             class="inline-flex items-center justify-center h-8 w-8 border border-surface-100 rounded-full hover:text-primary-400 hover:border-primary-400"
-            ><Icon icon="mdi:github" width="24" height="24" />
+            ><Icon icon="mdi:instagram" width="24" height="24" />
           </a>
         </div>
       </div>

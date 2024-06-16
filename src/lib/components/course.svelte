@@ -22,7 +22,7 @@
           <div class="w-1/2 px-2">
             <button
               class="btn variant-filled-tertiary w-full py-2 px-4 font-bold"
-              >Add to Cart</button
+              >Book Now</button
             >
           </div>
           <div class="w-1/2 px-2">

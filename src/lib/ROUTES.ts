@@ -66,9 +66,9 @@ const ACTIONS = {
 const LINKS = {
   "facebook": `https://facebook.com/byteminds`,
   "youtube": `https://www.youtube.com/@bytemindstech`,
-  "linkedin": `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`,
+  "linkedin": `https://www.linkedin.com`,
   "tiktok": `https://tiktok.com`,
-  "github": `https://github.com/bytemindstech`,
+  "instagram": `https://www.instagram.com`,
   "classroom": `https://classroom.jhenbert.com`,
   "githubAvatar": (params: { avatarId: (string | number) }) => {
     return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
@@ -178,6 +178,6 @@ export type KIT_ROUTES = {
   PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/privacy-policy': never, '/signin-signup': never, '/tos': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /logout': never, 'login /signin-signup': never, 'register /signin-signup': never }
-  LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'github': never, 'classroom': never, 'githubAvatar': 'avatarId' }
+  LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId' }
   Params: { slug: never, courseId: never, tutorId: never, avatarId: never }
 }

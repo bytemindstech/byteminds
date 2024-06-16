@@ -40,6 +40,13 @@ export const getUserByUsername = async (username: string) => {
   });
 };
 
+export const getUserById = async (id: string) => {
+  return await db.user.findUnique({
+    where: { id },
+    include: { profile: true, role: true },
+  });
+};
+
 /**
  * @function
  * Create a new user in the database

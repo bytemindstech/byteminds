@@ -44,6 +44,6 @@ export const paths = [
   { route: route("/"), name: "home" },
   { route: route("/about"), name: "who we are" },
   { route: route("/courses"), name: "available courses" },
-  { route: route("/tutors"), name: "our tutors" },
+  { route: route("/tutors"), name: "freelance tutors" },
   { route: route("/faqs"), name: "faqs" },
 ];

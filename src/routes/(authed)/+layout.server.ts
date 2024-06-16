@@ -27,6 +27,6 @@ export const load = (async ({ url, locals }) => {
     email: locals.user.email,
     firstName: locals.user.firstName,
     lastName: locals.user.lastName,
-    role: locals.user.role,
+    id: locals.user.id,
   };
 }) satisfies LayoutServerLoad;

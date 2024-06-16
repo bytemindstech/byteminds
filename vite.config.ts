@@ -13,9 +13,9 @@ export default defineConfig({
       LINKS: {
         facebook: "https://facebook.com/byteminds",
         youtube: "https://www.youtube.com/@bytemindstech",
-        linkedin: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        linkedin: "https://www.linkedin.com",
         tiktok: "https://tiktok.com",
-        github: "https://github.com/bytemindstech",
+        instagram: "https://www.instagram.com",
         classroom: "https://classroom.jhenbert.com",
         githubAvatar: "https://avatars.githubusercontent.com/u/[avatarId]?v=4",
       },

@@ -19,6 +19,11 @@
       summary: "Other question",
       content: "Lorem ipsum.....",
     },
+    {
+      icon: Icons.People,
+      summary: "Another new summary",
+      content: "Lorem ipsum.....",
+    },
   ];
 </script>
 
