@@ -11,28 +11,15 @@ input your idea about tutors dashboard, showing basic profile of a user, you can
   class="container mx-auto flex flex-col justify-center items-center min-h-full"
 >
   <h2 class="h2 text-center mt-10">Welcome, {data.firstName}</h2>
-  <!-- <p class="text-center">
-    Role: {#if data.role.isAdmin}
-      Admin
-    {:else if data.role.isParent}
-      Parent
-    {:else if data.role.isStudent}
-      Student
-    {:else if data.role.isTutor}
-      Tutor
-    {:else}
-      No role yet
-    {/if}
-  </p> -->
   <p class="text-center text-lg">
-    Email Verified: {#if data.emailVerified}
+    Email Verified: {#if data.user?.emailVerified}
       Yes
     {:else}
       No
     {/if}
   </p>
   <p class="text-center text-sm">Email: {data.email}</p>
-  {#if !data.emailVerified}
+  {#if !data.user?.emailVerified}
     <a
       href={route("/email-verification")}
       type="button"

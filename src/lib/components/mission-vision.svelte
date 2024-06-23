@@ -17,8 +17,9 @@
           >
             Our mission is twofold: to empower educators worldwide by providing
             them with meaningful employment opportunities, and to deliver
-            unparalleled tutorial experiences to individuals across the globe,
-            enriching lives through accessible, high-quality education.
+            unparalleled learning experiences to individuals across the globe,
+            enriching lives through accessible, affordable and high-quality
+            education.
           </article>
         </section>
       </div>
@@ -36,8 +37,8 @@
             class="text-xl font-medium text-justify whitespace-normal indent-10"
           >
             To become the premier global destination for online learning,
-            distinguished by our exceptional tutors and educators offering
-            comprehensive academic and non-academic instruction.
+            distinguished by our exceptional coaches/tutors and educators
+            offering comprehensive academic and non-academic instruction.
           </article>
         </section>
       </div>

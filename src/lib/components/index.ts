@@ -16,4 +16,4 @@ export { default as UserProfile } from "./user-profile.svelte";
 export { default as UserBio } from "./user-bio.svelte";
 export { default as Courses } from "./courses.svelte";
 export { default as Course } from "./course.svelte";
-export { default as InhouseTutors } from "./inhouse.svelte";
+export { default as InhouseTutors } from "./inhouse-tutors.svelte";

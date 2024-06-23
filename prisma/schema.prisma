@@ -85,6 +85,7 @@ model Contact {
   id               String  @id
   firstName        String
   lastName         String
+  email            String
   message          String
   isSendNewsLetter Boolean
 }

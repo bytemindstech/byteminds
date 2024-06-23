@@ -5,7 +5,7 @@ export const createRole = async (role: Role) => {
   return await db.role.create({
     data: role,
     select: {
-      id: true,
+      roleId: true,
       userId: true,
       isStudent: true,
       isParent: true,
@@ -15,12 +15,12 @@ export const createRole = async (role: Role) => {
   });
 };
 
-export const updateRole = async (role: Role, id: string) => {
+export const updateRole = async (role: Role, userId: string) => {
   return await db.role.update({
     data: role,
-    where: { id },
+    where: { userId },
     select: {
-      id: true,
+      roleId: true,
       userId: true,
       isStudent: true,
       isParent: true,
