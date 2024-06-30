@@ -17,7 +17,7 @@ export const load = (async ({ parent, locals }) => {
 
   const user = await UserService.getUserById(locals.user?.id as string);
 
-  if (user?.emailVerified?.emailVerified) {
+  if (user?.emailVerified?.isEmailVerified) {
     switch (true) {
       case user.role?.isAdmin:
         throw redirect(302, route("/admin"));
@@ -73,11 +73,9 @@ export const actions: Actions = {
 
     await lucia.invalidateUserSessions(user.id);
     await UserService.updateUserEmailVerified(
-      { emailVerified: true },
+      { isEmailVerified: true },
       user.id,
     );
-
-    console.log("email verified updated to user table");
 
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);

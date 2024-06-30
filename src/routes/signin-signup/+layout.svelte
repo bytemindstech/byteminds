@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Navigation } from "$lib/components";
-  import { route } from "$lib/ROUTES";
   import Icon from "@iconify/svelte";
   import { AppShell, AppBar, getDrawerStore } from "@skeletonlabs/skeleton";
   import { isSignInStore } from "$lib/store";
@@ -66,10 +65,10 @@
             login
           {:else}
             create account
-          {/if}</button
-        ></svelte:fragment
-      ></Navigation
-    >
+          {/if}
+        </button>
+      </svelte:fragment>
+    </Navigation>
   </svelte:fragment>
 
   <slot />

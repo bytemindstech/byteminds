@@ -64,7 +64,7 @@ export const createUser = async (
 ) => {
   const { id, username, email, firstName, lastName, sourceInfo } = user;
   const { passwordId, hashedPassword } = password;
-  const { emailVerifiedId, emailVerified } = email_verified;
+  const { emailVerifiedId, isEmailVerified } = email_verified;
   const { roleId, isAdmin, isParent, isStudent, isTutor } = role;
 
   return await db.user.create({
@@ -76,7 +76,7 @@ export const createUser = async (
       lastName,
       sourceInfo,
       hashedPassword: { create: { passwordId, hashedPassword } },
-      emailVerified: { create: { emailVerifiedId, emailVerified } },
+      emailVerified: { create: { emailVerifiedId, isEmailVerified } },
       role: { create: { roleId, isAdmin, isParent, isStudent, isTutor } },
     },
     select: {
@@ -105,17 +105,17 @@ export const updateUserEmailVerified = async (
   email_verified: Omit<EmailVerified, "emailVerifiedId" | "userId">,
   userId: string,
 ) => {
-  const { emailVerified } = email_verified;
+  const { isEmailVerified } = email_verified;
 
   return await db.emailVerified.update({
     where: { userId },
     data: {
-      emailVerified,
+      isEmailVerified,
     },
     select: {
       emailVerifiedId: true,
       userId: true,
-      emailVerified: true,
+      isEmailVerified: true,
     },
   });
 };

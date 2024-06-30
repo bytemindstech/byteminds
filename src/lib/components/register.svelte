@@ -27,7 +27,7 @@
   <div
     class="max-w-screen-xl m-0 sm:m-10 sm:rounded-lg flex justify-center flex-1 bg-tertiary-100"
   >
-    <div class="card p-5">
+    <div class="card w-2/3 p-5">
       <header
         class="card-header flex flex-col items-center justify-center space-y-5"
       >
@@ -47,7 +47,7 @@
             <span>Username</span>
             <input
               class="input text-primary-700"
-              placeholder="username"
+              placeholder="Username"
               type="text"
               name="username"
               autocomplete="off"
@@ -55,20 +55,13 @@
               bind:value={$form.username}
               {...$constraints.username}
             />
-            {#if $errors.username}
-              <span
-                ><p class="text-sm text-error-600">
-                  {$errors.username}, username must contain number
-                </p>
-              </span>
-            {/if}
           </label>
 
           <label class="label text-primary-500">
             <span>Email</span>
             <input
               class="input text-primary-700"
-              placeholder="email"
+              placeholder="Email"
               type="email"
               name="email"
               autocomplete="off"
@@ -76,9 +69,6 @@
               bind:value={$form.email}
               {...$constraints.email}
             />
-            {#if $errors.email}
-              <span><p class="text-sm text-error-600">{$errors.email}</p></span>
-            {/if}
           </label>
 
           <label class="label text-primary-500">
@@ -94,11 +84,6 @@
               bind:value={$form.firstName}
               {...$constraints.firstName}
             />
-            {#if $errors.firstName}
-              <span
-                ><p class="text-sm text-error-600">{$errors.firstName}</p></span
-              >
-            {/if}
           </label>
 
           <label class="label text-primary-500">
@@ -114,72 +99,116 @@
               bind:value={$form.lastName}
               {...$constraints.lastName}
             />
-            {#if $errors.lastName}
-              <span
-                ><p class="text-sm text-error-600">{$errors.lastName}</p></span
-              >
-            {/if}
           </label>
 
           <label class="label text-primary-500">
             <span>Password</span>
-            <input
-              class="input text-primary-700"
-              placeholder="password"
-              type="password"
-              name="password"
-              autocomplete="off"
-              aria-invalid={$errors.password ? "true" : undefined}
-              bind:value={$form.password}
-              {...$constraints.password}
-            />
-            {#if $errors.password}
-              <span
-                ><p class="text-sm text-error-600">{$errors.password}</p></span
-              >
+            {#if $form.showPassword}
+              <input
+                class="input text-primary-700"
+                placeholder="Password"
+                type="text"
+                name="password"
+                autocomplete="off"
+                aria-invalid={$errors.password ? "true" : undefined}
+                bind:value={$form.password}
+                {...$constraints.password}
+              />
+            {:else}
+              <input
+                class="input text-primary-700"
+                placeholder="Password"
+                type="password"
+                name="password"
+                autocomplete="off"
+                aria-invalid={$errors.password ? "true" : undefined}
+                bind:value={$form.password}
+                {...$constraints.password}
+              />
             {/if}
           </label>
 
-          <label class="label text-primary-500"
-            ><span>Source of Information</span>
-            <select
-              class="select text-primary-700"
-              name="sourceInfo"
-              bind:value={$form.sourceInfo}
-              {...$constraints.sourceInfo}
-            >
-              <option value="" selected disabled hidden>Choose one</option>
-              {#each ["facebook", "youtube", "tiktok", "search-engine", "others"] as source}
-                <option
-                  value={source}
-                  selected={$form.sourceInfo === source}
-                  class="capitalize text-primary-700">{source}</option
-                >
-              {/each}
-            </select>
-            {#if $errors.sourceInfo}
-              <span
-                ><p class="text-sm text-error-600">
-                  {$errors.sourceInfo}
-                </p></span
-              >
+          <label class="label text-primary-500">
+            <span>Confirm Password</span>
+            {#if $form.showPassword}
+              <input
+                class="input text-primary-700"
+                placeholder="Confirm Password"
+                type="text"
+                name="confirmPassword"
+                autocomplete="off"
+                aria-invalid={$errors.confirmPassword ? "true" : undefined}
+                bind:value={$form.confirmPassword}
+                {...$constraints.confirmPassword}
+              />
+            {:else}
+              <input
+                class="input text-primary-700"
+                placeholder="Confirm Password"
+                type="password"
+                name="confirmPassword"
+                autocomplete="off"
+                aria-invalid={$errors.confirmPassword ? "true" : undefined}
+                bind:value={$form.confirmPassword}
+                {...$constraints.confirmPassword}
+              />
             {/if}
           </label>
         </div>
-        <button type="submit" class="btn variant-filled-tertiary font-bold"
-          ><svg
-            class="w-6 h-6 -ml-2"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-            <circle cx="8.5" cy="7" r="4" />
-            <path d="M20 8v6M23 11h-6" />
-          </svg><span class="ml-3">Sign Up</span></button
-        >
+
+        <label class="label block text-primary-700"
+          ><input
+            class="checkbox leading-tight"
+            type="checkbox"
+            name="showPassword"
+            bind:checked={$form.showPassword}
+            {...constraints.showPassword}
+          />
+          <span class="text-sm capitalize">show password</span>
+        </label>
+
+        <div class="lg:flex space-y-4 gap-4">
+          <div class="w-full">
+            <label class="label text-primary-500"
+              ><span>How did you learn about us?</span>
+              <select
+                class="select capitalize text-primary-700"
+                name="sourceInfo"
+                bind:value={$form.sourceInfo}
+                {...$constraints.sourceInfo}
+              >
+                <option value="" selected disabled hidden>choose</option>
+                {#each ["facebook", "youtube", "tiktok", "search-engine", "others"] as source}
+                  <option
+                    value={source}
+                    selected={$form.sourceInfo === source}
+                    class="text-primary-700">{source}</option
+                  >
+                {/each}
+              </select>
+            </label>
+          </div>
+          <div class="flex items-end w-full">
+            <button
+              type="submit"
+              class="btn variant-filled-tertiary font-bold w-full"
+              ><svg
+                class="w-6 h-6 -ml-2"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="8.5" cy="7" r="4" />
+                <path d="M20 8v6M23 11h-6" />
+              </svg>
+              <span class="ml-3">Sign Up</span>
+            </button>
+          </div>
+        </div>
+
         <p class="mt-6 text-xs text-surface-600 text-center">
           I agree to abide by ByteMinds PH's
           <a
@@ -201,8 +230,7 @@
 
     <div class="flex-1 bg-tertiary-100 text-center hidden lg:flex">
       <div
-        class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-        style="background-image: url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg');"
+        class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')]"
       ></div>
     </div>
   </div>

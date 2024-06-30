@@ -25,6 +25,7 @@
     },
   );
 
+  //registration
   const {
     form: registrationForm,
     errors: registrationErrors,

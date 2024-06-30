@@ -7,7 +7,6 @@ import { lucia } from "$lib/server/auth";
 import { route } from "$lib/ROUTES";
 import { generateId } from "lucia";
 import * as UserService from "$lib/server/user.service";
-import * as RoleService from "$lib/server/role.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import {
   generateEmailVerificationCode,
@@ -111,6 +110,15 @@ export const actions: Actions = {
       return message(registrationForm, "Email already exists", { status: 406 });
     }
 
+    //check if password was confirmed
+    if (
+      registrationForm.data.password !== registrationForm.data.confirmPassword
+    ) {
+      return message(registrationForm, "Passwords do not match", {
+        status: 406,
+      });
+    }
+
     const userId = generateId(15);
     const hashedPassword = await new Argon2id().hash(
       registrationForm.data.password,
@@ -126,7 +134,7 @@ export const actions: Actions = {
         sourceInfo: registrationForm.data.sourceInfo,
       },
       { passwordId: generateId(15), hashedPassword: hashedPassword },
-      { emailVerifiedId: generateId(15), emailVerified: false },
+      { emailVerifiedId: generateId(15), isEmailVerified: false },
       {
         roleId: generateId(15),
         isAdmin: false,

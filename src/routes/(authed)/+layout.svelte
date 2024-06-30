@@ -38,7 +38,7 @@
         >
 
         <button class="btn hover:variant-soft-primary" use:popup={popupQuery}>
-          <span class="hidden md:block"
+          <span class="hidden md:block capitalize"
             >{data.firstName}
             {data.lastName}
           </span>

@@ -45,7 +45,7 @@ model Password {
 model EmailVerified {
   emailVerifiedId String  @id
   userId          String  @unique
-  emailVerified   Boolean
+  isEmailVerified Boolean
   user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
