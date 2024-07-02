@@ -5,12 +5,18 @@
   import { route } from "$lib/ROUTES";
   import { fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
+  import Icon from "@iconify/svelte";
 
   export let form: any;
   export let errors: any;
   export let constraints: any;
   export let message: any;
   export let enhance: any;
+
+  const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
+
+  const confirmPasswordHandle = () =>
+    ($form.showConfirmPassword = !$form.showConfirmPassword);
 </script>
 
 {#if typeof $message === "string" && $message}
@@ -103,69 +109,84 @@
 
           <label class="label text-primary-500">
             <span>Password</span>
-            {#if $form.showPassword}
-              <input
-                class="input text-primary-700"
-                placeholder="Password"
-                type="text"
-                name="password"
-                autocomplete="off"
-                aria-invalid={$errors.password ? "true" : undefined}
-                bind:value={$form.password}
-                {...$constraints.password}
-              />
-            {:else}
-              <input
-                class="input text-primary-700"
-                placeholder="Password"
-                type="password"
-                name="password"
-                autocomplete="off"
-                aria-invalid={$errors.password ? "true" : undefined}
-                bind:value={$form.password}
-                {...$constraints.password}
-              />
-            {/if}
+            <div class="input-group grid-cols-[1fr_auto]">
+              {#if $form.showPassword}
+                <input
+                  class="input text-primary-700"
+                  placeholder="Password"
+                  type="text"
+                  name="password"
+                  autocomplete="off"
+                  aria-invalid={$errors.password ? "true" : undefined}
+                  bind:value={$form.password}
+                  {...$constraints.password}
+                />
+              {:else}
+                <input
+                  class="input text-primary-700"
+                  placeholder="Password"
+                  type="password"
+                  name="password"
+                  autocomplete="off"
+                  aria-invalid={$errors.password ? "true" : undefined}
+                  bind:value={$form.password}
+                  {...$constraints.password}
+                />
+              {/if}
+              <div>
+                <button type="button" on:click={showPasswordHandle}
+                  ><Icon
+                    icon={$form.showPassword
+                      ? "mdi:eye-off-outline"
+                      : "mdi:eye-outline"}
+                    width="24"
+                    height="24"
+                  /></button
+                >
+              </div>
+            </div>
           </label>
 
           <label class="label text-primary-500">
             <span>Confirm Password</span>
-            {#if $form.showPassword}
-              <input
-                class="input text-primary-700"
-                placeholder="Confirm Password"
-                type="text"
-                name="confirmPassword"
-                autocomplete="off"
-                aria-invalid={$errors.confirmPassword ? "true" : undefined}
-                bind:value={$form.confirmPassword}
-                {...$constraints.confirmPassword}
-              />
-            {:else}
-              <input
-                class="input text-primary-700"
-                placeholder="Confirm Password"
-                type="password"
-                name="confirmPassword"
-                autocomplete="off"
-                aria-invalid={$errors.confirmPassword ? "true" : undefined}
-                bind:value={$form.confirmPassword}
-                {...$constraints.confirmPassword}
-              />
-            {/if}
+            <div class="input-group grid-cols-[1fr_auto]">
+              {#if $form.showConfirmPassword}
+                <input
+                  class="input text-primary-700"
+                  placeholder="Confirm Password"
+                  type="text"
+                  name="confirmPassword"
+                  autocomplete="off"
+                  aria-invalid={$errors.confirmPassword ? "true" : undefined}
+                  bind:value={$form.confirmPassword}
+                  {...$constraints.confirmPassword}
+                />
+              {:else}
+                <input
+                  class="input text-primary-700"
+                  placeholder="Confirm Password"
+                  type="password"
+                  name="confirmPassword"
+                  autocomplete="off"
+                  aria-invalid={$errors.confirmPassword ? "true" : undefined}
+                  bind:value={$form.confirmPassword}
+                  {...$constraints.confirmPassword}
+                />
+              {/if}
+              <div>
+                <button type="button" on:click={confirmPasswordHandle}
+                  ><Icon
+                    icon={$form.showConfirmPassword
+                      ? "mdi:eye-off-outline"
+                      : "mdi:eye-outline"}
+                    width="24"
+                    height="24"
+                  /></button
+                >
+              </div>
+            </div>
           </label>
         </div>
-
-        <label class="label block text-primary-700"
-          ><input
-            class="checkbox leading-tight"
-            type="checkbox"
-            name="showPassword"
-            bind:checked={$form.showPassword}
-            {...constraints.showPassword}
-          />
-          <span class="text-sm capitalize">show password</span>
-        </label>
 
         <div class="lg:flex space-y-4 gap-4">
           <div class="w-full">

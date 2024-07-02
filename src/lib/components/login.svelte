@@ -5,12 +5,15 @@
   import { Toast } from "./ui";
   import { fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
+  import Icon from "@iconify/svelte";
 
   export let enhance: any;
   export let form: any;
   export let errors: any;
   export let constraints: any;
   export let message: any;
+
+  const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
 </script>
 
 {#if typeof $message === "string" && $message && $page.status >= 400}
@@ -50,16 +53,41 @@
 
         <label class="label text-primary-500"
           ><span>Password</span>
-          <input
-            class="input text-primary-700"
-            type="password"
-            name="password"
-            placeholder="password"
-            autocomplete="off"
-            aria-invalid={$errors.password ? "true" : undefined}
-            bind:value={$form.password}
-            {...$constraints.password}
-          />
+          <div class="input-group grid-cols-[1fr_auto]">
+            {#if $form.showPassword}<input
+                class="input text-primary-700"
+                type="text"
+                name="password"
+                placeholder="password"
+                autocomplete="off"
+                aria-invalid={$errors.password ? "true" : undefined}
+                bind:value={$form.password}
+                {...$constraints.password}
+              />
+            {:else}
+              <input
+                class="input text-primary-700"
+                type="password"
+                name="password"
+                placeholder="password"
+                autocomplete="off"
+                aria-invalid={$errors.password ? "true" : undefined}
+                bind:value={$form.password}
+                {...$constraints.password}
+              />
+            {/if}
+            <div>
+              <button type="button" on:click={showPasswordHandle}
+                ><Icon
+                  icon={$form.showPassword
+                    ? "mdi:eye-off-outline"
+                    : "mdi:eye-outline"}
+                  width="24"
+                  height="24"
+                /></button
+              >
+            </div>
+          </div>
         </label>
         <button
           class="btn variant-filled-tertiary min-w-full font-bold capitalize"

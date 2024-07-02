@@ -15,6 +15,7 @@ import {
 
 export const load = (async () => {
   const loginForm = await superValidate(zod(ZodValidationSchema.loginSchema));
+
   const registrationForm = await superValidate(
     zod(ZodValidationSchema.registerSchema),
   );

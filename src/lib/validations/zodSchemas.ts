@@ -13,6 +13,7 @@ export const registerSchema = z.object({
   confirmPassword: z.string().min(8),
   sourceInfo: z.string(),
   showPassword: z.boolean().optional(),
+  showConfirmPassword: z.boolean().optional(),
 });
 
 export const verifyEmailSchema = z.object({ code: z.string() });
@@ -20,6 +21,7 @@ export const verifyEmailSchema = z.object({ code: z.string() });
 export const loginSchema = registerSchema.pick({
   username: true,
   password: true,
+  showPassword: true,
 });
 
 export const resendSchema = registerSchema
