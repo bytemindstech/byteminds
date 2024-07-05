@@ -84,8 +84,8 @@
             <input
               class="input block w-full"
               type="email"
-              placeholder="email"
-              name="Email"
+              placeholder="Email"
+              name="email"
             />
           </label>
         </div>

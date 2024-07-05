@@ -17,3 +17,4 @@ export { default as UserBio } from "./user-bio.svelte";
 export { default as Courses } from "./courses.svelte";
 export { default as Course } from "./course.svelte";
 export { default as InhouseTutors } from "./inhouse-tutors.svelte";
+export { default as PasswordReset } from "./password-reset.svelte";

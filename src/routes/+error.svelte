@@ -27,6 +27,10 @@
       Unfortunately, this is only a {$page.status} page. You may have mistyped the
       address, or the page has been moved to another URL.
     </p>
+    {#if $page.error}
+      <p class="text-lg break-words text-dull">{$page.error.message}</p>
+    {/if}
+
     <div
       class="flex flex-col justify-between w-full gap-8 md:flex-row md:gap-32 xl:px-16"
     >

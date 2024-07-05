@@ -6,18 +6,46 @@
   import { fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
   import Icon from "@iconify/svelte";
+  import { superForm } from "sveltekit-superforms/client";
 
-  export let enhance: any;
-  export let form: any;
-  export let errors: any;
-  export let constraints: any;
-  export let message: any;
+  // import SuperDebug from "sveltekit-superforms";
+
+  export let loginFormData;
+  export let resetPasswordEmailFormData;
+
+  const { form, errors, constraints, message, enhance } = superForm(
+    loginFormData,
+    {
+      resetForm: true,
+    },
+  );
+
+  const {
+    form: resetPasswordEmailForm,
+    errors: resetPasswordEmailErrors,
+    constraints: resetPasswordEmailConstraints,
+    message: resetPasswordEmailMessage,
+    enhance: resetPasswordEmailEnhance,
+  } = superForm(resetPasswordEmailFormData, {
+    resetForm: true,
+  });
+
+  let isForgotPasswordTriggered = false;
+
+  const handleClick = () =>
+    (isForgotPasswordTriggered = !isForgotPasswordTriggered);
 
   const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
+
+  $: isPasswordIconVisible = $form.password && $form.password.length > 0;
 </script>
 
-{#if typeof $message === "string" && $message && $page.status >= 400}
-  <Toast message={$message} type="error" />
+{#if (typeof $message === "string" || typeof $resetPasswordEmailMessage === "string") && ($message || $resetPasswordEmailMessage)}
+  {#if $page.status === 200}
+    <Toast message={$message || $resetPasswordEmailMessage} type="success" />
+  {:else}
+    <Toast message={$message || $resetPasswordEmailMessage} type="error" />
+  {/if}
 {/if}
 <div
   class="min-h-screen flex justify-center items-center"
@@ -31,74 +59,107 @@
       />
     </header>
     <section class="flex flex-col justify-center p-6">
-      <form
-        class="space-y-5"
-        method="post"
-        action={route("login /signin-signup")}
-        use:enhance
-      >
-        <label class="label text-primary-500"
-          ><span>Username</span>
-          <input
-            class="input text-primary-700"
-            type="text"
-            name="username"
-            placeholder="username"
-            autocomplete="off"
-            aria-invalid={$errors.username ? "true" : undefined}
-            bind:value={$form.username}
-            {...$constraints.username}
-          />
-        </label>
-
-        <label class="label text-primary-500"
-          ><span>Password</span>
-          <div class="input-group grid-cols-[1fr_auto]">
-            {#if $form.showPassword}<input
-                class="input text-primary-700"
-                type="text"
-                name="password"
-                placeholder="password"
-                autocomplete="off"
-                aria-invalid={$errors.password ? "true" : undefined}
-                bind:value={$form.password}
-                {...$constraints.password}
-              />
-            {:else}
-              <input
-                class="input text-primary-700"
-                type="password"
-                name="password"
-                placeholder="password"
-                autocomplete="off"
-                aria-invalid={$errors.password ? "true" : undefined}
-                bind:value={$form.password}
-                {...$constraints.password}
-              />
-            {/if}
-            <div>
-              <button type="button" on:click={showPasswordHandle}
-                ><Icon
-                  icon={$form.showPassword
-                    ? "mdi:eye-off-outline"
-                    : "mdi:eye-outline"}
-                  width="24"
-                  height="24"
-                /></button
-              >
-            </div>
-          </div>
-        </label>
-        <button
-          class="btn variant-filled-tertiary min-w-full font-bold capitalize"
-          type="submit">login</button
+      {#if !isForgotPasswordTriggered}
+        <form
+          class="space-y-5"
+          method="post"
+          action={route("login /signin-signup")}
+          use:enhance
         >
-      </form>
+          <label class="label text-primary-500"
+            ><span>Username</span>
+            <input
+              class="input text-primary-700"
+              type="text"
+              name="username"
+              placeholder="username"
+              autocomplete="off"
+              aria-invalid={$errors.username ? "true" : undefined}
+              bind:value={$form.username}
+              {...$constraints.username}
+            />
+          </label>
+
+          <label class="label text-primary-500"
+            ><span>Password</span>
+            <div class="input-group grid-cols-[1fr_auto]">
+              {#if $form.showPassword}
+                <input
+                  class="input text-primary-700"
+                  type="text"
+                  name="password"
+                  placeholder="password"
+                  autocomplete="off"
+                  aria-invalid={$errors.password ? "true" : undefined}
+                  bind:value={$form.password}
+                  {...$constraints.password}
+                />
+              {:else}
+                <input
+                  class="input text-primary-700"
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  autocomplete="off"
+                  aria-invalid={$errors.password ? "true" : undefined}
+                  bind:value={$form.password}
+                  {...$constraints.password}
+                />
+              {/if}
+              <div>
+                {#if isPasswordIconVisible}
+                  <button type="button" on:click={showPasswordHandle}
+                    ><Icon
+                      icon={$form.showPassword
+                        ? "mdi:eye-off-outline"
+                        : "mdi:eye-outline"}
+                      width="24"
+                      height="24"
+                    /></button
+                  >
+                {/if}
+              </div>
+            </div>
+          </label>
+          <button
+            class="btn variant-filled-tertiary min-w-full font-bold capitalize"
+            type="submit">login</button
+          >
+        </form>
+      {:else}
+        <form
+          class="space-y-5"
+          method="post"
+          action={route("sendResetPasswordEmail /signin-signup")}
+          use:resetPasswordEmailEnhance
+        >
+          <label class="label text-primary-500"
+            ><span>Email</span>
+            <input
+              class="input text-primary-700"
+              type="text"
+              name="email"
+              placeholder="Email"
+              autocomplete="off"
+              aria-invalid={$resetPasswordEmailErrors.email
+                ? "true"
+                : undefined}
+              bind:value={$resetPasswordEmailForm.email}
+              {...$resetPasswordEmailConstraints.email}
+            />
+          </label>
+          <button
+            class="btn variant-filled-tertiary min-w-full font-bold capitalize"
+            type="submit">Send Reset Link</button
+          >
+        </form>
+      {/if}
     </section>
     <footer class="card-footer">
-      <a
-        class="text-primary-700 hover:text-error-700 text-sm float-left"
-        href={route("/")}>Forgot Password?</a
+      <button
+        class="btn text-primary-700 hover:text-error-600 text-sm float-left capitalize"
+        on:click={handleClick}
+        >{!isForgotPasswordTriggered ? "forgot password?" : "login"}</button
       >
     </footer>
   </div>

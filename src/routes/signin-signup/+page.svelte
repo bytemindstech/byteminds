@@ -17,14 +17,6 @@
     unsubscribe();
   });
 
-  //login
-  const { form, errors, constraints, message, enhance } = superForm(
-    data.loginForm,
-    {
-      resetForm: true,
-    },
-  );
-
   //registration
   const {
     form: registrationForm,
@@ -44,5 +36,8 @@
     enhance={registrationEnhance}
   />
 {:else}
-  <Login {form} {errors} {constraints} {message} {enhance} />
+  <Login
+    loginFormData={data.loginForm}
+    resetPasswordEmailFormData={data.resetPasswordForm}
+  />
 {/if}

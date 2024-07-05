@@ -37,6 +37,7 @@ const PAGES = {
   "/tutors/[tutorId]": (params: { tutorId: (string | number) }) => {
     return `/tutors/${params.tutorId}`
   },
+  "/password-reset": `/password-reset`,
   "/privacy-policy": `/privacy-policy`,
   "/signin-signup": `/signin-signup`,
   "/tos": `/tos`
@@ -56,8 +57,10 @@ const ACTIONS = {
   "verifyEmail /email-verification": `/email-verification?/verifyEmail`,
   "resendVerificationCode /email-verification": `/email-verification?/resendVerificationCode`,
   "default /logout": `/logout`,
+  "resetPassword /password-reset": `/password-reset?/resetPassword`,
   "login /signin-signup": `/signin-signup?/login`,
-  "register /signin-signup": `/signin-signup?/register`
+  "register /signin-signup": `/signin-signup?/register`,
+  "sendResetPasswordEmail /signin-signup": `/signin-signup?/sendResetPasswordEmail`
 }
 
 /**
@@ -66,9 +69,9 @@ const ACTIONS = {
 const LINKS = {
   "facebook": `https://facebook.com/byteminds`,
   "youtube": `https://www.youtube.com/@bytemindstech`,
-  "linkedin": `https://www.linkedin.com`,
-  "tiktok": `https://tiktok.com`,
-  "instagram": `https://www.instagram.com`,
+  "linkedin": `https://www.linkedin.com/company/bytemindssocials`,
+  "tiktok": `https://tiktok.com/@byteminds.socials`,
+  "instagram": `https://www.instagram.com/byteminds.socials`,
   "classroom": `https://classroom.jhenbert.com`,
   "githubAvatar": (params: { avatarId: (string | number) }) => {
     return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
@@ -175,9 +178,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/privacy-policy': never, '/signin-signup': never, '/tos': never }
+  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
   SERVERS: Record<string, never>
-  ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /logout': never, 'login /signin-signup': never, 'register /signin-signup': never }
+  ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /logout': never, 'resetPassword /password-reset': never, 'login /signin-signup': never, 'register /signin-signup': never, 'sendResetPasswordEmail /signin-signup': never }
   LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId' }
   Params: { slug: never, courseId: never, tutorId: never, avatarId: never }
 }

@@ -27,14 +27,6 @@ model Role {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Feedback {
-  id      String @id
-  userId  String @unique
-  comment String @db.LongText
-  star    Int
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model Password {
   passwordId     String @id
   userId         String @unique
@@ -56,6 +48,21 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Feedback {
+  id      String @id
+  userId  String @unique
+  comment String @db.LongText
+  star    Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordReset {
+  id        String   @id
+  userId    String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
   id             String         @id
   username       String         @unique
@@ -69,6 +76,7 @@ model User {
   hashedPassword Password?
   profile        Profile?
   role           Role?
+  passwordReset  PasswordReset?
   sessions       Session[]
   feedback       Feedback[]
 }

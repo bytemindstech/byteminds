@@ -9,6 +9,7 @@ import {
   generateEmailVerificationCode,
   validateVerificationCode,
   sendVerificationCode,
+  createAndSetSession,
 } from "$lib/util.sever";
 import { route } from "$lib/ROUTES";
 
@@ -31,7 +32,7 @@ export const load = (async ({ parent, locals }) => {
 
     redirect(302, route("/user-profile"));
   }
-  console.log(user);
+
   return {
     user,
   };
@@ -50,8 +51,6 @@ export const actions: Actions = {
       zod(ZodValidationSchema.verifyEmailSchema),
     );
 
-    console.log(verifyEmailForm);
-
     if (!verifyEmailForm.valid) {
       return message(verifyEmailForm, "Invalid form", { status: 406 });
     }
@@ -69,22 +68,17 @@ export const actions: Actions = {
       return message(verifyEmailForm, codeStatus.message);
     }
 
-    console.log(codeStatus.message);
-
     await lucia.invalidateUserSessions(user.id);
+
     await UserService.updateUserEmailVerified(
       { isEmailVerified: true },
       user.id,
     );
 
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies.set(sessionCookie.name, sessionCookie.value, {
-      path: ".",
-      ...sessionCookie.attributes,
-    });
+    await createAndSetSession(lucia, user.id, cookies);
 
     const redirectTo = url.searchParams.get("redirectTo");
+
     if (redirectTo !== null) {
       throw redirect(302, `${redirectTo.slice(1)}`);
     }
@@ -110,14 +104,10 @@ export const actions: Actions = {
     );
 
     await lucia.invalidateUserSessions(user.id);
+
     await sendVerificationCode(user.email, verificationCode);
 
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies.set(sessionCookie.name, sessionCookie.value, {
-      path: ".",
-      ...sessionCookie.attributes,
-    });
+    await createAndSetSession(lucia, user.id, cookies);
 
     return message(
       resendCodeForm,

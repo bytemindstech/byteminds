@@ -15,8 +15,13 @@
 
   const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
 
-  const confirmPasswordHandle = () =>
+  const showConfirmPasswordHandle = () =>
     ($form.showConfirmPassword = !$form.showConfirmPassword);
+
+  $: isPasswordIconVisible = $form.password && $form.password.length > 0;
+
+  $: isConfirmPassworIconVisible =
+    $form.confirmPassword && $form.confirmPassword.length > 0;
 </script>
 
 {#if typeof $message === "string" && $message}
@@ -134,15 +139,17 @@
                 />
               {/if}
               <div>
-                <button type="button" on:click={showPasswordHandle}
-                  ><Icon
-                    icon={$form.showPassword
-                      ? "mdi:eye-off-outline"
-                      : "mdi:eye-outline"}
-                    width="24"
-                    height="24"
-                  /></button
-                >
+                {#if isPasswordIconVisible}
+                  <button type="button" on:click={showPasswordHandle}
+                    ><Icon
+                      icon={$form.showPassword
+                        ? "mdi:eye-off-outline"
+                        : "mdi:eye-outline"}
+                      width="24"
+                      height="24"
+                    /></button
+                  >
+                {/if}
               </div>
             </div>
           </label>
@@ -174,15 +181,17 @@
                 />
               {/if}
               <div>
-                <button type="button" on:click={confirmPasswordHandle}
-                  ><Icon
-                    icon={$form.showConfirmPassword
-                      ? "mdi:eye-off-outline"
-                      : "mdi:eye-outline"}
-                    width="24"
-                    height="24"
-                  /></button
-                >
+                {#if isConfirmPassworIconVisible}
+                  <button type="button" on:click={showConfirmPasswordHandle}
+                    ><Icon
+                      icon={$form.showConfirmPassword
+                        ? "mdi:eye-off-outline"
+                        : "mdi:eye-outline"}
+                      width="24"
+                      height="24"
+                    /></button
+                  >
+                {/if}
               </div>
             </div>
           </label>

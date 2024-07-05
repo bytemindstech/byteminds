@@ -1,16 +1,21 @@
 import { z } from "zod";
+import {
+  MIN_USERNAME_LENGTH,
+  MAX_USERNAME_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from "$lib/constant";
 
 export const registerSchema = z.object({
   username: z
     .string()
-    .min(4)
-    .max(31)
+    .min(MIN_USERNAME_LENGTH)
+    .max(MAX_USERNAME_LENGTH)
     .regex(/.*\d.*/),
   email: z.string().email(),
   firstName: z.string(),
   lastName: z.string(),
-  password: z.string().min(8),
-  confirmPassword: z.string().min(8),
+  password: z.string().min(MIN_PASSWORD_LENGTH),
+  confirmPassword: z.string().min(MIN_PASSWORD_LENGTH),
   sourceInfo: z.string(),
   showPassword: z.boolean().optional(),
   showConfirmPassword: z.boolean().optional(),
@@ -27,3 +32,14 @@ export const loginSchema = registerSchema.pick({
 export const resendSchema = registerSchema
   .pick({ email: true })
   .merge(z.object({ id: z.string() }));
+
+export const resetPasswordEmailSchema = registerSchema.pick({ email: true });
+
+export const resetPasswordTokenSchema = registerSchema
+  .pick({
+    password: true,
+    confirmPassword: true,
+    showPassword: true,
+    showConfirmPassword: true,
+  })
+  .merge(z.object({ resetPasswordToken: z.string().optional() }));

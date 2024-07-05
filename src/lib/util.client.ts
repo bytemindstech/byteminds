@@ -23,13 +23,13 @@ export const triggerToast = (message: string, type: TriggerToast) => {
   }
 
   const toastStore = getToastStore();
-  const t: ToastSettings = {
+  const toast: ToastSettings = {
     message: message,
     hideDismiss: true,
     timeout: 3000,
     background: background,
   };
-  toastStore.trigger(t);
+  toastStore.trigger(toast);
 };
 
 // This returns the socket URL

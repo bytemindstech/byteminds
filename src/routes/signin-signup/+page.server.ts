@@ -9,7 +9,10 @@ import { generateId } from "lucia";
 import * as UserService from "$lib/server/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import {
+  createAndSetSession,
+  createPasswordResetToken,
   generateEmailVerificationCode,
+  sendResetPasswordToken,
   sendVerificationCode,
 } from "$lib/util.sever";
 
@@ -20,7 +23,11 @@ export const load = (async () => {
     zod(ZodValidationSchema.registerSchema),
   );
 
-  return { loginForm, registrationForm };
+  const resetPasswordForm = await superValidate(
+    zod(ZodValidationSchema.resetPasswordEmailSchema),
+  );
+
+  return { loginForm, registrationForm, resetPasswordForm };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
@@ -53,12 +60,7 @@ export const actions: Actions = {
       return message(loginForm, "Invalid password", { status: 406 });
     }
 
-    const session = await lucia.createSession(existingUser.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies.set(sessionCookie.name, sessionCookie.value, {
-      path: ".",
-      ...sessionCookie.attributes,
-    });
+    await createAndSetSession(lucia, existingUser.id, cookies);
 
     const redirectTo = url.searchParams.get("redirectTo");
 
@@ -149,15 +151,47 @@ export const actions: Actions = {
       userId,
       registrationForm.data.email,
     );
+
     await sendVerificationCode(registrationForm.data.email, verificationCode);
 
-    const session = await lucia.createSession(userId, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies.set(sessionCookie.name, sessionCookie.value, {
-      path: ".",
-      ...sessionCookie.attributes,
-    });
+    await createAndSetSession(lucia, userId, cookies);
 
     return message(registrationForm, "Registered successfully");
+  },
+
+  sendResetPasswordEmail: async ({ request }) => {
+    const resetPasswordFormData = await superValidate(
+      request,
+      zod(ZodValidationSchema.resetPasswordEmailSchema),
+    );
+
+    if (!resetPasswordFormData.valid) {
+      return message(resetPasswordFormData, "Invalid form submission", {
+        status: 406,
+      });
+    }
+
+    const existingUser = await UserService.getUserByEmail(
+      resetPasswordFormData.data.email,
+    );
+
+    if (!existingUser) {
+      console.log("user not found");
+      return message(resetPasswordFormData, "User not found", {
+        status: 406,
+      });
+    }
+
+    if (!existingUser.emailVerified?.isEmailVerified) {
+      return message(resetPasswordFormData, "Email not verified", {
+        status: 406,
+      });
+    }
+
+    const resetToken = await createPasswordResetToken(existingUser.id);
+
+    await sendResetPasswordToken(existingUser.email, resetToken);
+
+    return message(resetPasswordFormData, "Reset link succesfully sent");
   },
 };
