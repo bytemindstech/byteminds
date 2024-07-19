@@ -6,15 +6,15 @@ import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
 import { route } from "$lib/ROUTES";
 import { generateId } from "lucia";
-import * as UserService from "$lib/server/user.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import { createAndSetSession } from "@jhenbert/byteminds-util";
 import {
-  createAndSetSession,
   createPasswordResetToken,
   generateEmailVerificationCode,
   sendResetPasswordToken,
   sendVerificationCode,
 } from "$lib/util.sever";
+import * as UserService from "$lib/server/user.service";
+import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load = (async () => {
   const loginForm = await superValidate(zod(ZodValidationSchema.loginSchema));
@@ -37,12 +37,11 @@ export const actions: Actions = {
       zod(ZodValidationSchema.loginSchema),
     );
 
-    const existingUser = await UserService.getUserByUsername(
-      loginForm.data.username,
-    );
+    const { username, password } = loginForm.data;
+
+    const existingUser = await UserService.getUserByUsername(username);
 
     if (!existingUser) {
-      console.log("user not found");
       return message(loginForm, "User not found", { status: 406 });
     }
 
@@ -50,13 +49,11 @@ export const actions: Actions = {
       return;
     }
 
-    const validPassword = await new Argon2id().verify(
-      existingUser.hashedPassword.hashedPassword,
-      loginForm.data.password,
-    );
+    const { hashedPassword } = existingUser.hashedPassword;
+
+    const validPassword = await new Argon2id().verify(hashedPassword, password);
 
     if (!validPassword) {
-      console.log("Invalid password");
       return message(loginForm, "Invalid password", { status: 406 });
     }
 
@@ -69,18 +66,24 @@ export const actions: Actions = {
     }
 
     if (!existingUser.role) {
-      return message(loginForm, "Must have role assigned", { status: 406 });
+      return;
     }
 
+    const { isAdmin, isParent, isTutor, isStudent } = existingUser.role;
+
     switch (true) {
-      case existingUser.role.isAdmin:
+      case isAdmin:
         throw redirect(302, route("/admin"));
-      case existingUser.role.isParent:
+
+      case isParent:
         throw redirect(302, route("/parent"));
-      case existingUser.role.isTutor:
+
+      case isTutor:
         throw redirect(302, route("/tutor"));
-      case existingUser.role.isStudent:
+
+      case isStudent:
         throw redirect(302, route("/student"));
+
       default:
         redirect(302, route("/user-profile"));
     }
@@ -96,47 +99,53 @@ export const actions: Actions = {
       return message(registrationForm, "Invalid form", { status: 406 });
     }
 
+    //destructure object data from registration form
+    const {
+      username,
+      email,
+      firstName,
+      lastName,
+      sourceInfo,
+      password,
+      confirmPassword,
+    } = registrationForm.data;
+
     //get all users
     const users = await UserService.getAllUsers();
 
     //check if user exists
-    if (
-      users.some((user) => user.username === registrationForm.data.username)
-    ) {
+    if (users.some((user) => user.username === username)) {
       return message(registrationForm, "Username already exists", {
         status: 406,
       });
     }
 
     //check if email exists
-    if (users.some((user) => user.email === registrationForm.data.email)) {
+    if (users.some((user) => user.email === email)) {
       return message(registrationForm, "Email already exists", { status: 406 });
     }
 
     //check if password was confirmed
-    if (
-      registrationForm.data.password !== registrationForm.data.confirmPassword
-    ) {
+    if (password !== confirmPassword) {
       return message(registrationForm, "Passwords do not match", {
         status: 406,
       });
     }
 
     const userId = generateId(15);
-    const hashedPassword = await new Argon2id().hash(
-      registrationForm.data.password,
-    );
+
+    const hashedPassword = await new Argon2id().hash(password);
 
     await UserService.createUser(
       {
         id: userId,
-        username: registrationForm.data.username,
-        email: registrationForm.data.email,
-        firstName: registrationForm.data.firstName,
-        lastName: registrationForm.data.lastName,
-        sourceInfo: registrationForm.data.sourceInfo,
+        username,
+        email,
+        firstName,
+        lastName,
+        sourceInfo,
       },
-      { passwordId: generateId(15), hashedPassword: hashedPassword },
+      { passwordId: generateId(15), hashedPassword },
       { emailVerifiedId: generateId(15), isEmailVerified: false },
       {
         roleId: generateId(15),
@@ -147,12 +156,9 @@ export const actions: Actions = {
       },
     );
 
-    const verificationCode = await generateEmailVerificationCode(
-      userId,
-      registrationForm.data.email,
-    );
+    const verificationCode = await generateEmailVerificationCode(userId, email);
 
-    await sendVerificationCode(registrationForm.data.email, verificationCode);
+    await sendVerificationCode(email, verificationCode);
 
     await createAndSetSession(lucia, userId, cookies);
 
@@ -171,13 +177,12 @@ export const actions: Actions = {
       });
     }
 
-    const existingUser = await UserService.getUserByEmail(
-      resetPasswordFormData.data.email,
-    );
+    const { email } = resetPasswordFormData.data;
+
+    const existingUser = await UserService.getUserByEmail(email);
 
     if (!existingUser) {
-      console.log("user not found");
-      return message(resetPasswordFormData, "User not found", {
+      return message(resetPasswordFormData, "Email not registered", {
         status: 406,
       });
     }

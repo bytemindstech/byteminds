@@ -22,9 +22,10 @@
       {name}
     />
   </svelte:fragment>
+
   <svelte:fragment slot="bio">
     <div class="bg-surface-100 shadow rounded-lg p-6">
       <UserBio profileBio={bio} />
-    </div></svelte:fragment
-  >
+    </div>
+  </svelte:fragment>
 </UserProfileLayout>

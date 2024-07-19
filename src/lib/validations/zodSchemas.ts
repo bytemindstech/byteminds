@@ -3,7 +3,7 @@ import {
   MIN_USERNAME_LENGTH,
   MAX_USERNAME_LENGTH,
   MIN_PASSWORD_LENGTH,
-} from "$lib/constant";
+} from "$lib/constants";
 
 export const registerSchema = z.object({
   username: z
@@ -43,3 +43,15 @@ export const resetPasswordTokenSchema = registerSchema
     showConfirmPassword: true,
   })
   .merge(z.object({ resetPasswordToken: z.string().optional() }));
+
+export const userRoleSchema = z.object({
+  role: z.enum(["parent", "student", "tutor"]),
+});
+
+export const contactUsSchema = registerSchema
+  .pick({
+    firstName: true,
+    lastName: true,
+    email: true,
+  })
+  .merge(z.object({ message: z.string(), isSendNewsLetter: z.boolean() }));

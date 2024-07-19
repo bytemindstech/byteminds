@@ -26,6 +26,7 @@
     constraints: resetPasswordEmailConstraints,
     message: resetPasswordEmailMessage,
     enhance: resetPasswordEmailEnhance,
+    delayed,
   } = superForm(resetPasswordEmailFormData, {
     resetForm: true,
   });
@@ -47,6 +48,7 @@
     <Toast message={$message || $resetPasswordEmailMessage} type="error" />
   {/if}
 {/if}
+
 <div
   class="min-h-screen flex justify-center items-center"
   in:fly={{ delay: 250, duration: 300, easing: quintOut, x: 100 }}
@@ -121,6 +123,7 @@
               </div>
             </div>
           </label>
+
           <button
             class="btn variant-filled-tertiary min-w-full font-bold capitalize"
             type="submit">login</button
@@ -148,10 +151,20 @@
               {...$resetPasswordEmailConstraints.email}
             />
           </label>
+
           <button
             class="btn variant-filled-tertiary min-w-full font-bold capitalize"
-            type="submit">Send Reset Link</button
-          >
+            type="submit"
+            >{#if $delayed}
+              sending reset link <Icon
+                icon="eos-icons:three-dots-loading"
+                width="48"
+                height="48"
+              />
+            {:else}
+              send reset link
+            {/if}
+          </button>
         </form>
       {/if}
     </section>

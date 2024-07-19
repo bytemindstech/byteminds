@@ -1,16 +1,10 @@
 <script lang="ts">
   import { Avatar } from "@skeletonlabs/skeleton";
+  import { getInitials } from "$lib/util.client";
 
   export let name: string;
-  export let profileImg;
-  export let email;
-
-  const getInitials = (fullName: string) => {
-    const nameArr = fullName.split(" ");
-    const fInit = nameArr[0].charAt(0).toUpperCase();
-    const lInit = nameArr[1].charAt(0).toUpperCase();
-    return `${fInit}${lInit}`;
-  };
+  export let profileImg: string;
+  export let email: string;
 
   const initials = getInitials(name);
 </script>
@@ -24,11 +18,6 @@
       {initials}
     />
     <h4 class="h4 capitalize">{name}</h4>
-    <p class="text-surface-700 md:text-sm">{email}</p>
-    <div class="mt-6 flex flex-wrap gap-4 justify-center">
-      <button class="btn btn-sm md:btn-md variant-filled-tertiary"
-        >Update Profile</button
-      >
-    </div>
+    <p class="text-surface-600 md:text-sm">{email}</p>
   </div>
 </div>

@@ -56,6 +56,8 @@ const SERVERS = {
 const ACTIONS = {
   "verifyEmail /email-verification": `/email-verification?/verifyEmail`,
   "resendVerificationCode /email-verification": `/email-verification?/resendVerificationCode`,
+  "default /user-profile": `/user-profile`,
+  "default /contact-us": `/contact-us`,
   "default /logout": `/logout`,
   "resetPassword /password-reset": `/password-reset?/resetPassword`,
   "login /signin-signup": `/signin-signup?/login`,
@@ -180,7 +182,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 export type KIT_ROUTES = {
   PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
   SERVERS: Record<string, never>
-  ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /logout': never, 'resetPassword /password-reset': never, 'login /signin-signup': never, 'register /signin-signup': never, 'sendResetPasswordEmail /signin-signup': never }
+  ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /user-profile': never, 'default /contact-us': never, 'default /logout': never, 'resetPassword /password-reset': never, 'login /signin-signup': never, 'register /signin-signup': never, 'sendResetPasswordEmail /signin-signup': never }
   LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId' }
   Params: { slug: never, courseId: never, tutorId: never, avatarId: never }
 }

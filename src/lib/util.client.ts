@@ -47,3 +47,12 @@ export const paths = [
   { route: route("/tutors"), name: "freelance tutors" },
   { route: route("/faqs"), name: "faqs" },
 ];
+
+// use in user profile avatar
+export const getInitials = (fullName: string) => {
+  const nameArr = fullName.split(" ");
+  const fInit = nameArr[0].charAt(0).toUpperCase();
+  const lInit = nameArr[1].charAt(0).toUpperCase();
+
+  return fInit + lInit;
+};

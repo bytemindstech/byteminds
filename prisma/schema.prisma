@@ -94,6 +94,6 @@ model Contact {
   firstName        String
   lastName         String
   email            String
-  message          String
+  message          String  @db.Text
   isSendNewsLetter Boolean
 }

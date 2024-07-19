@@ -5,13 +5,19 @@
   import { route } from "$lib/ROUTES";
   import { fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
+  import { superForm } from "sveltekit-superforms/client";
+  import { PersonPlus } from "$lib/components/icons";
   import Icon from "@iconify/svelte";
+  // import SuperDebug from "sveltekit-superforms";
 
-  export let form: any;
-  export let errors: any;
-  export let constraints: any;
-  export let message: any;
-  export let enhance: any;
+  export let formData;
+
+  const { form, errors, constraints, message, delayed, enhance } = superForm(
+    formData,
+    {
+      resetForm: true,
+    },
+  );
 
   const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
 
@@ -31,6 +37,7 @@
     <Toast message={$message} type="error" />
   {/if}
 {/if}
+
 <div
   class="min-h-screen flex justify-center items-center"
   in:fly={{ delay: 250, duration: 300, easing: quintOut, x: 100 }}
@@ -209,11 +216,9 @@
               >
                 <option value="" selected disabled hidden>choose</option>
                 {#each ["facebook", "youtube", "tiktok", "search-engine", "others"] as source}
-                  <option
-                    value={source}
-                    selected={$form.sourceInfo === source}
-                    class="text-primary-700">{source}</option
-                  >
+                  <option value={source} selected={$form.sourceInfo === source}
+                    >{source}
+                  </option>
                 {/each}
               </select>
             </label>
@@ -222,19 +227,21 @@
             <button
               type="submit"
               class="btn variant-filled-tertiary font-bold w-full"
-              ><svg
-                class="w-6 h-6 -ml-2"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                <circle cx="8.5" cy="7" r="4" />
-                <path d="M20 8v6M23 11h-6" />
-              </svg>
-              <span class="ml-3">Sign Up</span>
+            >
+              <!--icon-->
+              <PersonPlus />
+
+              <span class="flex items-center justify-center ml-3 capitalize"
+                >{#if $delayed}
+                  signing up <Icon
+                    icon="eos-icons:three-dots-loading"
+                    width="48"
+                    height="48"
+                  />
+                {:else}
+                  sign up
+                {/if}
+              </span>
             </button>
           </div>
         </div>

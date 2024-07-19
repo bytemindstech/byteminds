@@ -16,6 +16,7 @@ export const load = (async ({ url, locals }) => {
   const verifyEmailForm = await superValidate(
     zod(ZodValidationSchema.verifyEmailSchema),
   );
+
   const resendCodeForm = await superValidate(
     zod(ZodValidationSchema.resendSchema),
   );

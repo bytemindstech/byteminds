@@ -1,7 +1,6 @@
 <script lang="ts">
   import { PasswordReset } from "$lib/components";
   import { route } from "$lib/ROUTES";
-  import { superForm } from "sveltekit-superforms/client";
   import type { PageData } from "./$types";
 
   export let data: PageData;

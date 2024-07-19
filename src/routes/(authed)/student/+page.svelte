@@ -12,14 +12,24 @@ input your idea about tutors dashboard, showing basic profile of a user, you can
 >
   <h2 class="h2 text-center mt-10">Welcome, {data.firstName}</h2>
   <p class="text-center text-lg">
-    Email Verified: {#if data.user?.emailVerified}
+    Email Verified: {#if data.user?.emailVerified?.isEmailVerified}
       Yes
     {:else}
       No
     {/if}
   </p>
   <p class="text-center text-sm">Email: {data.email}</p>
-  {#if !data.user?.emailVerified}
+  <p class="text-center text-sm">
+    Role: {#if data.user?.role?.isParent}
+      Parent
+    {:else if data.user?.role?.isStudent}
+      Student
+    {:else}
+      Tutor
+    {/if}
+  </p>
+
+  {#if !data.user?.emailVerified?.isEmailVerified}
     <a
       href={route("/email-verification")}
       type="button"

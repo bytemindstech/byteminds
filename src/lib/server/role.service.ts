@@ -15,7 +15,10 @@ export const createRole = async (role: Role) => {
   });
 };
 
-export const updateRole = async (role: Role, userId: string) => {
+export const updateRole = async (
+  role: Omit<Role, "roleId" | "userId" | "isAdmin">,
+  userId: string,
+) => {
   return await db.role.update({
     data: role,
     where: { userId },

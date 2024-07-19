@@ -1,7 +1,7 @@
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 import { lucia } from "$lib/server/auth";
-import { deleteSessionCookie } from "$lib/util.sever";
+import { deleteSessionCookie } from "@jhenbert/byteminds-util";
 
 export const actions: Actions = {
   default: async ({ locals, cookies }) => {

@@ -1,12 +1,8 @@
 <script lang="ts">
   import { route } from "$lib/ROUTES";
-
-  // import type { LayoutData } from './$types';
-
   import { Navigation } from "$lib/components";
   import { AppShell } from "@skeletonlabs/skeleton";
 
-  // export let data: LayoutData;
   const paths = [
     { name: "home", route: route("/parent") },
     { name: "profile", route: route("/parent/profile") },

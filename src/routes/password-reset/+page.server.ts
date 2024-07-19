@@ -1,17 +1,14 @@
-import {
-  createAndSetSession,
-  isSameAsOldPassword,
-  verifyPasswordResetToken,
-} from "$lib/util.sever";
+import { isSameAsOldPassword, verifyPasswordResetToken } from "$lib/util.sever";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { lucia } from "$lib/server/auth";
 import { error, redirect } from "@sveltejs/kit";
 import { zod } from "sveltekit-superforms/adapters";
 import { Argon2id } from "oslo/password";
+import { route } from "$lib/ROUTES";
+import { createAndSetSession } from "@jhenbert/byteminds-util";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as PasswordService from "$lib/server/password.service";
-import { route } from "$lib/ROUTES";
 
 export const load = (async ({ url, parent }) => {
   await parent();

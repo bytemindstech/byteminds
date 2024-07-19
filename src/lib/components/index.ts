@@ -18,3 +18,4 @@ export { default as Courses } from "./courses.svelte";
 export { default as Course } from "./course.svelte";
 export { default as InhouseTutors } from "./inhouse-tutors.svelte";
 export { default as PasswordReset } from "./password-reset.svelte";
+export { default as ProfileUpdateForm } from "./profile-update-form.svelte";

@@ -3,7 +3,6 @@
   import { isSignInStore } from "$lib/store";
   import { onDestroy } from "svelte";
   import { Login, Register } from "$lib/components";
-  import { superForm } from "sveltekit-superforms/client";
 
   export let data: PageData;
 
@@ -16,25 +15,10 @@
   onDestroy(() => {
     unsubscribe();
   });
-
-  //registration
-  const {
-    form: registrationForm,
-    errors: registrationErrors,
-    constraints: registrationsConstraints,
-    message: registrationMessage,
-    enhance: registrationEnhance,
-  } = superForm(data.registrationForm, { resetForm: true });
 </script>
 
 {#if !isSignIn}
-  <Register
-    form={registrationForm}
-    errors={registrationErrors}
-    constraints={registrationsConstraints}
-    message={registrationMessage}
-    enhance={registrationEnhance}
-  />
+  <Register formData={data.registrationForm} />
 {:else}
   <Login
     loginFormData={data.loginForm}

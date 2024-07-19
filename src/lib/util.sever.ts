@@ -2,14 +2,20 @@
  * PUT YOUR REUSABLE SERVER SIDE FUNCTIONS HERE
  */
 
-import { SMTP_HOST, SMTP_PORT, SMTP_SECURE, URL } from "./constant";
+import {
+  SMTP_HOST,
+  SMTP_PORT,
+  SMTP_SECURE,
+  URL,
+  USER_EMAIL,
+  USER_EMAIL_APP_PASSWORD,
+  SMTP_SERVICE,
+} from "./constants";
 import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
-import { env } from "$env/dynamic/private";
 import { route } from "./ROUTES";
 import { Argon2id } from "oslo/password";
-import { generateId, type Lucia, type User } from "lucia";
-import type { Cookies } from "@sveltejs/kit";
+import { generateId, type User } from "lucia";
 import dateFormatter from "@jhenbert/date-formatter";
 import * as mod from "@jhenbert/byteminds-util";
 import * as EmailService from "./server/email.service";
@@ -22,7 +28,7 @@ type ValidateVerificationCode = {
   message: string;
 };
 
-const dateOptions: Intl.DateTimeFormatOptions = {
+const dateOption: Intl.DateTimeFormatOptions = {
   dateStyle: "full",
   timeStyle: "full",
   timeZone: "Asia/Manila",
@@ -32,9 +38,9 @@ const mailTransporterParams = {
   host: SMTP_HOST,
   port: SMTP_PORT,
   secure: SMTP_SECURE,
-  service: "gmail",
-  email: env.EMAIL_USER,
-  password: env.EMAIL_PASSWORD,
+  service: SMTP_SERVICE,
+  email: USER_EMAIL,
+  password: USER_EMAIL_APP_PASSWORD,
 };
 
 export const generateEmailVerificationCode = async (
@@ -77,7 +83,7 @@ export const sendVerificationCode = async (
 
   const formatDate = dateFormatter(
     "en-PH",
-    dateOptions,
+    dateOption,
     existingVerificationCode.expiresAt,
   );
 
@@ -85,18 +91,14 @@ export const sendVerificationCode = async (
 
   let htmlContent = `<div style="font-family: Arial, sans-serif; padding: 20px; color: #260202;">
   <h1>Verification Code</h1>
-  <p>Verify your email, you've registered to ByteMinds using ${existingVerificationCode.email}</p>
+  <p>Verify your email, you've registered to ByteMinds using <span style="color: #337ab7; text-decoration> ${existingVerificationCode.email}</span>
+  </p>
   
   <p>Use this code to finish setting up your profile: ${verificationCode}</p>
   <p>This code will expire on ${formatDate}</p>
   </div>`;
 
-  const message = mod.composeMessage(
-    env.EMAIL_USER,
-    email,
-    subject,
-    htmlContent,
-  );
+  const message = mod.composeMessage(USER_EMAIL, email, subject, htmlContent);
 
   try {
     await transporter.sendMail(message);
@@ -154,7 +156,7 @@ export const sendResetPasswordToken = async (
 
   const formatDate = dateFormatter(
     "en-PH",
-    dateOptions,
+    dateOption,
     existingUser.passwordReset.expiresAt,
   );
 
@@ -165,7 +167,7 @@ export const sendResetPasswordToken = async (
 		<p>We've received a request to reset your password. If you didn't make the request, just ignore this email. Otherwise, you can reset your password using the link below.</p>
 
 		<p>
-		<a href="${URL}${route("/password-reset")}?token=${resetToken}" style="color: #337ab7; text-decoration: none;">Reset your password</a>
+		<a href="${URL}${route("/password-reset")}?token=${resetToken}" style="color: #337ab7; text-decoration">Reset your password</a>
 		</p>
 
 		<p>If you need help or have any questions, please contact our support team. We're here to help!</p>
@@ -173,12 +175,7 @@ export const sendResetPasswordToken = async (
     <p>This code will expire on ${formatDate}</p>
 	</div>`;
 
-  const message = mod.composeMessage(
-    env.EMAIL_USER,
-    email,
-    subject,
-    htmlContent,
-  );
+  const message = mod.composeMessage(USER_EMAIL, email, subject, htmlContent);
 
   try {
     await transporter.sendMail(message);
@@ -246,25 +243,10 @@ export const isSameAsOldPassword = async (
   return isSamePassword;
 };
 
-export const createAndSetSession = async (
-  lucia: Lucia,
-  userId: string,
-  cookies: Cookies,
-) => {
-  const session = await lucia.createSession(userId, {});
-  const sessionCookie = lucia.createSessionCookie(session.id);
+export const htmlElementsToString = (element: HTMLElement): string => {
+  element.style.display = "none";
+  const container = document.createElement("div");
+  container.appendChild(element.cloneNode(true));
 
-  cookies.set(sessionCookie.name, sessionCookie.value, {
-    path: ".",
-    ...sessionCookie.attributes,
-  });
-};
-
-export const deleteSessionCookie = async (lucia: Lucia, cookies: Cookies) => {
-  const sessionCookie = lucia.createBlankSessionCookie();
-
-  cookies.set(sessionCookie.name, sessionCookie.value, {
-    path: ".",
-    ...sessionCookie.attributes,
-  });
+  return container.innerHTML;
 };

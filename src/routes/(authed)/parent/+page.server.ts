@@ -11,6 +11,7 @@ export const load = (async ({ locals, url, parent }) => {
   }
 
   const user = await getUserById(locals.user.id as string);
+  
   if (!user?.emailVerified?.isEmailVerified) {
     throw redirect(
       302,

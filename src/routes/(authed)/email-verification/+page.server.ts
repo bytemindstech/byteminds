@@ -5,11 +5,11 @@ import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
 import * as UserService from "$lib/server/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import { createAndSetSession } from "@jhenbert/byteminds-util";
 import {
   generateEmailVerificationCode,
   validateVerificationCode,
   sendVerificationCode,
-  createAndSetSession,
 } from "$lib/util.sever";
 import { route } from "$lib/ROUTES";
 
