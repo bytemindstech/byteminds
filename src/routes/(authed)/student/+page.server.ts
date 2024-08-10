@@ -1,7 +1,8 @@
 import { getUserById } from "$lib/server/user.service";
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ locals, parent }) => {
+export const load = (async ({ locals, url, parent }) => {
   await parent();
 
   if (!locals.user) {

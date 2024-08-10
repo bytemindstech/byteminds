@@ -29,6 +29,7 @@
           class="select capitalize text-primary-700"
           name="role"
           bind:value={$form.role}
+          {...$constraints.role}
         >
           <option value="" selected disabled hidden>choose</option>
           {#each ["parent", "student", "tutor"] as role}

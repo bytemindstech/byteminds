@@ -12,18 +12,27 @@ export const load = (async ({ locals, url, parent }) => {
 
   const user = await getUserById(locals.user?.id as string);
 
-  if (!user?.emailVerified?.isEmailVerified) {
-    throw redirect(
-      302,
-      route("/email-verification") + `?redirectTo=${url.pathname}`,
-    );
+  switch (true) {
+    case user?.role?.isParent:
+      throw redirect(302, route("/parent"));
+    case user?.role?.isTutor:
+      throw redirect(302, route("/tutor"));
+    case user?.role?.isStudent:
+      throw redirect(302, route("/student"));
+    default:
+      if (!user?.emailVerified?.isEmailVerified) {
+        throw redirect(
+          302,
+          route("/email-verification") + `?redirectTo=${url.pathname}`,
+        );
+      }
   }
 
   const userRoleForm = await superValidate(
     zod(ZodValidationSchema.userRoleSchema),
   );
 
-  return { userRoleForm };
+  return { userRoleForm, user };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {

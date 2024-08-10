@@ -16,7 +16,10 @@
 <UserProfileLayout>
   <svelte:fragment slot="profile">
     <UserProfile {name} profileImg="" email={data.email} />
-    <ProfileUpdateForm formData={data.userRoleForm} />
+
+    {#if !data.user.role?.isParent && !data.user.role?.isStudent && !data.user.role?.isTutor}
+      <ProfileUpdateForm formData={data.userRoleForm} />
+    {/if}
   </svelte:fragment>
 
   <svelte:fragment slot="courses"

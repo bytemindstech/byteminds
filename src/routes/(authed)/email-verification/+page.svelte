@@ -12,10 +12,11 @@
     },
   );
 
-  const { message: resendCodeMessage, enhance: resendCodeEnhance } = superForm(
-    data.resendCodeForm,
-    { resetForm: true },
-  );
+  const {
+    message: resendCodeMessage,
+    enhance: resendCodeEnhance,
+    delayed: resendCodeDelayed,
+  } = superForm(data.resendCodeForm, { resetForm: true });
 </script>
 
 <div class="container mx-auto min-h-full flex items-center justify-center">
@@ -57,7 +58,9 @@
         use:resendCodeEnhance
       >
         <button type="submit" class="btn btn-sm !bg-transparent text-sm"
-          >Resend Verification Code</button
+          >{$resendCodeDelayed
+            ? "Re-sending verification code ..."
+            : "Re-send Verification Code"}</button
         >
       </form>
       {#if $resendCodeMessage}

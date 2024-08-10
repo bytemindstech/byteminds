@@ -7,8 +7,8 @@ import {
   SMTP_PORT,
   SMTP_SECURE,
   URL,
-  USER_EMAIL,
-  USER_EMAIL_APP_PASSWORD,
+  ADMIN_EMAIL,
+  ADMIN_EMAIL_APP_PASSWORD,
   SMTP_SERVICE,
 } from "./constants";
 import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
@@ -39,8 +39,8 @@ const mailTransporterParams = {
   port: SMTP_PORT,
   secure: SMTP_SECURE,
   service: SMTP_SERVICE,
-  email: USER_EMAIL,
-  password: USER_EMAIL_APP_PASSWORD,
+  email: ADMIN_EMAIL,
+  password: ADMIN_EMAIL_APP_PASSWORD,
 };
 
 export const generateEmailVerificationCode = async (
@@ -91,19 +91,20 @@ export const sendVerificationCode = async (
 
   let htmlContent = `<div style="font-family: Arial, sans-serif; padding: 20px; color: #260202;">
   <h1>Verification Code</h1>
-  <p>Verify your email, you've registered to ByteMinds using <span style="color: #337ab7; text-decoration> ${existingVerificationCode.email}</span>
-  </p>
+  
+  <p>Verify your email, you've registered to ByteMinds using ${existingVerificationCode.email}</p>
   
   <p>Use this code to finish setting up your profile: ${verificationCode}</p>
+  
   <p>This code will expire on ${formatDate}</p>
   </div>`;
 
-  const message = mod.composeMessage(USER_EMAIL, email, subject, htmlContent);
+  const message = mod.composeMessage(ADMIN_EMAIL, email, subject, htmlContent);
 
   try {
     await transporter.sendMail(message);
   } catch (error) {
-    console.error("Error sending verification code", (error as Error).message);
+    console.error("Error sending verification code,", (error as Error).message);
   }
 };
 
@@ -167,7 +168,7 @@ export const sendResetPasswordToken = async (
 		<p>We've received a request to reset your password. If you didn't make the request, just ignore this email. Otherwise, you can reset your password using the link below.</p>
 
 		<p>
-		<a href="${URL}${route("/password-reset")}?token=${resetToken}" style="color: #337ab7; text-decoration">Reset your password</a>
+		<a href="${URL}${route("/password-reset")}?token=${resetToken}" style="color: #337ab7; text-decoration: none">Reset your password</a>
 		</p>
 
 		<p>If you need help or have any questions, please contact our support team. We're here to help!</p>
@@ -175,7 +176,7 @@ export const sendResetPasswordToken = async (
     <p>This code will expire on ${formatDate}</p>
 	</div>`;
 
-  const message = mod.composeMessage(USER_EMAIL, email, subject, htmlContent);
+  const message = mod.composeMessage(ADMIN_EMAIL, email, subject, htmlContent);
 
   try {
     await transporter.sendMail(message);
