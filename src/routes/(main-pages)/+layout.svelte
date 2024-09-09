@@ -54,14 +54,14 @@
         width="w-20 md:w-32"
       />
     </div>
-    <Navigation {paths}
-      ><svelte:fragment slot="button"
-        ><a
+    <Navigation {paths}>
+      <svelte:fragment slot="button">
+        <a
           href={route("/signin-signup")}
           class="btn btn-xl variant-filled-tertiary font-bold">Apply Now</a
-        ></svelte:fragment
-      ></Navigation
-    >
+        >
+      </svelte:fragment>
+    </Navigation>
   </svelte:fragment>
 
   <slot />

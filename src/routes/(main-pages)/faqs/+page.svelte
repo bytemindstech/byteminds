@@ -32,9 +32,9 @@
     <h2 class="h2 mb-5">Frequently Asked Questions</h2>
     <div class="card lg:w-2/3 p-5 mt-8">
       <Accordion autocollapse let:AccordionItem>
-        {#each items as item, i}
+        {#each items as item, index}
           <AccordionItem
-            open={i === 0 ? true : false}
+            open={index === 0 ? true : false}
             icon={item.icon}
             summary={`<h5 class="h5">${item.summary}</h5>`}
             content={`<p class="text-md">${item.content}</p>`}
