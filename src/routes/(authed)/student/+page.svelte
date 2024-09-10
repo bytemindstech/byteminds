@@ -28,12 +28,4 @@ input your idea about tutors dashboard, showing basic profile of a user, you can
       Tutor
     {/if}
   </p>
-
-  {#if !data.user?.emailVerified?.isEmailVerified}
-    <a
-      href={route("/email-verification")}
-      type="button"
-      class="btn variant-filled-primary mt-5">Verify Email</a
-    >
-  {/if}
 </div>

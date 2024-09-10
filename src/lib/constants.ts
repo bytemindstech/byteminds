@@ -9,8 +9,8 @@ const SMTP_HOST = env.SMTP_HOST ?? "smtp.gmail.com";
 const SMTP_PORT = env.SMTP_PORT ? Number(env.SMTP_PORT) : 465;
 const SMTP_SECURE = env.SMTP_SECURE ? Boolean(env.SMTP_SECURE) : true;
 const SMTP_SERVICE = env.SMTP_SERVICE ?? "gmail";
-const USER_EMAIL = env.USER_EMAIL ?? "byteminds.tech@gmail.com";
-const USER_EMAIL_APP_PASSWORD = env.EMAIL_APP_PASSWORD ?? "";
+const ADMIN_EMAIL = env.ADMIN_EMAIL ?? "byteminds.tech@gmail.com";
+const ADMIN_EMAIL_APP_PASSWORD = env.ADMIN_EMAIL_APP_PASSWORD ?? "";
 const URL = "http://localhost:5173";
 const MIN_PASSWORD_LENGTH = 8;
 const MIN_USERNAME_LENGTH = 4;
@@ -24,7 +24,7 @@ export {
   MIN_PASSWORD_LENGTH,
   MIN_USERNAME_LENGTH,
   MAX_USERNAME_LENGTH,
-  USER_EMAIL,
-  USER_EMAIL_APP_PASSWORD,
+  ADMIN_EMAIL,
+  ADMIN_EMAIL_APP_PASSWORD,
   SMTP_SERVICE,
 };

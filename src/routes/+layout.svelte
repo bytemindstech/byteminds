@@ -127,6 +127,6 @@
   <slot />
 
   <svelte:fragment slot="pageFooter">
-    <Footer year={2024} brand="ByteMinds PH" />
+    <Footer year={new Date().getFullYear()} brand="ByteMinds PH" />
   </svelte:fragment>
 </AppShell>

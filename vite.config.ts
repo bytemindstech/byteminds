@@ -18,6 +18,8 @@ export default defineConfig({
         instagram: "https://www.instagram.com/byteminds.socials",
         classroom: "https://classroom.jhenbert.com",
         githubAvatar: "https://avatars.githubusercontent.com/u/[avatarId]?v=4",
+        blog: "https://byteminds-test-blog.vercel.app",
+        bmlearning: "https://bmlearninghub.site",
       },
     }),
   ],

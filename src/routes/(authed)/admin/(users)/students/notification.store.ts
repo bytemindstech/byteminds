@@ -20,7 +20,7 @@ export const createConnection = (userId: string) => {
   const init = () => {
     if (browser) {
       socket.on("connect", () => {
-        console.log(userId, "connected");
+        console.log(userId, "connected"); 
       });
 
       socket.on(

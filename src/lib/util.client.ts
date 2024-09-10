@@ -46,6 +46,7 @@ export const paths = [
   { route: route("/courses"), name: "available courses" },
   { route: route("/tutors"), name: "freelance tutors" },
   { route: route("/faqs"), name: "faqs" },
+  { route: route("blog"), name: "blog" },
 ];
 
 // use in user profile avatar

@@ -5,8 +5,7 @@
   };
 
   import { page } from "$app/stores";
-  import { route } from "$lib/ROUTES";
-  import { Avatar, getDrawerStore } from "@skeletonlabs/skeleton";
+  import { getDrawerStore } from "@skeletonlabs/skeleton";
 
   const drawerStore = getDrawerStore();
 

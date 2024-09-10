@@ -23,10 +23,6 @@ const PAGES = {
   "/user-profile": `/user-profile`,
   "/": `/`,
   "/about": `/about`,
-  "/blog": `/blog`,
-  "/blog/[slug]": (params: { slug: (string | number) }) => {
-    return `/blog/${params.slug}`
-  },
   "/contact-us": `/contact-us`,
   "/courses": `/courses`,
   "/courses/[courseId]": (params: { courseId: (string | number) }) => {
@@ -77,7 +73,9 @@ const LINKS = {
   "classroom": `https://classroom.jhenbert.com`,
   "githubAvatar": (params: { avatarId: (string | number) }) => {
     return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
-  }
+  },
+  "blog": `https://byteminds-test-blog.vercel.app`,
+  "bmlearning": `https://bmlearninghub.site`
 }
 
 type ParamValue = string | number | undefined
@@ -180,9 +178,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/blog': never, '/blog/[slug]': 'slug', '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
+  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /user-profile': never, 'default /contact-us': never, 'default /logout': never, 'resetPassword /password-reset': never, 'login /signin-signup': never, 'register /signin-signup': never, 'sendResetPasswordEmail /signin-signup': never }
-  LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId' }
-  Params: { slug: never, courseId: never, tutorId: never, avatarId: never }
+  LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId', 'blog': never, 'bmlearning': never }
+  Params: { courseId: never, tutorId: never, avatarId: never }
 }
