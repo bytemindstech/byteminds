@@ -28,7 +28,7 @@ const main = async () => {
         emailVerified: {
           create: {
             emailVerifiedId: generateId(15),
-            emailVerified: true,
+            isEmailVerified: true,
           },
         },
         profile: {
@@ -69,7 +69,7 @@ const main = async () => {
         emailVerified: {
           create: {
             emailVerifiedId: generateId(15),
-            emailVerified: true,
+            isEmailVerified: true,
           },
         },
         profile: {
@@ -110,7 +110,7 @@ const main = async () => {
         emailVerified: {
           create: {
             emailVerifiedId: generateId(15),
-            emailVerified: true,
+            isEmailVerified: true,
           },
         },
         profile: {
@@ -151,7 +151,7 @@ const main = async () => {
         emailVerified: {
           create: {
             emailVerifiedId: generateId(15),
-            emailVerified: true,
+            isEmailVerified: true,
           },
         },
         profile: {
