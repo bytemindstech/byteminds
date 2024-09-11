@@ -7,7 +7,7 @@
 
   export let formData;
 
-  const { form, delayed, message, enhance } = superForm(formData, {
+  const { form, delayed, message, constraints, enhance } = superForm(formData, {
     resetForm: true,
   });
 </script>
@@ -31,9 +31,9 @@
           bind:value={$form.role}
           {...$constraints.role}
         >
-          <option value="" selected disabled hidden>choose</option>
+          <option value="" disabled hidden>choose</option>
           {#each ["parent", "student", "tutor"] as role}
-            <option value={role} selected={$form.role === role}>{role}</option>
+            <option value={role}>{role}</option>
           {/each}
         </select>
       </label>

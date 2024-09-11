@@ -1,9 +1,44 @@
 <script lang="ts">
-  // import type { PageData } from './$types';
+  import type { PageData } from "./$types";
+  import { route } from "$lib/ROUTES";
+  import { dateOption } from "$lib/util.client";
+  import dateFormatter from "@jhenbert/date-formatter";
 
-  import { Tutors } from "$lib/components";
+  export let data: PageData;
 
-  // export let data: PageData;
+  const tutors = data.users.filter((user) => user.role?.isTutor);
 </script>
 
-<div class="container mx-auto p-6"><Tutors /></div>
+<div class="container mx-auto p-4">
+  <div class="bg-surface-50 p-4 rounded shadow">
+    <h3 class="h3 mb-4">Tutors</h3>
+    <table class="w-full">
+      <thead>
+        <tr class="bg-surface-200">
+          <th class="p-2 text-left">Name</th>
+          <th class="p-2 text-left">Email</th>
+          <th class="p-2 text-left">Email Status</th>
+          <th class="p-2 text-left">Last Login</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each tutors as tutor}
+          <tr class="border-b">
+            <td class="p-2"
+              ><a class="anchor" href={route("/admin/profile/[id]", { id: tutor.id })}
+                >{tutor.firstName} {tutor.lastName}
+              </a>
+            </td>
+            <td class="p-2">{tutor.email}</td>
+            <td class="p-2"
+              >{tutor.emailVerified ? "verified" : "not verified"}</td
+            >
+            <td class="p-2"
+              >{dateFormatter("en-PH", dateOption, tutor.updatedAt)}</td
+            >
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+</div>

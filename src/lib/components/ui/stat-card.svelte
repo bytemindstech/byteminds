@@ -1,14 +1,16 @@
 <script lang="ts">
-  export let icon;
   export let data;
   export let title;
   export let cardBg;
 </script>
 
-<div class="card card-hover p-4 {cardBg}">
-  <header class="card-header"><h6 class="h6">{title}</h6></header>
+<div class="card card-hover p-6 {cardBg}">
+  <header class="card-header">
+    <h4 class="h4 mb-4">{title}</h4>
+  </header>
   <section class="flex justify-between">
-    {icon}<span><p>{data}</p></span>
+    <slot name="icon" /><span
+      ><h1 class="h1 text-surface-600/40">{data}</h1></span
+    >
   </section>
-  <footer></footer>
 </div>

@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 import { route } from "$lib/ROUTES";
 import { getUserById } from "$lib/server/user.service";
 
-export const load = (async ({ locals, url, parent }) => {
+export const load = (async ({ locals, parent }) => {
   await parent();
 
   if (!locals.user) {
@@ -11,13 +11,18 @@ export const load = (async ({ locals, url, parent }) => {
   }
 
   const user = await getUserById(locals.user.id as string);
-  
-  if (!user?.emailVerified?.isEmailVerified) {
-    throw redirect(
-      302,
-      route("/email-verification") + `?redirectTo=${url.pathname}`,
-    );
+
+  if (!user) {
+    return;
   }
 
-  return {};
+  if (!user.role) {
+    return;
+  }
+
+  if (!user.role.isParent) {
+    throw redirect(302, route("/user-profile"));
+  }
+
+  return { user };
 }) satisfies PageServerLoad;

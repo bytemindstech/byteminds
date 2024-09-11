@@ -1,7 +1,53 @@
 <script lang="ts">
-  // import type { PageData } from './$types';
+  import dateFormatter from "@jhenbert/date-formatter";
+  import type { PageData } from "./$types";
+  import { dateOption } from "$lib/util.client";
+  import { route } from "$lib/ROUTES";
 
-  // export let data: PageData;
+  export let data: PageData;
+
+  const parents = data.users.filter((user) => user.role?.isParent);
 </script>
 
-<div class="container mx-auto p-4"><h2 class="h2">Parents Data</h2></div>
+<div class="container mx-auto p-4">
+  <div class="bg-surface-50 p-4 rounded shadow">
+    <h3 class="h3 mb-4">Parents</h3>
+    <table class="w-full">
+      <thead>
+        <tr class="bg-surface-200">
+          <th class="p-2 text-left">Name</th>
+          <th class="p-2 text-left">Email</th>
+          <th class="p-2 text-left">Email Status</th>
+
+          <th class="p-2 text-left">Last Login</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#await parents}
+          <tr>
+            <td colspan="5" class="text-center p-2">Loading...</td>
+          </tr>
+        {:then users}
+          {#each users as parent}
+            <tr class="border-b">
+              <td class="p-2"
+                ><a
+                  class="anchor"
+                  href={route("/admin/profile/[id]", { id: parent.id })}
+                  >{parent.firstName} {parent.lastName}
+                </a>
+              </td>
+              <td class="p-2">{parent.email}</td>
+              <td class="p-2"
+                >{parent.emailVerified ? "verified" : "not verified"}</td
+              >
+              <td class="p-2"
+                >{dateFormatter("en-PH", dateOption, parent.updatedAt)}</td
+              >
+            </tr>
+          {/each}
+        {/await}
+      </tbody>
+    </table>
+  </div>
+</div>

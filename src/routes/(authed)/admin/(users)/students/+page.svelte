@@ -2,59 +2,57 @@
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
   import { createConnection } from "./notification.store";
+  import dateFormatter from "@jhenbert/date-formatter";
+  import { dateOption } from "$lib/util.client";
+  import { route } from "$lib/ROUTES";
 
   export let data: PageData;
 
-  $: currentUserId = data.user ? data.user.id : "";
+  // $: currentUserId = data.user ? data.user.id : "";
 
-  let notificationStore: ReturnType<typeof createConnection>;
+  // let notificationStore: ReturnType<typeof createConnection>;
 
-  onMount(() => {
-    notificationStore = createConnection(currentUserId);
+  // onMount(() => {
+  //   notificationStore = createConnection(currentUserId);
 
-    notificationStore.init();
+  //   notificationStore.init();
 
-    return () => notificationStore.close();
-  });
+  //   return () => notificationStore.close();
+  // });
+
+  const students = data.users.filter((user) => user.role?.isStudent);
 </script>
 
 <div class="container mx-auto p-4">
-  <h2 class="h2">Students Data</h2>
-
-  <div class="grid justify-items-center">
-    {#await data.users}
-      <p>Loading...</p>
-    {:then users}
-      {#each users as user}
-        {#if data.user && user.id !== data.user.id}
-          <p>{user.username}</p>
-          <p>
-            <button
-              class="btn btn-lg bg-surface-50"
-              on:click={() =>
-                notificationStore.notify(
-                  user.id,
-                  `A notification from ${data.user?.email}`,
-                  "success",
-                )}>Notify</button
+  <div class="bg-surface-50 p-4 rounded shadow">
+    <h3 class="h3 mb-4">Students</h3>
+    <table class="w-full">
+      <thead>
+        <tr class="bg-surface-200">
+          <th class="p-2 text-left">Name</th>
+          <th class="p-2 text-left">Email</th>
+          <th class="p-2 text-left">Email Status</th>
+          <th class="p-2 text-left">Last Login</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each students as student}
+          <tr class="border-b">
+            <td class="p-2"
+              ><a class="anchor" href={route("/admin/profile/[id]", { id: student.id })}
+                >{student.firstName} {student.lastName}
+              </a>
+            </td>
+            <td class="p-2">{student.email}</td>
+            <td class="p-2"
+              >{student.emailVerified ? "verified" : "not verified"}</td
             >
-          </p>
-        {/if}
-      {/each}
-    {/await}
-  </div>
-
-  <div>
-    {#if $notificationStore}
-      {#each $notificationStore as notification}
-        <p
-          class={notification.type === "success"
-            ? "text-success"
-            : "text-error"}
-        >
-          {notification.message}
-        </p>
-      {/each}
-    {/if}
+            <td class="p-2"
+              >{dateFormatter("en-PH", dateOption, student.updatedAt)}</td
+            >
+          </tr>
+        {/each}
+      </tbody>
+    </table>
   </div>
 </div>

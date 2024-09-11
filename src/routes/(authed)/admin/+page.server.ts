@@ -1,13 +1,28 @@
-import { getAllUsers } from "$lib/server/user.service";
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
+import { route } from "$lib/ROUTES";
+import { getUserById } from "$lib/server/user.service";
 
-export const load = (async ({ parent, locals }) => {
+export const load = (async ({ parent, url, locals }) => {
   await parent();
 
-  const users = getAllUsers();
+  if (!locals.user) {
+    return;
+  }
 
-  return {
-    user: locals.user,
-    users,
-  };
+  const user = await getUserById(locals.user.id as string);
+
+  if (!user) {
+    return;
+  }
+
+  if (!user.role) {
+    return;
+  }
+
+  if (!user.role.isAdmin) {
+    throw redirect(302, route("/user-profile"));
+  }
+
+  return {};
 }) satisfies PageServerLoad;

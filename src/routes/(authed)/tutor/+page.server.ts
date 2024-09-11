@@ -12,11 +12,16 @@ export const load = (async ({ locals, url, parent }) => {
 
   const user = await getUserById(locals.user.id as string);
 
-  if (!user?.emailVerified?.isEmailVerified) {
-    throw redirect(
-      302,
-      route("/email-verification") + `?redirectTo=${url.pathname}`,
-    );
+  if (!user) {
+    return;
+  }
+
+  if (!user.role) {
+    return;
+  }
+
+  if (!user.role.isTutor) {
+    throw redirect(302, route("/user-profile"));
   }
 
   return {};

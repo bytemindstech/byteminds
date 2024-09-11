@@ -13,13 +13,20 @@ const PAGES = {
   "/admin/parents": `/admin/parents`,
   "/admin/students": `/admin/students`,
   "/admin/tutors": `/admin/tutors`,
+  "/admin/profile/[id]": (params: { id: (string | number) }) => {
+    return `/admin/profile/${params.id}`
+  },
   "/email-verification": `/email-verification`,
   "/parent": `/parent`,
   "/parent/courses": `/parent/courses`,
   "/parent/profile": `/parent/profile`,
   "/parent/tutors": `/parent/tutors`,
   "/student": `/student`,
+  "/student/courses": `/student/courses`,
+  "/student/profile": `/student/profile`,
+  "/student/tutors": `/student/tutors`,
   "/tutor": `/tutor`,
+  "/tutor/profile": `/tutor/profile`,
   "/user-profile": `/user-profile`,
   "/": `/`,
   "/about": `/about`,
@@ -74,7 +81,7 @@ const LINKS = {
   "githubAvatar": (params: { avatarId: (string | number) }) => {
     return `https://avatars.githubusercontent.com/u/${params.avatarId}?v=4`
   },
-  "blog": `https://byteminds-test-blog.vercel.app`,
+  "blog": `https://blog.bytemindsph.com`,
   "bmlearning": `https://bmlearninghub.site`
 }
 
@@ -127,14 +134,6 @@ export const currentSp = () => {
   return record
 }
 
-function StringOrUndefined(val: any) {
-  if (val === undefined) {
-    return undefined
-  }
-
-  return String(val)
-}
-
 // route function helpers
 type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
@@ -142,6 +141,11 @@ type FunctionParams<T> = T extends (...args: infer P) => any ? P : never
 
 const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS }
 type AllTypes = typeof AllObjs
+
+export type Routes = keyof AllTypes extends `${string}/${infer Route}` ? `/${Route}` : keyof AllTypes
+export const routes = [
+	...new Set(Object.keys(AllObjs).map((route) => /^\/.*|[^ ]?\/.*$/.exec(route)?.[0] ?? route)),
+] as Routes[]
 
 /**
  * To be used like this: 
@@ -178,9 +182,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/tutor': never, '/user-profile': never, '/': never, '/about': never, '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
+  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/admin/profile/[id]': 'id', '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/student/courses': never, '/student/profile': never, '/student/tutors': never, '/tutor': never, '/tutor/profile': never, '/user-profile': never, '/': never, '/about': never, '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /user-profile': never, 'default /contact-us': never, 'default /logout': never, 'resetPassword /password-reset': never, 'login /signin-signup': never, 'register /signin-signup': never, 'sendResetPasswordEmail /signin-signup': never }
   LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId', 'blog': never, 'bmlearning': never }
-  Params: { courseId: never, tutorId: never, avatarId: never }
+  Params: { id: never, courseId: never, tutorId: never, avatarId: never }
 }

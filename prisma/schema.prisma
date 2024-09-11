@@ -13,6 +13,7 @@ datasource db {
 model Profile {
   profileId String @id
   userId    String @unique
+  image     String
   bio       String @db.Text
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

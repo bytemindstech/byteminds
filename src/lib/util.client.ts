@@ -57,3 +57,10 @@ export const getInitials = (fullName: string) => {
 
   return fInit + lInit;
 };
+
+// date option used in client side
+export const dateOption: Intl.DateTimeFormatOptions = {
+  dateStyle: "medium",
+  timeStyle: "short",
+  timeZone: "Asia/Manila",
+};

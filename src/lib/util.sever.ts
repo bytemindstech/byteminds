@@ -2,15 +2,6 @@
  * PUT YOUR REUSABLE SERVER SIDE FUNCTIONS HERE
  */
 
-import {
-  SMTP_HOST,
-  SMTP_PORT,
-  SMTP_SECURE,
-  URL,
-  ADMIN_EMAIL,
-  ADMIN_EMAIL_APP_PASSWORD,
-  SMTP_SERVICE,
-} from "./constants";
 import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
 import { route } from "./ROUTES";
@@ -22,6 +13,15 @@ import * as EmailService from "./server/email.service";
 import * as ResetPasswordService from "./server/reset-password.service";
 import * as PasswordService from "./server/password.service";
 import * as UserService from "./server/user.service";
+import {
+  SMTP_HOST,
+  SMTP_PORT,
+  SMTP_SECURE,
+  URL,
+  ADMIN_EMAIL,
+  ADMIN_EMAIL_APP_PASSWORD,
+  SMTP_SERVICE,
+} from "./constants";
 
 type ValidateVerificationCode = {
   valid: boolean;

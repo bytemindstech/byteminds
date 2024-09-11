@@ -214,11 +214,9 @@
                 bind:value={$form.sourceInfo}
                 {...$constraints.sourceInfo}
               >
-                <option value="" selected disabled hidden>choose</option>
+                <option value="" disabled hidden>choose</option>
                 {#each ["facebook", "youtube", "tiktok", "search-engine", "others"] as source}
-                  <option value={source} selected={$form.sourceInfo === source}
-                    >{source}
-                  </option>
+                  <option value={source}>{source} </option>
                 {/each}
               </select>
             </label>
@@ -235,8 +233,8 @@
                 >{#if $delayed}
                   signing up <Icon
                     icon="eos-icons:three-dots-loading"
-                    width="48"
-                    height="48"
+                    width="32"
+                    height="32"
                   />
                 {:else}
                   sign up

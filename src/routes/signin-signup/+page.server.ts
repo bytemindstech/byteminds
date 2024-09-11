@@ -57,6 +57,8 @@ export const actions: Actions = {
       return message(loginForm, "Invalid password", { status: 406 });
     }
 
+    await UserService.updateUserLoginDate(existingUser.id);
+
     await createAndSetSession(lucia, existingUser.id, cookies);
 
     const redirectTo = url.searchParams.get("redirectTo");

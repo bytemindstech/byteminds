@@ -1,14 +1,11 @@
 <script lang="ts">
-  import type { PageData } from "./$types";
+  import { UserBio, UserProfile, UserProfileLayout } from "$lib/components";
 
-  import { UserProfile } from "$lib/components";
-  import UserProfileLayout from "$lib/components/user-profile-layout.svelte";
-  import UserBio from "$lib/components/user-bio.svelte";
+  import type { PageData } from "./$types";
 
   export let data: PageData;
 
   const name = `${data.firstName} ${data.lastName}`;
-
   const img = data.user?.profile?.image ?? "";
   const bio = data.user?.profile?.bio ?? "Please update your profile";
 </script>

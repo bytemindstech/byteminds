@@ -30,12 +30,12 @@
         ></svelte:fragment
       >
 
-      <UserNav />
+      <!-- <UserNav /> -->
 
       <svelte:fragment slot="trail">
-        <a class="btn-icon hover:variant-soft-primary" href="/"
+        <!-- <a class="btn-icon hover:variant-soft-primary" href="/"
           ><Notification notify="10" /></a
-        >
+        > -->
 
         <button class="btn hover:variant-soft-primary" use:popup={popupQuery}>
           <span class="hidden md:block capitalize"

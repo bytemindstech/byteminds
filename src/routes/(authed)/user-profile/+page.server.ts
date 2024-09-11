@@ -12,15 +12,27 @@ export const load = (async ({ locals, url, parent }) => {
 
   const user = await getUserById(locals.user?.id as string);
 
+  if (!user) {
+    return;
+  }
+
+  if (!user.role) {
+    return;
+  }
+
+  const { isParent, isStudent, isTutor, isAdmin } = user.role;
+
   switch (true) {
-    case user?.role?.isParent:
+    case isAdmin:
+      throw redirect(302, route("/admin"));
+    case isParent:
       throw redirect(302, route("/parent"));
-    case user?.role?.isTutor:
+    case isTutor:
       throw redirect(302, route("/tutor"));
-    case user?.role?.isStudent:
+    case isStudent:
       throw redirect(302, route("/student"));
     default:
-      if (!user?.emailVerified?.isEmailVerified) {
+      if (!user.emailVerified?.isEmailVerified) {
         throw redirect(
           302,
           route("/email-verification") + `?redirectTo=${url.pathname}`,

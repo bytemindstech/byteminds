@@ -129,3 +129,15 @@ export const updateUserEmailVerified = async (
     },
   });
 };
+
+export const updateUserLoginDate = async (userId: string) => {
+  return await db.user.update({
+    where: { id: userId },
+    data: {
+      updatedAt: new Date(),
+    },
+    select: {
+      updatedAt: true,
+    },
+  });
+};

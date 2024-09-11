@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 const main = async () => {
   try {
-    //Create user with admin role
+    // Create user with admin role
     await prisma.user.upsert({
       where: { email: "admin@mail.test" },
       update: {},
@@ -34,7 +34,9 @@ const main = async () => {
         profile: {
           create: {
             profileId: generateId(15),
-            bio: "I am a super user",
+            image:
+              "https://images.pexels.com/photos/7562313/pexels-photo-7562313.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            bio: "I am an admin user",
           },
         },
         role: {
@@ -75,6 +77,8 @@ const main = async () => {
         profile: {
           create: {
             profileId: generateId(15),
+            image:
+              "https://images.pexels.com/photos/3454298/pexels-photo-3454298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             bio: "I am a parent",
           },
         },
@@ -116,6 +120,8 @@ const main = async () => {
         profile: {
           create: {
             profileId: generateId(15),
+            image:
+              "https://images.pexels.com/photos/5615665/pexels-photo-5615665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             bio: "I am a student",
           },
         },
@@ -157,6 +163,8 @@ const main = async () => {
         profile: {
           create: {
             profileId: generateId(15),
+            image:
+              "https://images.pexels.com/photos/4946515/pexels-photo-4946515.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             bio: "I am a tutor",
           },
         },

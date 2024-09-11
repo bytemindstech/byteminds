@@ -4,7 +4,7 @@
 
   export let data: PageData;
 
-  let email = "byteminds.tech@gmail.ccom";
+  let email = "byteminds.tech@gmail.com";
   let phoneNo = "+63 919 125 3021";
   let openHrs = "10:00 am - 9:00 pm";
   let article =
