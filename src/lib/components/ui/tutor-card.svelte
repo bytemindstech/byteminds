@@ -2,6 +2,7 @@
   import { Avatar } from "@skeletonlabs/skeleton";
   import VerifiedBadge from "./verified-badge.svelte";
   import { route } from "$lib/ROUTES";
+  import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
 
   export let courses: Array<{ id: string; title: string; image: string }> = [];
   export let name: string;
@@ -13,7 +14,7 @@
   const images =
     courses.length > 0
       ? courses.map((course) => course.image)
-      : ["/default-placeholder.jpg"];
+      : [defaultCourseImg];
 
   // Precompute the random image once
   let randomImage = getRandomImageSource(images);
@@ -25,7 +26,7 @@
 
   // Fallback image handler
   function handleImageError(event: Event) {
-    (event.target as HTMLImageElement).src = "/default-placeholder.jpg";
+    (event.target as HTMLImageElement).src = defaultCourseImg;
   }
 </script>
 
@@ -47,13 +48,19 @@
   <section class="p-4 flex flex-col">
     <p class="text-xs font-semibold">Available course:</p>
     <ul class="flex flex-wrap gap-1">
-      {#each courses as course (course.id)}
-        <li>
-          <span class="badge variant-filled-primary capitalize">
-            {course.title || "untitled course"}
-          </span>
-        </li>
-      {/each}
+      {#if courses && courses.length > 0}
+        {#each courses as course (course.id)}
+          <li>
+            <span class="badge variant-filled-primary capitalize">
+              {course.title || "untitled course"}
+            </span>
+          </li>
+        {/each}
+      {:else}
+        <span class="badge variant-filled-primary capitalize">
+          no course available
+        </span>
+      {/if}
     </ul>
   </section>
   <hr class="opacity-50 my-4" />

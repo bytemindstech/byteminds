@@ -16,6 +16,7 @@
             class="w-full h-full object-cover"
             src={courseImg}
             alt="course_image"
+            loading="lazy"
           />
         </div>
         <div class="flex -mx-2 mb-4">
@@ -49,7 +50,9 @@
           </div>
           <div>
             <span class="font-bold text-surface-700">Price:</span>
-            <span class="text-surface-600">Php {rate.toFixed(2)}/hr</span>
+            <span class="text-surface-600"
+              >Php {rate.toFixed(2) || "N/A"}/hr</span
+            >
           </div>
         </div>
 

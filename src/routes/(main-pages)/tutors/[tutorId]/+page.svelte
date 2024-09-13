@@ -1,9 +1,8 @@
 <script lang="ts">
   import { Avatar } from "@skeletonlabs/skeleton";
   import { UserBioPublic } from "$lib/components";
-
-  import type { PageData } from "./$types";
   import { route } from "$lib/ROUTES";
+  import type { PageData } from "./$types";
 
   export let data: PageData;
 
@@ -36,17 +35,23 @@
             >Subject Taught</span
           >
           <ul class="flex items-center gap-1">
-            {#each courses as course}
-              <a
-                class="anchor transform transition-transform hover:scale-105"
-                href={route("/courses/[courseId]", { courseId: course.id })}
-                ><li class="mb-2 capitalize text-sm">
-                  <span class="badge variant-filled-primary"
-                    >{course.title || "untitled course"}</span
-                  >
-                </li></a
+            {#if courses && courses.length > 0}
+              {#each courses as course}
+                <a
+                  class="anchor transform transition-transform hover:scale-105"
+                  href={route("/courses/[courseId]", { courseId: course.id })}
+                  ><li class="mb-2 capitalize text-sm">
+                    <span class="badge variant-filled-primary"
+                      >{course.title || "untitled course"}</span
+                    >
+                  </li></a
+                >
+              {/each}
+            {:else}
+              <span class="badge variant-filled-primary"
+                >No course available</span
               >
-            {/each}
+            {/if}
           </ul>
         </div>
         <!-- <button class="btn btn-sm variant-filled-success font-semibold my-4"

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { route } from "$lib/ROUTES";
+  import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
 
   export let data: {
     id: string;
@@ -9,7 +10,12 @@
   };
 
   // Destructuring data for readability
-  const { id, title, price, image = "/default-course.jpg" } = data;
+  const { id, title, price, image = defaultCourseImg } = data;
+
+  // Fallback image handler
+  function handleImageError(event: Event) {
+    (event.target as HTMLImageElement).src = defaultCourseImg;
+  }
 </script>
 
 <a
@@ -25,10 +31,11 @@
       width="500"
       height="100"
       loading="lazy"
+      on:error={handleImageError}
     />
   </header>
   <article class="flex justify-between items-center p-4">
-    <h5 class="h5 capitalize">{title || "Untitled Course"}</h5>
+    <h5 class="h5 capitalize">{title || "untitled course"}</h5>
     <!-- Fallback for title -->
     <p class="text-sm">Price: <span>Php{price?.toFixed(2) || "N/A"}/h</span></p>
     <!-- Fallback for price -->

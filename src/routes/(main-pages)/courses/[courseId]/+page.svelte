@@ -3,20 +3,6 @@
   import type { PageData } from "./$types";
 
   export let data: PageData;
-
-  // const courseId = data.course?.id;
-
-  // const getCourse = (id: number) => {
-  //   return courses.find((course) => course.id === id);
-  // };
-
-  // const getCoach = (course: string) => {
-  //   return tutors.find(
-  //     (tutor) => tutor.course.toLowerCase() === course.toLowerCase(),
-  //   );
-  // };
-
-  // const course = getCourse(Number(courseId));
 </script>
 
 <Course
