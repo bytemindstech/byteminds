@@ -5,7 +5,6 @@ import { getUserById } from "$lib/server/user.service";
 
 export const load = (async ({ locals, parent }) => {
   await parent();
-
   if (!locals.user) {
     return;
   }

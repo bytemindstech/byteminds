@@ -1,10 +1,6 @@
-import { getAllUsers } from "$lib/server/user.service";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ locals, parent }) => {
-  await parent();
-
-  // const users = getAllUsers();
+export const load = (async ({ locals }) => {
   return {
     user: locals.user,
   };

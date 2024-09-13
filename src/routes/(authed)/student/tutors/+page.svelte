@@ -16,7 +16,7 @@
 </script>
 
 <div class="container mx-auto p-6">
-  {#if tutors}
+  {#if tutors && tutors.length > 0}
     <Tutors {tutors} />
   {:else}
     <p class="text-lg font-bold">

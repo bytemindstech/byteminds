@@ -1,9 +1,7 @@
 import { getUserById } from "$lib/server/user.service";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ locals, parent }) => {
-  await parent();
-
+export const load = (async ({ locals }) => {
   if (!locals.user) {
     return;
   }

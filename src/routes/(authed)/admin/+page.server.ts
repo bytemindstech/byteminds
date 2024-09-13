@@ -3,9 +3,7 @@ import type { PageServerLoad } from "./$types";
 import { route } from "$lib/ROUTES";
 import { getUserById } from "$lib/server/user.service";
 
-export const load = (async ({ parent, url, locals }) => {
-  await parent();
-
+export const load = (async ({ locals }) => {
   if (!locals.user) {
     return;
   }

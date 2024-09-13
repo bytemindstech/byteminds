@@ -10,7 +10,7 @@
   {#await data.courses}
     <p class="text-lg font-bold">Loading courses please wait....</p>
   {:then courses}
-    {#if courses}
+    {#if courses && courses.length > 0}
       <Courses {courses} />
     {:else}
       <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
