@@ -1,3 +1,4 @@
+import { getAllCourses } from "$lib/server/course.service";
 import { getAllUsers } from "$lib/server/user.service";
 import type { LayoutServerLoad } from "./$types";
 
@@ -6,5 +7,7 @@ export const load = (async ({ parent }) => {
 
   const users = await getAllUsers();
 
-  return { users };
+  const courses = await getAllCourses();
+
+  return { users, courses };
 }) satisfies LayoutServerLoad;

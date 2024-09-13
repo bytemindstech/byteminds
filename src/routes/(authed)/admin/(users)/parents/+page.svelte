@@ -23,12 +23,8 @@
         </tr>
       </thead>
       <tbody>
-        {#await parents}
-          <tr>
-            <td colspan="5" class="text-center p-2">Loading...</td>
-          </tr>
-        {:then users}
-          {#each users as parent}
+        {#if parents && parents.length > 0}
+          {#each parents as parent}
             <tr class="border-b">
               <td class="p-2"
                 ><a
@@ -46,7 +42,13 @@
               >
             </tr>
           {/each}
-        {/await}
+        {:else}
+          <tr class="border-b"
+            ><td colspan="4" class="text-center p-2"
+              >No parents registered yet</td
+            >
+          </tr>
+        {/if}
       </tbody>
     </table>
   </div>

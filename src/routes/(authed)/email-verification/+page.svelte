@@ -5,7 +5,7 @@
 
   export let data: PageData;
 
-  const { form, errors, constraints, message, enhance } = superForm(
+  const { form, errors, constraints, message, delayed, enhance } = superForm(
     data.verifyEmailForm,
     {
       resetForm: true,
@@ -46,7 +46,7 @@
           {/if}
         </label>
         <button type="submit" class="btn variant-filled-primary"
-          >Verify Email</button
+          >{$delayed ? "Verifying email..." : "Verify Email"}</button
         >
       </form>
       {#if $message}

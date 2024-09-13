@@ -9,7 +9,7 @@
   // export let data: LayoutData;
 
   const paths = [
-    { name: "home", route: route("/student") },
+    { name: "dashboard", route: route("/student") },
     { name: "profile", route: route("/student/profile") },
     { name: "available courses", route: route("/student/courses") },
     { name: "freelance tutors", route: route("/student/tutors") },

@@ -34,20 +34,21 @@
         </div>
       </div>
       <div class="md:flex-1 px-4">
-        <h2 class="text-2xl font-bold text-surface-800 mb-2">Course Title</h2>
-        <p class="text-surface-600 text-sm mb-4">
+        <h3 class="h3 font-bold text-surface-800">Course Title</h3>
+        <p class="text-surface-600 mb-4 capitalize">
           {courseTitle}
         </p>
         <div class="flex mb-4">
           <div class="mr-4">
             <span class="font-bold text-surface-700">Coach:</span>
             <span class="text-surface-600"
-              ><a href={`/tutors/${coachId}`} class="hover:underline">{coach}</a
-              ></span
-            >
+              ><a href={`/tutors/${coachId}`} class="hover:underline capitalize"
+                >{coach}</a
+              >
+            </span>
           </div>
           <div>
-            <span class="font-bold text-surface-700">Rate:</span>
+            <span class="font-bold text-surface-700">Price:</span>
             <span class="text-surface-600">Php {rate.toFixed(2)}/hr</span>
           </div>
         </div>

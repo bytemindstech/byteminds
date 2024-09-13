@@ -1,27 +1,24 @@
 <script lang="ts">
   import { TutorCard } from "$lib/components/ui";
-  // import type { PageData } from './$types';
-  // export let data: PageData;
 
-  //mock data
-  import { tutors, courses } from "$lib/mock.data";
-
-  const getCourse = (courseTitle: string) => {
-    return courses.find((course) => course.title === courseTitle);
-  };
+  export let tutors: Array<{
+    id: string;
+    profile: { image: string };
+    courses: Array<any>;
+    firstName: string;
+    lastName: string;
+    emailVerified: { isEmailVerified: boolean };
+  }>;
 </script>
 
 <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-  {#each tutors as tutor}
+  {#each tutors as tutor (tutor.id)}
     <TutorCard
       id={tutor.id}
-      courseImgSrc={getCourse(tutor.course)?.imgSrc}
-      avatarImgSrc={tutor.avatarImgSrc}
-      course={tutor.course}
-      name={tutor.name}
-      rate={tutor.rate.toFixed(2)}
-      rating={tutor.rating}
-      verified={tutor.verified}
+      avatarImg={tutor.profile.image}
+      courses={tutor.courses}
+      name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
+      verified={tutor.emailVerified.isEmailVerified}
     />
   {/each}
 </section>

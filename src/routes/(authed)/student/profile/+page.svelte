@@ -1,12 +1,16 @@
 <script lang="ts">
-  import { UserBio, UserProfile, UserProfileLayout } from "$lib/components";
+  import {
+    UserBioPrivate,
+    UserProfile,
+    UserProfileLayout,
+  } from "$lib/components";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
   const name = `${data.firstName} ${data.lastName}`;
   const img = data.user?.profile?.image ?? "";
-  const bio = data.user?.profile?.bio ?? "Please update your profile";
+  console.log(data.user?.profile?.bio);
 </script>
 
 <UserProfileLayout
@@ -16,7 +20,7 @@
 
   <svelte:fragment slot="bio">
     <div class="bg-surface-100 shadow rounded-lg p-6">
-      <UserBio profileBio={bio} />
+      <UserBioPrivate bio={data.user?.profile?.bio} />
     </div>
   </svelte:fragment>
 </UserProfileLayout>

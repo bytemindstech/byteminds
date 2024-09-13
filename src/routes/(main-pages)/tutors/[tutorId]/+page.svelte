@@ -1,19 +1,18 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { Avatar } from "@skeletonlabs/skeleton";
-  import { tutors } from "$lib/mock.data";
-  import { UserBio } from "$lib/components";
-  const tutorId = $page.params.tutorId;
+  import { UserBioPublic } from "$lib/components";
 
-  const getTutor = (id: any) => {
-    console.log(id);
-    return tutors.find((tutor) => tutor.id === Number(id));
+  import type { PageData } from "./$types";
+  import { route } from "$lib/ROUTES";
+
+  export let data: PageData;
+
+  type Course = {
+    id: string;
+    title: string;
   };
 
-  const tutor = getTutor(tutorId);
-
-  const bio =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risusrhoncus id.";
+  const courses = data.tutor?.courses as Course[];
 </script>
 
 <div class="container mx-auto py-8">
@@ -22,36 +21,46 @@
       <div class="bg-surface-100 shadow rounded-lg p-6">
         <div class="flex flex-col items-center">
           <Avatar
-            src={tutor?.avatarImgSrc}
+            src={data.tutor?.profile?.image}
             width="w-32"
             background="bg-tertiary-500"
           />
-          <h4 class="h4">{tutor?.name}</h4>
-          <p class="text-surface-700 md:text-sm">
-            Rate: Php{tutor?.rate.toFixed(2)}/hr
-          </p>
+          <h4 class="h4">
+            {data.tutor?.firstName}
+            {data.tutor?.lastName.charAt(0)}.
+          </h4>
         </div>
         <hr class="my-6 border-t-2 border-surface-300" />
         <div class="flex flex-col">
           <span class="text-surface-700 uppercase font-bold tracking-wider mb-2"
             >Subject Taught</span
           >
-          <ul>
-            <li class="mb-2">{tutor?.course}</li>
+          <ul class="flex items-center gap-1">
+            {#each courses as course}
+              <a
+                class="anchor transform transition-transform hover:scale-105"
+                href={route("/courses/[courseId]", { courseId: course.id })}
+                ><li class="mb-2 capitalize text-sm">
+                  <span class="badge variant-filled-primary"
+                    >{course.title || "untitled course"}</span
+                  >
+                </li></a
+              >
+            {/each}
           </ul>
         </div>
-        <button class="btn btn-sm variant-filled-success font-semibold my-4"
+        <!-- <button class="btn btn-sm variant-filled-success font-semibold my-4"
           >Book Now</button
         >
         <button class="btn btn-sm variant-filled-success font-semibold my-4"
           >Message Me</button
-        >
+        > -->
       </div>
     </div>
 
     <div class="col-span-4 md:col-span-9">
       <div class="bg-surface-100 shadow rounded-lg p-6">
-        <UserBio profileBio={bio} />
+        <UserBioPublic bio={data.tutor?.profile?.bio} />
       </div>
     </div>
   </div>

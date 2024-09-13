@@ -80,6 +80,7 @@ model User {
   passwordReset  PasswordReset?
   sessions       Session[]
   feedback       Feedback[]
+  courses        Course[]
 }
 
 model EmailVerificationCode {
@@ -97,4 +98,17 @@ model Contact {
   email            String
   message          String  @db.Text
   isSendNewsLetter Boolean
+}
+
+model Course {
+  id          String   @id
+  userId      String
+  title       String
+  price       Float
+  description String   @db.LongText
+  image       String
+  rating      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

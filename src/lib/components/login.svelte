@@ -13,7 +13,7 @@
   export let loginFormData;
   export let resetPasswordEmailFormData;
 
-  const { form, errors, constraints, message, enhance } = superForm(
+  const { form, errors, constraints, message, delayed, enhance } = superForm(
     loginFormData,
     {
       resetForm: true,
@@ -26,7 +26,7 @@
     constraints: resetPasswordEmailConstraints,
     message: resetPasswordEmailMessage,
     enhance: resetPasswordEmailEnhance,
-    delayed,
+    delayed: resetPasswordEmailDelayed,
   } = superForm(resetPasswordEmailFormData, {
     resetForm: true,
   });
@@ -126,7 +126,7 @@
 
           <button
             class="btn variant-filled-tertiary min-w-full font-bold capitalize"
-            type="submit">login</button
+            type="submit">{$delayed ? 'logging in...' : 'login'}</button
           >
         </form>
       {:else}
@@ -155,7 +155,7 @@
           <button
             class="btn variant-filled-tertiary min-w-full font-bold capitalize"
             type="submit"
-            >{#if $delayed}
+            >{#if $resetPasswordEmailDelayed}
               sending reset link <Icon
                 icon="eos-icons:three-dots-loading"
                 width="48"

@@ -1,50 +1,71 @@
 <script lang="ts">
-  import Icon from "@iconify/svelte";
   import { Avatar } from "@skeletonlabs/skeleton";
   import VerifiedBadge from "./verified-badge.svelte";
   import { route } from "$lib/ROUTES";
 
-  export let course;
-  export let name;
-  export let courseImgSrc;
-  export let avatarImgSrc;
-  export let rating;
-  export let verified;
-  export let rate;
-  export let id;
+  export let courses: Array<{ id: string; title: string; image: string }> = [];
+  export let name: string;
+  export let avatarImg: string;
+  export let verified: boolean;
+  export let id: string;
+
+  // Safely map over courses and get images, with a fallback
+  const images =
+    courses.length > 0
+      ? courses.map((course) => course.image)
+      : ["/default-placeholder.jpg"];
+
+  // Precompute the random image once
+  let randomImage = getRandomImageSource(images);
+
+  function getRandomImageSource(arr: string[]): string {
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    return arr[randomIndex];
+  }
+
+  // Fallback image handler
+  function handleImageError(event: Event) {
+    (event.target as HTMLImageElement).src = "/default-placeholder.jpg";
+  }
 </script>
 
 <a
-  class="card card-hover overflow-hidden min-w-[100]"
+  class="card card-hover overflow-hidden min-w-[100px] flex flex-col"
   href={route("/tutors/[tutorId]", { tutorId: id })}
 >
-  <header>
+  <header class="relative">
     <img
-      src={courseImgSrc}
+      src={randomImage}
       width="400"
       height="175"
-      class="bg-black/50 w-full aspect-[16/9]"
+      class="w-full aspect-[16/9]"
       alt="tutor"
+      loading="lazy"
+      on:error={handleImageError}
     />
   </header>
-  <section class="p-4">
-    <h5 class="h5">{course}</h5>
-    <p class="text-sm text-surface-600">Rate: {rate}/hr</p>
+  <section class="p-4 flex flex-col">
+    <p class="text-xs font-semibold">Available course:</p>
+    <ul class="flex flex-wrap gap-1">
+      {#each courses as course (course.id)}
+        <li>
+          <span class="badge variant-filled-primary capitalize">
+            {course.title || "untitled course"}
+          </span>
+        </li>
+      {/each}
+    </ul>
   </section>
-  <hr class="opacity-50 mb-4" />
-  <footer class="card-footer flex justify-start items-center space-x-3">
-    <Avatar src={avatarImgSrc} width="w-8" />
-    <div class="flex-auto flex justify-between items-center">
-      <div class="flex-auto space-y-1">
+  <hr class="opacity-50 my-4" />
+  <footer class="card-footer flex items-center space-x-3">
+    <Avatar src={avatarImg} width="w-8" />
+    <div class="flex flex-1 justify-between items-center">
+      <div class="space-y-1">
         <h6 class="h6">{name}</h6>
-        {#if verified}
-          <VerifiedBadge />
-        {/if}
       </div>
-      <div class="flex space-x-1 items-center">
-        <Icon icon="fluent-emoji-flat:star" width="1.2em" height="1.2em" />
-        <span class="text-xs text-surface-500">{rating}</span>
-      </div>
+      {#if verified}
+        <VerifiedBadge />
+      {/if}
     </div>
   </footer>
 </a>

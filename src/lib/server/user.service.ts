@@ -20,6 +20,7 @@ export const getAllUsers = async () => {
       emailVerified: true,
       profile: true,
       role: true,
+      courses: true,
       createdAt: true,
       updatedAt: true,
     },

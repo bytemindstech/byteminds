@@ -8,7 +8,8 @@
   export let formData;
   export let isResetPasswordTokenRequired = false;
 
-  const { form, errors, constraints, message, enhance } = superForm(formData);
+  const { form, errors, constraints, message, delayed, enhance } =
+    superForm(formData);
 
   const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
 
@@ -126,6 +127,6 @@
   {/if}
   <button
     class="btn variant-filled-tertiary min-w-full font-medium leading-none capitalize"
-    type="submit">update password</button
+    type="submit">{$delayed ? "updating password" : "update password"}</button
   >
 </form>

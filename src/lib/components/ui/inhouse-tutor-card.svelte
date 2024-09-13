@@ -1,7 +1,5 @@
 <script lang="ts">
-  import Icon from "@iconify/svelte";
-
-  export let tutorImg;
+   export let tutorImg;
   export let bio;
   export let name;
   export let designation;

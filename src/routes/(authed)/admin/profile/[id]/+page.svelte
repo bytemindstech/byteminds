@@ -1,6 +1,10 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { UserBio, UserProfile, UserProfileLayout } from "$lib/components";
+  import {
+    UserBioPublic,
+    UserProfile,
+    UserProfileLayout,
+  } from "$lib/components";
   import type { PageData } from "./$types";
 
   export let data: PageData;
@@ -24,9 +28,7 @@
 
     <svelte:fragment slot="bio">
       <div class="bg-surface-100 shadow rounded-lg p-6">
-        <UserBio
-          profileBio={user.profile?.bio ?? "Please update your profile"}
-        />
+        <UserBioPublic bio={user.profile?.bio} />
       </div>
     </svelte:fragment>
   </UserProfileLayout>

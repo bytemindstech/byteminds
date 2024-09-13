@@ -9,10 +9,10 @@ export const lucia = new Lucia(adapter, {
   sessionCookie: {
     attributes: {
       //set to `true` when using HTTPS
-      // secure: !dev,
+      secure: !dev,
 
       //test prod deploy in non https server
-      secure: false,
+      // secure: false,
     },
   },
   sessionExpiresIn: new TimeSpan(1, "w"),

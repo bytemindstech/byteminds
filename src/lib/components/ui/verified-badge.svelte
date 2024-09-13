@@ -14,7 +14,7 @@
   use:popup={popupHover}
 >
   <Icon icon="mage:verified-check-fill" width="16" height="16" /><span
-    class="text-xs text-gray-800">Verified</span
+    class="text-xs text-surface-800">Verified</span
   >
 </div>
 
@@ -23,8 +23,8 @@
   data-popup="popupHover"
 >
   <p class="text-xs">
-    This tutor has undergone verification according to ByteMinds' standard
+    This tutor has undergone verification according to ByteMinds PH standard
     procedures, ensuring compliance with data privacy regulations.
   </p>
-  <div class="arrow variant-fille-secondary" />
+  <div class="arrow variant-filled-secondary" />
 </div>

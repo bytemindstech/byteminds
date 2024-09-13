@@ -13,6 +13,7 @@ const PAGES = {
   "/admin/parents": `/admin/parents`,
   "/admin/students": `/admin/students`,
   "/admin/tutors": `/admin/tutors`,
+  "/admin/courses": `/admin/courses`,
   "/admin/profile/[id]": (params: { id: (string | number) }) => {
     return `/admin/profile/${params.id}`
   },
@@ -182,7 +183,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/admin/profile/[id]': 'id', '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/student/courses': never, '/student/profile': never, '/student/tutors': never, '/tutor': never, '/tutor/profile': never, '/user-profile': never, '/': never, '/about': never, '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
+  PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/admin/courses': never, '/admin/profile/[id]': 'id', '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/student/courses': never, '/student/profile': never, '/student/tutors': never, '/tutor': never, '/tutor/profile': never, '/user-profile': never, '/': never, '/about': never, '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
   SERVERS: Record<string, never>
   ACTIONS: { 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'default /user-profile': never, 'default /contact-us': never, 'default /logout': never, 'resetPassword /password-reset': never, 'login /signin-signup': never, 'register /signin-signup': never, 'sendResetPasswordEmail /signin-signup': never }
   LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId', 'blog': never, 'bmlearning': never }

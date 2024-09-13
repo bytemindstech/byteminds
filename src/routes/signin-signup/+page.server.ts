@@ -101,7 +101,7 @@ export const actions: Actions = {
       return message(registrationForm, "Invalid form", { status: 406 });
     }
 
-    //destructure object data from registration form
+    //destructured object data from registration form
     const {
       username,
       email,
@@ -164,7 +164,10 @@ export const actions: Actions = {
 
     await createAndSetSession(lucia, userId, cookies);
 
-    return message(registrationForm, "Registered successfully");
+    return message(
+      registrationForm,
+      "Registered successfully and verification code sent to your email",
+    );
   },
 
   sendResetPasswordEmail: async ({ request }) => {

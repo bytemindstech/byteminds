@@ -11,10 +11,11 @@
   export let data: LayoutData;
 
   const paths = [
-    { name: "home", route: route("/admin") },
+    { name: "dashboard", route: route("/admin") },
     { name: "tutors", route: route("/admin/tutors") },
     { name: "parents", route: route("/admin/parents") },
     { name: "students", route: route("/admin/students") },
+    { name: "courses", route: route("/admin/courses") },
   ];
 
   const parentCounts = data.users.filter((user) => user.role?.isParent).length;
@@ -69,7 +70,10 @@
         >
       </Statistics>
 
-      <Statistics title="Courses Available" data="6" cardBg="bg-success-400/40"
+      <Statistics
+        title="Courses Available"
+        data={data.courses.length}
+        cardBg="bg-success-400/40"
         ><svelte:fragment slot="icon"
           ><Icon icon="ic:round-book" width="48" height="48" />
         </svelte:fragment>

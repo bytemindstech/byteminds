@@ -40,25 +40,19 @@
         </tr>
       </thead>
       <tbody>
-        {#await data.users}
-          <tr>
-            <td colspan="5" class="text-center p-2">Loading...</td>
+        {#each data.users as user}
+          <tr class="border-b">
+            <td class="p-2">{user.firstName} {user.lastName}</td>
+            <td class="p-2">{user.email}</td>
+            <td class="p-2"
+              >{user.emailVerified ? "verified" : "not verified"}</td
+            >
+            <td class="p-2">{getUserRole(user.role)}</td>
+            <td class="p-2"
+              >{dateFormatter("en-PH", dateOption, user.updatedAt)}</td
+            >
           </tr>
-        {:then users}
-          {#each users as user}
-            <tr class="border-b">
-              <td class="p-2">{user.firstName} {user.lastName}</td>
-              <td class="p-2">{user.email}</td>
-              <td class="p-2"
-                >{user.emailVerified ? "verified" : "not verified"}</td
-              >
-              <td class="p-2">{getUserRole(user.role)}</td>
-              <td class="p-2"
-                >{dateFormatter("en-PH", dateOption, user.updatedAt)}</td
-              >
-            </tr>
-          {/each}
-        {/await}
+        {/each}
       </tbody>
     </table>
   </div>

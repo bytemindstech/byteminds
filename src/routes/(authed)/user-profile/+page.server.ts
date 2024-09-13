@@ -1,14 +1,21 @@
 import { redirect } from "@sveltejs/kit";
 import { route } from "$lib/ROUTES";
-import { getUserById } from "$lib/server/user.service";
+import { getAllUsers, getUserById } from "$lib/server/user.service";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as RoleService from "$lib/server/role.service";
+import { getAllCourses } from "$lib/server/course.service";
 
 export const load = (async ({ locals, url, parent }) => {
   await parent();
+
+  const courses = getAllCourses();
+
+  const users = await getAllUsers();
+
+  const tutors = users.filter((user) => user.role?.isTutor);
 
   const user = await getUserById(locals.user?.id as string);
 
@@ -44,7 +51,7 @@ export const load = (async ({ locals, url, parent }) => {
     zod(ZodValidationSchema.userRoleSchema),
   );
 
-  return { userRoleForm, user };
+  return { userRoleForm, user, courses, tutors };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {

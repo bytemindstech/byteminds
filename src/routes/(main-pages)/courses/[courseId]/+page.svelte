@@ -1,32 +1,29 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { Course } from "$lib/components";
-  import { courses, tutors } from "$lib/mock.data";
-  // import type { PageData } from './$types';
-  
-  // export let data: PageData;
-  const courseId = $page.params.courseId;
+  import type { PageData } from "./$types";
 
-  const getCourse = (id: number) => {
-    return courses.find((course) => course.id === id);
-  };
+  export let data: PageData;
 
-  const getCoach = (course: string) => {
-    return tutors.find(
-      (tutor) => tutor.course.toLowerCase() === course.toLowerCase(),
-    );
-  };
+  // const courseId = data.course?.id;
 
-  const course = getCourse(Number(courseId));
+  // const getCourse = (id: number) => {
+  //   return courses.find((course) => course.id === id);
+  // };
+
+  // const getCoach = (course: string) => {
+  //   return tutors.find(
+  //     (tutor) => tutor.course.toLowerCase() === course.toLowerCase(),
+  //   );
+  // };
+
+  // const course = getCourse(Number(courseId));
 </script>
 
-{#if course}
-  <Course
-    courseTitle={course.title}
-    rate={getCoach(course.title)?.rate}
-    description={course.description}
-    courseImg={course.imgSrc}
-    coach={getCoach(course.title)?.name}
-    coachId={getCoach(course.title)?.id}
-  />
-{/if}
+<Course
+  courseTitle={data.course?.title}
+  rate={data.course?.price}
+  description={data.course?.description}
+  courseImg={data.course?.image}
+  coach={`${data.user?.firstName} ${data.user?.lastName}`}
+  coachId={data.course?.userId}
+/>

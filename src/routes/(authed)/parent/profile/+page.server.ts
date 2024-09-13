@@ -4,7 +4,6 @@ import type { PageServerLoad } from "./$types";
 export const load = (async ({ locals, parent }) => {
   await parent();
 
-
   if (!locals.user) {
     return;
   }
