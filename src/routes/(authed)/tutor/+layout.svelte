@@ -7,7 +7,7 @@
   //   export let data: LayoutData;
 
   const paths = [
-    { name: "home", route: route("/tutor") },
+    { name: "dashboard", route: route("/tutor") },
     { name: "profile", route: route("/tutor/profile") },
   ];
 </script>

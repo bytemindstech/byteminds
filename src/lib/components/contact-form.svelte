@@ -21,11 +21,7 @@
 </script>
 
 {#if typeof $message === "string" && $message}
-  {#if $page.status === 200}
-    <Toast message={$message} type="success" />
-  {:else}
-    <Toast message={$message} type="error" />
-  {/if}
+  <Toast message={$message} type={$page.status === 200 ? "success" : "error"} />
 {/if}
 <div
   class="max-w-screen-lg min-h-screen mx-auto flex items-center justify-center p-5"

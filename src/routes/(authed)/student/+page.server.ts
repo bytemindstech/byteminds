@@ -1,16 +1,20 @@
 import { route } from "$lib/ROUTES";
-import { getUserById } from "$lib/server/user.service";
+import { getAllUsers, getUserById } from "$lib/server/user.service";
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
+import { getAllCourses } from "$lib/server/course.service";
 
-export const load = (async ({ locals, url, parent }) => {
+export const load = (async ({ locals, parent }) => {
   await parent();
 
   if (!locals.user) {
     return;
   }
-
+  const users = await getAllUsers();
+  const courses = await getAllCourses();
   const user = await getUserById(locals.user.id as string);
+
+  const tutorCounts = users.filter((user) => user.role?.isTutor).length;
 
   if (!user) {
     return;
@@ -24,7 +28,5 @@ export const load = (async ({ locals, url, parent }) => {
     throw redirect(302, route("/user-profile"));
   }
 
-  return {
-    user,
-  };
+  return { tutorCounts, courses };
 }) satisfies PageServerLoad;

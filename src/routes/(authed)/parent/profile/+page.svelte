@@ -6,8 +6,8 @@
 
   export let data: PageData;
 
-  const name = `${data.firstName} ${data.lastName}`;
-  const img = data.user?.profile?.image ?? "";
+  $: name = `${data.firstName} ${data.lastName}`;
+  $: img = data.user?.profile?.image ?? "";
 </script>
 
 <UserProfileLayout

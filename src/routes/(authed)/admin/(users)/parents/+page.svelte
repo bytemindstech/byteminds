@@ -6,7 +6,7 @@
 
   export let data: PageData;
 
-  const parents = data.users.filter((user) => user.role?.isParent);
+  $: parents = data.users.filter((user) => user.role?.isParent);
 </script>
 
 <div class="container mx-auto p-4">
@@ -26,7 +26,7 @@
         {#if parents && parents.length > 0}
           {#each parents as parent}
             <tr class="border-b">
-              <td class="p-2"
+              <td class="p-2 capitalize"
                 ><a
                   class="anchor"
                   href={route("/admin/profile/[id]", { id: parent.id })}
@@ -34,7 +34,7 @@
                 </a>
               </td>
               <td class="p-2">{parent.email}</td>
-              <td class="p-2"
+              <td class="p-2 capitalize"
                 >{parent.emailVerified ? "verified" : "not verified"}</td
               >
               <td class="p-2"

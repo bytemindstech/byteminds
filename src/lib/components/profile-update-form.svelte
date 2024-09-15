@@ -13,13 +13,8 @@
 </script>
 
 {#if typeof $message === "string" && $message}
-  {#if $page.status === 200}
-    <Toast message={$message} type="success" />
-  {:else}
-    <Toast message={$message} type="error" />
-  {/if}
+  <Toast message={$message} type={$page.status === 200 ? "success" : "error"} />
 {/if}
-
 <div class="bg-surface-100 shadow rounded-lg p-6 mt-5">
   <div class="flex flex-col items-center">
     <form method="post" action={route("default /user-profile")} use:enhance>

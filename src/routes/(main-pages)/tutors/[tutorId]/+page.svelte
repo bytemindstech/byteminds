@@ -11,11 +11,12 @@
     title: string;
   };
 
-  const courses = data.tutor?.courses as Course[];
+  $: courses = data.tutor?.courses as Course[];
 </script>
 
 <div class="container mx-auto py-8">
   <div class="grid grid-cols-4 md:grid-cols-12 gap-6 px-4">
+    <!-- Tutor Profile Section -->
     <div class="col-span-4 md:col-span-3">
       <div class="bg-surface-100 shadow rounded-lg p-6">
         <div class="flex flex-col items-center">
@@ -29,40 +30,52 @@
             {data.tutor?.lastName.charAt(0)}.
           </h4>
         </div>
-        <hr class="my-6 border-t-2 border-surface-300" />
+
+        <hr class="my-6 border-surface-300" />
+
         <div class="flex flex-col">
           <span class="text-surface-700 uppercase font-bold tracking-wider mb-2"
             >Subject Taught</span
           >
-          <ul class="flex items-center gap-1">
+          <ul class="grid grid-cols-3 gap-1">
             {#if courses && courses.length > 0}
               {#each courses as course}
-                <a
-                  class="anchor transform transition-transform hover:scale-105"
-                  href={route("/courses/[courseId]", { courseId: course.id })}
-                  ><li class="mb-2 capitalize text-sm">
-                    <span class="badge variant-filled-primary"
-                      >{course.title || "untitled course"}</span
-                    >
-                  </li></a
-                >
+                <li>
+                  <a
+                    class="block text-center capitalize text-xs badge variant-filled-primary transform transition-transform hover:scale-105 overflow-hidden text-ellipsis whitespace-nowrap"
+                    href={route("/courses/[courseId]", { courseId: course.id })}
+                  >
+                    {course.title || "untitled course"}
+                  </a>
+                </li>
               {/each}
             {:else}
-              <span class="badge variant-filled-primary"
-                >No course available</span
-              >
+              <li>
+                <span class="badge variant-filled-primary"
+                  >No course available</span
+                >
+              </li>
             {/if}
           </ul>
         </div>
-        <!-- <button class="btn btn-sm variant-filled-success font-semibold my-4"
-          >Book Now</button
-        >
-        <button class="btn btn-sm variant-filled-success font-semibold my-4"
-          >Message Me</button
-        > -->
+
+        <hr class="mt-4 border-surface-300" />
+
+        <!-- Buttons Section -->
+        <div class="md:flex gap-2 justify-center">
+          <button
+            class="btn btn-sm variant-filled-success font-semibold my-4"
+            disabled>Book Now</button
+          >
+          <button
+            class="btn btn-sm variant-filled-success font-semibold my-4"
+            disabled>Message Me</button
+          >
+        </div>
       </div>
     </div>
 
+    <!-- Bio Section -->
     <div class="col-span-4 md:col-span-9">
       <div class="bg-surface-100 shadow rounded-lg p-6">
         <UserBioPublic bio={data.tutor?.profile?.bio} />

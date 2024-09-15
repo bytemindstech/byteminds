@@ -6,7 +6,7 @@
 
   export let data: PageData;
 
-  const tutors = data.users.filter((user) => user.role?.isTutor);
+  $: tutors = data.users.filter((user) => user.role?.isTutor);
 </script>
 
 <div class="container mx-auto p-4">
@@ -25,7 +25,7 @@
         {#if tutors && tutors.length > 0}
           {#each tutors as tutor}
             <tr class="border-b">
-              <td class="p-2"
+              <td class="p-2 capitalize"
                 ><a
                   class="anchor"
                   href={route("/admin/profile/[id]", { id: tutor.id })}
@@ -33,7 +33,7 @@
                 </a>
               </td>
               <td class="p-2">{tutor.email}</td>
-              <td class="p-2"
+              <td class="p-2 capitalize"
                 >{tutor.emailVerified ? "verified" : "not verified"}</td
               >
               <td class="p-2"

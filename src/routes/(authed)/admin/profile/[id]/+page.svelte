@@ -9,11 +9,9 @@
 
   export let data: PageData;
 
-  const userId = $page.params.id;
+  $: user = data.users.find((user) => user.id === $page.params.id);
 
-  const user = data.users.find((user) => user.id === userId);
-
-  const img = user?.profile?.image ?? "";
+  $: img = user?.profile?.image ?? "";
 </script>
 
 {#if user}

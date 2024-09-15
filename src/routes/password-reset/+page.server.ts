@@ -10,10 +10,8 @@ import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as PasswordService from "$lib/server/password.service";
 
-export const load = (async ({ url, parent }) => {
-  await parent();
-
-  const passwordResetFormData = await superValidate(
+export const load = (async ({ url }) => {
+    const passwordResetFormData = await superValidate(
     zod(ZodValidationSchema.resetPasswordTokenSchema),
   );
 

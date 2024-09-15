@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { route } from "$lib/ROUTES";
   import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
 
   export let data: {
@@ -9,36 +8,41 @@
     image?: string; // Optional image field
   };
 
+  export let href;
+
   // Destructuring data for readability
-  const { id, title, price, image = defaultCourseImg } = data;
+  const { title, price, image = defaultCourseImg } = data;
 
   // Fallback image handler
-  function handleImageError(event: Event) {
+  const handleImageError = (event: Event) => {
     (event.target as HTMLImageElement).src = defaultCourseImg;
-  }
+  };
 </script>
 
 <a
   class="card card-hover overflow-hidden"
-  href={route("/courses/[courseId]", { courseId: id })}
-  aria-label={`View details for ${title}`}
+  {href}
+  aria-label={`View details for ${title || "untitled course"}`}
 >
   <header>
     <img
       src={image}
-      alt={`Image for ${title}`}
-      class="w-full aspect-[16/9]"
+      alt={`Image for ${title || "untitled course"}`}
+      class="w-full aspect-[16/9] object-cover"
       width="500"
-      height="100"
+      height="281"
       loading="lazy"
       on:error={handleImageError}
     />
   </header>
-  <article class="flex justify-between items-center p-4">
-    <h5 class="h5 capitalize">{title || "untitled course"}</h5>
-    <!-- Fallback for title -->
-    <p class="text-sm">Price: <span>Php{price?.toFixed(2) || "N/A"}/h</span></p>
-    <!-- Fallback for price -->
+  <article
+    class="flex flex-col md:flex-row justify-between items-center p-4 gap-2"
+  >
+    <h6 class="h6 capitalize">
+      {title || "Untitled Course"}
+    </h6>
+    <p class="text-sm">
+      Price: <span>Php{price?.toFixed(2) || "N/A"}/hr</span>
+    </p>
   </article>
-  <hr class="opacity-50" />
 </a>

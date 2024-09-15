@@ -20,7 +20,7 @@
   //   return () => notificationStore.close();
   // });
 
-  const students = data.users.filter((user) => user.role?.isStudent);
+  $: students = data.users.filter((user) => user.role?.isStudent);
 </script>
 
 <div class="container mx-auto p-4">
@@ -39,7 +39,7 @@
         {#if students && students.length > 0}
           {#each students as student}
             <tr class="border-b">
-              <td class="p-2"
+              <td class="p-2 capitalize"
                 ><a
                   class="anchor"
                   href={route("/admin/profile/[id]", { id: student.id })}
@@ -47,7 +47,7 @@
                 </a>
               </td>
               <td class="p-2">{student.email}</td>
-              <td class="p-2"
+              <td class="p-2 capitalize"
                 >{student.emailVerified ? "verified" : "not verified"}</td
               >
               <td class="p-2"

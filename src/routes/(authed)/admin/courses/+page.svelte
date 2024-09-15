@@ -7,7 +7,7 @@
 
   export let data: PageData;
 
-  const getTutor = (userId: string) => {
+  $: getTutor = (userId: string) => {
     return data.users.find((user) => user.id === userId);
   };
 </script>
@@ -21,21 +21,25 @@
       <table class="w-full">
         <thead>
           <tr class="bg-surface-200">
+            <th class="p-2 text-left">No.</th>
             <th class="p-2 text-left">Title</th>
             <th class="p-2 text-left">Tutor</th>
+            <th class="p-2 text-left">Price</th>
             <th class="p-2 text-left">Created on</th>
             <th class="p-2 text-left">Updated on</th>
           </tr>
         </thead>
         <tbody>
           {#if courses && courses.length > 0}
-            {#each courses as course (course.id)}
+            {#each courses as course, index (course.id)}
               <tr class="border-b">
+                <td class="p-2">{index + 1}</td>
                 <td class="p-2 capitalize">{course.title} </td>
-                <td class="p-2"
+                <td class="p-2 capitalize"
                   >{getTutor(course.userId)?.firstName}
                   {getTutor(course.userId)?.lastName}</td
                 >
+                <td class="p-2">Php{course.price.toFixed(2)}</td>
                 <td class="p-2"
                   >{dateFormatter("en-PH", dateOption, course.createdAt)}</td
                 >

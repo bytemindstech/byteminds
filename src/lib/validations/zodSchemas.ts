@@ -55,3 +55,20 @@ export const contactUsSchema = registerSchema
     email: true,
   })
   .merge(z.object({ message: z.string(), isSendNewsLetter: z.boolean() }));
+
+export const courseSchema = z.object({
+  userId: z.string(),
+  courseTitle: z.string().max(15),
+  courseImage: z.string(),
+  price: z.number(),
+  description: z.string(),
+});
+
+export const updateCourseSchema = courseSchema
+  .pick({
+    courseTitle: true,
+    courseImage: true,
+    price: true,
+    description: true,
+  })
+  .merge(z.object({ courseId: z.string() }));

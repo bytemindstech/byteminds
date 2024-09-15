@@ -126,7 +126,16 @@
 
           <button
             class="btn variant-filled-tertiary min-w-full font-bold capitalize"
-            type="submit">{$delayed ? 'logging in...' : 'login'}</button
+            type="submit"
+            >{#if $delayed}
+              logging <Icon
+                icon="eos-icons:three-dots-loading"
+                width="32"
+                height="32"
+              />
+            {:else}
+              login
+            {/if}</button
           >
         </form>
       {:else}
@@ -169,11 +178,18 @@
       {/if}
     </section>
     <footer class="card-footer">
-      <button
-        class="btn text-primary-700 hover:text-error-600 text-sm float-left capitalize"
-        on:click={handleClick}
-        >{!isForgotPasswordTriggered ? "forgot password?" : "login"}</button
-      >
+      <div class="flex items-center">
+        {#if isForgotPasswordTriggered}
+          <span class="text-sm capitalize">remember password?</span>
+        {/if}
+        <button
+          class="btn text-primary-700 hover:text-error-600 text-sm float-left capitalize"
+          on:click={handleClick}
+          >{!isForgotPasswordTriggered
+            ? "forgot password?"
+            : "login here"}</button
+        >
+      </div>
     </footer>
   </div>
 </div>

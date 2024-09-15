@@ -18,13 +18,11 @@
     { name: "courses", route: route("/admin/courses") },
   ];
 
-  const parentCounts = data.users.filter((user) => user.role?.isParent).length;
+  $: parentCounts = data.users.filter((user) => user.role?.isParent).length;
 
-  const studentCounts = data.users.filter(
-    (user) => user.role?.isStudent,
-  ).length;
+  $: studentCounts = data.users.filter((user) => user.role?.isStudent).length;
 
-  const tutorCounts = data.users.filter((user) => user.role?.isTutor).length;
+  $: tutorCounts = data.users.filter((user) => user.role?.isTutor).length;
 </script>
 
 <AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4"
@@ -58,7 +56,7 @@
       </Statistics>
 
       <Statistics
-        title="Tutors Registered"
+        title="Freelance Tutors"
         data={tutorCounts}
         cardBg="bg-tertiary-400/40"
         ><svelte:fragment slot="icon"

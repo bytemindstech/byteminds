@@ -51,6 +51,25 @@ export const createCourse = async (
   });
 };
 
+export const updateCourse = async (
+  id: string,
+  course: Omit<Course, "id" | "createdAt" | "userId" | "rating">,
+) => {
+  return await db.course.update({
+    where: { id },
+    data: course,
+    select: {
+      id: true,
+      userId: true,
+      title: true,
+      price: true,
+      description: true,
+      image: true,
+      createdAt: true,
+    },
+  });
+};
+
 export const deleteCourse = async (id: string) => {
   await db.course.delete({ where: { id } });
 };

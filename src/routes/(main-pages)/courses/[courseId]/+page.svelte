@@ -5,11 +5,13 @@
   export let data: PageData;
 </script>
 
-<Course
-  courseTitle={data.course?.title}
-  rate={data.course?.price}
-  description={data.course?.description}
-  courseImg={data.course?.image}
-  coach={`${data.user?.firstName} ${data.user?.lastName}`}
-  coachId={data.course?.userId}
-/>
+{#if data.course && data.user}
+  <Course
+    courseTitle={data.course.title}
+    rate={data.course.price}
+    description={data.course.description}
+    courseImg={data.course.image}
+    coach={`${data.user.firstName} ${data.user.lastName}`}
+    coachId={data.course.userId}
+  />
+{/if}

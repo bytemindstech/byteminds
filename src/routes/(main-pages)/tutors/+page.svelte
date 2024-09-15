@@ -5,7 +5,7 @@
 
   export let data: PageData;
 
-  const tutors = data.tutors as Array<{
+  $: tutors = data.tutors as Array<{
     id: string;
     profile: { image: string };
     courses: Array<any>;

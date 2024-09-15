@@ -4,7 +4,7 @@
 
   export let data: PageData;
 
-  const getUserRole = (role: any): string => {
+  $: getUserRole = (role: any): string => {
     switch (true) {
       case role.isAdmin:
         return "admin";
@@ -42,12 +42,12 @@
       <tbody>
         {#each data.users as user}
           <tr class="border-b">
-            <td class="p-2">{user.firstName} {user.lastName}</td>
+            <td class="p-2 capitalize">{user.firstName} {user.lastName}</td>
             <td class="p-2">{user.email}</td>
-            <td class="p-2"
+            <td class="p-2 capitalize"
               >{user.emailVerified ? "verified" : "not verified"}</td
             >
-            <td class="p-2">{getUserRole(user.role)}</td>
+            <td class="p-2 capitalize">{getUserRole(user.role)}</td>
             <td class="p-2"
               >{dateFormatter("en-PH", dateOption, user.updatedAt)}</td
             >

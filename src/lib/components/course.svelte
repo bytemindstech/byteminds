@@ -23,13 +23,13 @@
           <div class="w-1/2 px-2">
             <button
               class="btn variant-filled-tertiary w-full py-2 px-4 font-bold"
-              >Book Now</button
+              disabled>Book Now</button
             >
           </div>
           <div class="w-1/2 px-2">
             <button
               class="btn variant-filled-tertiary w-full py-2 px-4 font-bold"
-              >Add to Wishlist</button
+              disabled>Add to Wishlist</button
             >
           </div>
         </div>
@@ -42,10 +42,10 @@
         <div class="flex mb-4">
           <div class="mr-4">
             <span class="font-bold text-surface-700">Coach:</span>
-            <span class="text-surface-600"
-              ><a href={`/tutors/${coachId}`} class="hover:underline capitalize"
-                >{coach}</a
-              >
+            <span class="text-surface-600">
+              <a href={`/tutors/${coachId}`} class="hover:underline capitalize"
+                >{coach}
+              </a>
             </span>
           </div>
           <div>

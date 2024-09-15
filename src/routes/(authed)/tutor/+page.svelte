@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { CourseForm, CourseGrid } from "$lib/components";
+  import { CourseCard } from "$lib/components/ui";
+  import { route } from "$lib/ROUTES";
   import type { PageData } from "./$types";
 
   export let data: PageData;
@@ -31,20 +34,29 @@
           class="bg-no-repeat bg-tertiary-200 border border-tertiary-300 rounded-xl w-5/12 ml-2 p-6"
         >
           <p class="text-5xl text-primary-900">
-            Students Booked <br /><strong>23</strong>
+            Students Booked <br /><strong>(23) - Not yet real data</strong>
           </p>
         </div>
       </div>
 
-      <div class="flex flex-row h-64 mt-6">
+      <div class="mt-4">
         {#if showForm}
           <div class="bg-surface-100 rounded-xl shadow-lg px-6 py-4 w-full">
-            form for add course
+            <CourseForm formData={data.courseForm} userId={data.id} />
+            <!--data.id is from +layout.server.ts-->
           </div>
+        {:else if data.myCourses && data.myCourses.length > 0}
+          <!--grid layout-->
+          <CourseGrid courses={data.myCourses}>
+            <svelte:fragment slot="course-card" let:course
+              ><CourseCard
+                data={course}
+                href={route("/tutor/my-courses/[id]", { id: course.id })}
+              /></svelte:fragment
+            >
+          </CourseGrid>
         {:else}
-          <div class="bg-surface-100 rounded-xl shadow-lg px-6 py-4 w-full">
-            courses cards
-          </div>
+          <p class="text-lg font-bold text-center">No course added yet</p>
         {/if}
       </div>
     </div>

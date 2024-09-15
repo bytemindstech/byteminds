@@ -12,13 +12,10 @@ export const load = (async ({ locals, url, parent }) => {
   await parent();
 
   const courses = getAllCourses();
-
   const users = await getAllUsers();
-
-  const tutors = users.filter((user) => user.role?.isTutor);
-
   const user = await getUserById(locals.user?.id as string);
 
+  const tutors = users.filter((user) => user.role?.isTutor);
   if (!user) {
     return;
   }

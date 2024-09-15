@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { Courses } from "$lib/components";
+  import { CourseGrid } from "$lib/components";
+  import { CourseCard } from "$lib/components/ui";
+  import { route } from "$lib/ROUTES";
 
   import type { PageData } from "./$types";
 
@@ -11,7 +13,14 @@
     <p class="text-lg font-bold">Loading courses please wait....</p>
   {:then courses}
     {#if courses && courses.length > 0}
-      <Courses {courses} />
+      <CourseGrid {courses}
+        ><svelte:fragment slot="course-card" let:course>
+          <CourseCard
+            data={course}
+            href={route("/courses/[courseId]", { courseId: course.id })}
+          />
+        </svelte:fragment>
+      </CourseGrid>
     {:else}
       <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
     {/if}

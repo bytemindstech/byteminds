@@ -8,9 +8,8 @@
 
   export let data: PageData;
 
-  const name = `${data.firstName} ${data.lastName}`;
-  const img = data.user?.profile?.image ?? "";
-  console.log(data.user?.profile?.bio);
+  $: name = `${data.firstName} ${data.lastName}`;
+  $: img = data.user?.profile?.image ?? "";
 </script>
 
 <UserProfileLayout

@@ -1,18 +1,20 @@
 <script lang="ts">
   import {
-    Courses,
+    CourseGrid,
     Tutors,
     ProfileUpdateForm,
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
+  import { CourseCard } from "$lib/components/ui";
+  import { route } from "$lib/ROUTES";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
-  const name = `${data.firstName} ${data.lastName}`;
+  $: name = `${data.firstName} ${data.lastName}`;
 
-  const tutors = data.tutors as Array<{
+  $: tutors = data.tutors as Array<{
     id: string;
     profile: { image: string };
     courses: Array<any>;
@@ -42,7 +44,14 @@
         <p class="text-lg font-bold">Loading courses please wait....</p>
       {:then courses}
         {#if courses}
-          <Courses {courses} />
+          <CourseGrid {courses}
+            ><svelte:fragment slot="course-card" let:course>
+              <CourseCard
+                data={course}
+                href={route("/courses/[courseId]", { courseId: course.id })}
+              />
+            </svelte:fragment>
+          </CourseGrid>
         {:else}
           <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
         {/if}

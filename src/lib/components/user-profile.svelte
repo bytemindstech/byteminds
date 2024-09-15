@@ -6,7 +6,7 @@
   export let profileImg: string;
   export let email: string;
 
-  const initials = getInitials(name);
+  $: initials = getInitials(name);
 </script>
 
 <div class="bg-surface-100 shadow rounded-lg p-6">
