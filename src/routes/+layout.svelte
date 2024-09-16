@@ -7,6 +7,7 @@
     getDrawerStore,
     initializeStores,
     storePopup,
+    Modal,
   } from "@skeletonlabs/skeleton";
   import {
     computePosition,
@@ -110,6 +111,7 @@
 </svelte:head>
 
 <!-- Overlays -->
+<Modal />
 <Toast />
 <Drawer
   ><Navigation {paths} />
@@ -123,6 +125,7 @@
   </div>
 </Drawer>
 
+<!--App Shell-->
 <AppShell slotPageFooter="bg-secondary">
   <slot />
 

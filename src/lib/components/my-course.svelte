@@ -4,16 +4,27 @@
   import { route } from "$lib/ROUTES";
   import { superForm } from "sveltekit-superforms/client";
   import { Toast } from "./ui";
+  import { getModalStore } from "@skeletonlabs/skeleton";
 
   export let courseTitle: string;
   export let rate: number;
   export let description: string;
   export let courseImg: string = defaultCourseImg;
   export let courseId: string;
-  export let formData;
+  export let updateCourseFormData;
+  export let deleteCourseFormData;
+
+  type ModalSettings = {
+    type: "alert" | "confirm" | "prompt" | "component";
+    title: string;
+    body: string;
+    response: (r: boolean) => void;
+  };
+
+  const modalStore = getModalStore();
 
   const { errors, constraints, message, delayed, enhance } = superForm(
-    formData,
+    updateCourseFormData,
     {
       onUpdated({ form }) {
         if (form.valid) {
@@ -22,6 +33,11 @@
       },
     },
   );
+
+  const { delayed: deleteCourseFormDelayed, enhance: deleteCourseFormEnhance } =
+    superForm(deleteCourseFormData, {
+      resetForm: true,
+    });
 
   // Fallback image handler
   const handleImageError = (event: Event) => {
@@ -40,8 +56,24 @@
   };
 
   //Cancel edit
-  const toggleCancel = () => {
-    isEdit = false;
+  const toggleCancelOrDelete = (event: Event) => {
+    if (!isEdit) {
+      const modal: ModalSettings = {
+        type: "confirm",
+        // Data
+        title: "Please Confirm",
+        body: "Are you sure you wish to proceed?",
+        // TRUE if confirm pressed, FALSE if cancel pressed
+        response: (r: boolean) => console.log("response:", r),
+      };
+      modalStore.trigger(modal);
+    }
+
+    if (isEdit) {
+      console.log("delete form not submiting");
+      event.preventDefault();
+      isEdit = false;
+    }
   };
 </script>
 
@@ -84,21 +116,33 @@
                 class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
                 on:click={toggleEditMode}
               >
-                {isEdit ? ($delayed ? "Saving..." : "Save") : "Edit"}
+                {isEdit ? ($delayed ? "saving..." : "save") : "edit"}
               </button>
             </div>
 
-            {#if isEdit}
-              <div class="w-1/2 px-2">
+            <div class="w-1/2 px-2">
+              <form
+                action={route("deleteCourse /tutor")}
+                method="post"
+                use:deleteCourseFormEnhance
+                class="w-full"
+              >
+                <!--hidden input-->
+                <input type="input" name="courseId" value={courseId} hidden />
                 <button
-                  type="button"
+                  disabled={!isEdit}
+                  type={!isEdit ? "submit" : "button"}
                   class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
-                  on:click={toggleCancel}
+                  on:click={toggleCancelOrDelete}
                 >
-                  cancel
+                  {!isEdit
+                    ? $deleteCourseFormDelayed
+                      ? "deleting..."
+                      : "delete"
+                    : "cancel"}
                 </button>
-              </div>
-            {/if}
+              </form>
+            </div>
           </div>
         </div>
         <!--course details-->

@@ -7,7 +7,6 @@
   import { quintOut } from "svelte/easing";
   import Icon from "@iconify/svelte";
   import { superForm } from "sveltekit-superforms/client";
-
   // import SuperDebug from "sveltekit-superforms";
 
   export let loginFormData;
@@ -42,11 +41,10 @@
 </script>
 
 {#if (typeof $message === "string" || typeof $resetPasswordEmailMessage === "string") && ($message || $resetPasswordEmailMessage)}
-  {#if $page.status === 200}
-    <Toast message={$message || $resetPasswordEmailMessage} type="success" />
-  {:else}
-    <Toast message={$message || $resetPasswordEmailMessage} type="error" />
-  {/if}
+  <Toast
+    message={$message || $resetPasswordEmailMessage}
+    type={$page.status === 200 ? "success" : "error"}
+  />
 {/if}
 
 <div
@@ -128,7 +126,7 @@
             class="btn variant-filled-tertiary min-w-full font-bold capitalize"
             type="submit"
             >{#if $delayed}
-              logging <Icon
+              logging in <Icon
                 icon="eos-icons:three-dots-loading"
                 width="32"
                 height="32"

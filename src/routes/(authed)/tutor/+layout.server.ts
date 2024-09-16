@@ -9,10 +9,14 @@ export const load = (async ({ locals }) => {
     zod(ZodValidationSchema.updateCourseSchema),
   );
 
+  const deleteCourseForm = await superValidate(
+    zod(ZodValidationSchema.deleteCourseSchema),
+  );
+
   const allCourses = await getAllCourses();
 
   const myCourses = allCourses.filter(
     (course) => course.userId === (locals.user?.id as string),
   );
-  return { myCourses, updateCourseForm };
+  return { myCourses, updateCourseForm, deleteCourseForm };
 }) satisfies LayoutServerLoad;

@@ -21,6 +21,7 @@
     description={selectedMyCourse.description}
     courseImg={selectedMyCourse.image}
     {courseId}
-    formData={data.updateCourseForm}
+    updateCourseFormData={data.updateCourseForm}
+    deleteCourseFormData={data.deleteCourseForm}
   />
 {/if}
