@@ -13,6 +13,8 @@
   };
 </script>
 
+<svelte:head><title>{data.title}</title></svelte:head>
+
 <div class="min-h-screen">
   <div class="flex flex-row pt-24 px-10 pb-4">
     <div class="w-full">

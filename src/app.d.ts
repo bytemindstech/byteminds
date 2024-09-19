@@ -17,6 +17,20 @@ declare global {
   }
 
   var __db: PrismaClient | undefined;
+
+  interface ModalComponent {
+    /** Import and provide your component reference. */
+    ref: any;
+    /** Provide component props as key/value pairs. */
+    props?: Record<string, unknown>;
+    /** Provide an HTML template literal for the default slot. */
+    slot?: string;
+  }
+
+  interface ModalSettings {
+    type: "alert" | "confirm" | "prompt" | "component";
+    component: ModalComponent | string;
+  }
 }
 
 export {};

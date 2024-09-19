@@ -7,6 +7,7 @@
   import { quintOut } from "svelte/easing";
   import Icon from "@iconify/svelte";
   import { superForm } from "sveltekit-superforms/client";
+  import { goto } from "$app/navigation";
   // import SuperDebug from "sveltekit-superforms";
 
   export let loginFormData;
@@ -32,9 +33,15 @@
 
   let isForgotPasswordTriggered = false;
 
-  const handleClick = () =>
-    (isForgotPasswordTriggered = !isForgotPasswordTriggered);
+  const handleClick = () => {
+    isForgotPasswordTriggered = !isForgotPasswordTriggered;
 
+    if (isForgotPasswordTriggered) {
+      goto("/signin-signup?forgot-password");
+    } else {
+      goto("/signin-signup?login");
+    }
+  };
   const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
 
   $: isPasswordIconVisible = $form.password && $form.password.length > 0;
@@ -165,8 +172,8 @@
             >{#if $resetPasswordEmailDelayed}
               sending reset link <Icon
                 icon="eos-icons:three-dots-loading"
-                width="48"
-                height="48"
+                width="32"
+                height="32"
               />
             {:else}
               send reset link

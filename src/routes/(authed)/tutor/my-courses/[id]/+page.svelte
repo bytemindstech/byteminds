@@ -2,6 +2,8 @@
   import { MyCourse } from "$lib/components";
   import { page } from "$app/stores";
   import type { PageData } from "./$types";
+  import { resetTitle } from "$lib/util.client";
+  import { onDestroy } from "svelte";
 
   export let data: PageData;
 
@@ -12,7 +14,11 @@
   // Reactive declaration for selected course
   let selectedMyCourse;
   $: selectedMyCourse = data.myCourses.find((course) => course.id === courseId);
+
+  onDestroy(resetTitle);
 </script>
+
+<svelte:head><title>{data.title}</title></svelte:head>
 
 {#if selectedMyCourse}
   <MyCourse

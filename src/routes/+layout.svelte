@@ -17,7 +17,7 @@
     flip,
     arrow,
   } from "@floating-ui/dom";
-  import { paths } from "$lib/util.client";
+  import { paths, metaDefaults } from "$lib/util.client";
   import { route } from "$lib/ROUTES";
   import { page } from "$app/stores";
   import { afterNavigate } from "$app/navigation";
@@ -25,14 +25,7 @@
 
   //global css
   import "../app.pcss";
-
-  //SEO Meta tags
-  const metaDefaults = {
-    title: "ByteMinds PH - Online Tutoring for Academic Excellence",
-    description:
-      "ByteMinds PH - your trusted partner in online education. Access expert tutoring services anytime, anywhere, and elevate your learning experience.",
-    image: `${route("githubAvatar", { avatarId: 159615949 })}`,
-  };
+  import { ConfirmModal } from "$lib/components/ui";
 
   const meta = {
     title: metaDefaults.title,
@@ -76,6 +69,19 @@
   const drawerClose = () => {
     drawerStore.close();
   };
+
+  interface ModalComponent {
+    /** Import and provide your component reference. */
+    ref: any;
+    /** Provide component props as key/value pairs. */
+    props?: Record<string, unknown>;
+    /** Provide an HTML template literal for the default slot. */
+    slot?: string;
+  }
+
+  const modalRegistry: Record<string, ModalComponent> = {
+    confirmModal: { ref: ConfirmModal },
+  };
 </script>
 
 <svelte:head
@@ -111,14 +117,14 @@
 </svelte:head>
 
 <!-- Overlays -->
-<Modal />
+<Modal components={modalRegistry} />
 <Toast />
 <Drawer
   ><Navigation {paths} />
 
   <div class="flex justify-center mt-5">
     <a
-      href={route("/signin-signup")}
+      href={route("/signin-signup") + "?register"}
       class="btn btn-lg variant-filled-tertiary font-bold"
       on:click={drawerClose}>Apply Now</a
     >

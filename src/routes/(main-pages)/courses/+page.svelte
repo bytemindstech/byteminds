@@ -2,10 +2,16 @@
   import { CourseGrid } from "$lib/components";
   import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
+  import { onDestroy } from "svelte";
   import type { PageData } from "./$types";
+  import { resetTitle } from "$lib/util.client";
 
   export let data: PageData;
+
+  onDestroy(resetTitle);
 </script>
+
+<svelte:head><title>ByteMinds PH - Available Courses</title></svelte:head>
 
 <div class="container mx-auto min-h-screen p-6">
   {#await data.courses}

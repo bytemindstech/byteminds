@@ -1,7 +1,9 @@
 <script lang="ts">
   import { Tutors } from "$lib/components";
+  import { onDestroy } from "svelte";
 
   import type { PageData } from "./$types";
+  import { resetTitle } from "$lib/util.client";
 
   export let data: PageData;
 
@@ -13,7 +15,13 @@
     lastName: string;
     emailVerified: { isEmailVerified: boolean };
   }>;
+
+  onDestroy(resetTitle);
 </script>
+
+<svelte:head
+  ><title>ByteMinds PH - Available Freelance Tutors</title></svelte:head
+>
 
 <div class="container min-h-screen mx-auto p-6">
   {#if tutors}

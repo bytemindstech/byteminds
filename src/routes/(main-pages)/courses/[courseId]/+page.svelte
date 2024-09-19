@@ -1,9 +1,15 @@
 <script lang="ts">
   import { Course } from "$lib/components";
+  import { onDestroy } from "svelte";
   import type { PageData } from "./$types";
+  import { resetTitle } from "$lib/util.client";
 
   export let data: PageData;
+
+  onDestroy(resetTitle);
 </script>
+
+<svelte:head><title>{data.title}</title></svelte:head>
 
 {#if data.course && data.user}
   <Course

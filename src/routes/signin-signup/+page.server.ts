@@ -7,6 +7,7 @@ import { lucia } from "$lib/server/auth";
 import { route } from "$lib/ROUTES";
 import { generateId } from "lucia";
 import { createAndSetSession } from "@jhenbert/byteminds-util";
+import { match } from "ts-pattern";
 import {
   createPasswordResetToken,
   generateEmailVerificationCode,
@@ -73,21 +74,19 @@ export const actions: Actions = {
 
     const { isAdmin, isParent, isTutor, isStudent } = existingUser.role;
 
-    switch (true) {
-      case isAdmin:
-        throw redirect(302, route("/admin"));
+    const path = () => {
+      return match({ isAdmin, isParent, isTutor, isStudent })
+        .with({ isAdmin: true }, () => route("/admin"))
+        .with({ isParent: true }, () => route("/parent"))
+        .with({ isTutor: true }, () => route("/tutor"))
+        .with({ isStudent: true }, () => route("/student"))
+        .otherwise(() => route("/user-profile"));
+    };
 
-      case isParent:
-        throw redirect(302, route("/parent"));
+    const redirection = path();
 
-      case isTutor:
-        throw redirect(302, route("/tutor"));
-
-      case isStudent:
-        throw redirect(302, route("/student"));
-
-      default:
-        redirect(302, route("/user-profile"));
+    if (redirection) {
+      throw redirect(302, redirection);
     }
   },
 

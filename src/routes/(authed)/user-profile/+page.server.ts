@@ -1,12 +1,13 @@
 import { redirect } from "@sveltejs/kit";
-import { route } from "$lib/ROUTES";
-import { getAllUsers, getUserById } from "$lib/server/user.service";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
+import { match } from "ts-pattern";
+import { route } from "$lib/ROUTES";
+import { getAllUsers, getUserById } from "$lib/server/user.service";
+import { getAllCourses } from "$lib/server/course.service";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as RoleService from "$lib/server/role.service";
-import { getAllCourses } from "$lib/server/course.service";
 
 export const load = (async ({ locals, url, parent }) => {
   await parent();
@@ -16,32 +17,31 @@ export const load = (async ({ locals, url, parent }) => {
   const user = await getUserById(locals.user?.id as string);
 
   const tutors = users.filter((user) => user.role?.isTutor);
-  if (!user) {
-    return;
-  }
 
-  if (!user.role) {
+  if (!user?.role) {
     return;
   }
 
   const { isParent, isStudent, isTutor, isAdmin } = user.role;
 
-  switch (true) {
-    case isAdmin:
-      throw redirect(302, route("/admin"));
-    case isParent:
-      throw redirect(302, route("/parent"));
-    case isTutor:
-      throw redirect(302, route("/tutor"));
-    case isStudent:
-      throw redirect(302, route("/student"));
-    default:
-      if (!user.emailVerified?.isEmailVerified) {
-        throw redirect(
-          302,
-          route("/email-verification") + `?redirectTo=${url.pathname}`,
-        );
-      }
+  const redirectTo = () => {
+    return match({ isParent, isStudent, isTutor, isAdmin }) // alternative for switch statement of if-else
+      .with({ isAdmin: true }, () => route("/admin"))
+      .with({ isParent: true }, () => route("/parent"))
+      .with({ isTutor: true }, () => route("/tutor"))
+      .with({ isStudent: true }, () => route("/student"))
+      .otherwise(() => {
+        if (!user.emailVerified?.isEmailVerified) {
+          return route("/email-verification") + `?redirectTo=${url.pathname}`;
+        }
+        return null;
+      });
+  };
+
+  // execute redirectTo function
+  const redirection = redirectTo();
+  if (redirection) {
+    throw redirect(302, redirection);
   }
 
   const userRoleForm = await superValidate(

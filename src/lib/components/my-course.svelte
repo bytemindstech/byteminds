@@ -3,29 +3,27 @@
   import { page } from "$app/stores";
   import { route } from "$lib/ROUTES";
   import { superForm } from "sveltekit-superforms/client";
+  import type { SuperValidated } from "sveltekit-superforms/client";
   import { Toast } from "./ui";
-  import { getModalStore } from "@skeletonlabs/skeleton";
 
   export let courseTitle: string;
   export let rate: number;
   export let description: string;
   export let courseImg: string = defaultCourseImg;
   export let courseId: string;
-  export let updateCourseFormData;
-  export let deleteCourseFormData;
-
-  type ModalSettings = {
-    type: "alert" | "confirm" | "prompt" | "component";
-    title: string;
-    body: string;
-    response: (r: boolean) => void;
-  };
-
-  const modalStore = getModalStore();
+  export let updateCourseFormData: SuperValidated<{
+    courseId: string;
+    courseTitle: string;
+    price: number;
+    description: string;
+    courseImage: string;
+  }>;
+  export let deleteCourseFormData: SuperValidated<{ courseId: string }>;
 
   const { errors, constraints, message, delayed, enhance } = superForm(
     updateCourseFormData,
     {
+      resetForm: true,
       onUpdated({ form }) {
         if (form.valid) {
           isEdit = false;
@@ -57,18 +55,6 @@
 
   //Cancel edit
   const toggleCancelOrDelete = (event: Event) => {
-    if (!isEdit) {
-      const modal: ModalSettings = {
-        type: "confirm",
-        // Data
-        title: "Please Confirm",
-        body: "Are you sure you wish to proceed?",
-        // TRUE if confirm pressed, FALSE if cancel pressed
-        response: (r: boolean) => console.log("response:", r),
-      };
-      modalStore.trigger(modal);
-    }
-
     if (isEdit) {
       console.log("delete form not submiting");
       event.preventDefault();
@@ -88,7 +74,7 @@
         <div class="md:flex-1 px-4">
           <div class="h-[460px] rounded-lg bg-surface-300 mb-4 relative">
             <!--Hidden input to pass the value of courseId in the form data.-->
-            <input value={courseId} name="courseId" hidden />
+            <input value={courseId} name="courseId" type="hidden" />
             <!--image-->
             <img
               class="w-full h-full object-cover"
@@ -103,7 +89,7 @@
                 type="text"
                 name="courseImage"
                 placeholder="Image full URL"
-                aria-invalid={$errors.courseImg ? "true" : undefined}
+                aria-invalid={$errors.courseImage ? "true" : undefined}
                 bind:value={courseImg}
               />
             {/if}
@@ -122,15 +108,14 @@
 
             <div class="w-1/2 px-2">
               <form
-                action={route("deleteCourse /tutor")}
                 method="post"
+                action={route("deleteCourse /tutor")}
                 use:deleteCourseFormEnhance
                 class="w-full"
               >
                 <!--hidden input-->
-                <input type="input" name="courseId" value={courseId} hidden />
+                <input type="hidden" name="courseId" value={courseId} />
                 <button
-                  disabled={!isEdit}
                   type={!isEdit ? "submit" : "button"}
                   class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
                   on:click={toggleCancelOrDelete}

@@ -28,7 +28,7 @@
 <form
   class="space-y-5"
   method="post"
-  action={route("resetPassword /password-reset")}
+  action={route("default /password-reset")}
   use:enhance
 >
   <label class="label text-primary-500"

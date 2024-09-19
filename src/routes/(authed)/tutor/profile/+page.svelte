@@ -4,14 +4,19 @@
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
-
+  import { onDestroy } from "svelte";
+  import { resetTitle } from "$lib/util.client";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
   $: name = `${data.firstName} ${data.lastName}`;
   $: img = data.user?.profile?.image ?? "";
+
+  onDestroy(resetTitle);
 </script>
+
+<svelte:head><title>{data.title} {name}</title></svelte:head>
 
 <UserProfileLayout
   ><svelte:fragment slot="profile"

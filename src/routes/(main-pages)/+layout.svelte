@@ -57,7 +57,7 @@
     <Navigation {paths}>
       <svelte:fragment slot="button">
         <a
-          href={route("/signin-signup")}
+          href={route("/signin-signup") + "?register"}
           class="btn btn-xl variant-filled-tertiary font-bold">Apply Now</a
         >
       </svelte:fragment>

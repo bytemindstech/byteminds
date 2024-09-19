@@ -23,7 +23,7 @@
   $: students = data.users.filter((user) => user.role?.isStudent);
 </script>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-6">
   <div class="bg-surface-50 p-4 rounded shadow">
     <h3 class="h3 mb-4">Students</h3>
     <table class="w-full">

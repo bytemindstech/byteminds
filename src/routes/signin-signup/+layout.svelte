@@ -5,6 +5,7 @@
   import { isSignInStore } from "$lib/store";
   import { onDestroy } from "svelte";
   import { paths } from "$lib/util.client";
+  import { goto } from "$app/navigation";
 
   const drawerStore = getDrawerStore();
 
@@ -20,6 +21,12 @@
     isSignIn = !isSignIn;
     //update the value in svelte store
     isSignInStore.update((value) => !value);
+
+    if (!isSignIn) {
+      goto("signin-signup?register");
+    } else {
+      goto("signin-signup?login");
+    }
   };
 
   onDestroy(() => {

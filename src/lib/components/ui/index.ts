@@ -8,3 +8,4 @@ export { default as Notification } from "./notification.svelte";
 export { default as ReviewCard } from "./review-card.svelte";
 export { default as InhouseTutor } from "./inhouse-tutor-card.svelte";
 export { default as ProfileData } from "./profile-data.svelte";
+export {default as ConfirmModal} from './confirmModal.svelte'

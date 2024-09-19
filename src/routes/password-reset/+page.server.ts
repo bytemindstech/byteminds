@@ -11,7 +11,7 @@ import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as PasswordService from "$lib/server/password.service";
 
 export const load = (async ({ url }) => {
-    const passwordResetFormData = await superValidate(
+  const passwordResetFormData = await superValidate(
     zod(ZodValidationSchema.resetPasswordTokenSchema),
   );
 
@@ -30,7 +30,7 @@ export const load = (async ({ url }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  resetPassword: async ({ request, cookies }) => {
+  default: async ({ request, cookies }) => {
     const passwordResetFormData = await superValidate(
       request,
       zod(ZodValidationSchema.resetPasswordTokenSchema),
@@ -106,6 +106,6 @@ export const actions: Actions = {
       await createAndSetSession(lucia, userId, cookies);
     }
 
-    redirect(302, route("/signin-signup"));
+    redirect(302, route("/signin-signup") + "?register");
   },
 };

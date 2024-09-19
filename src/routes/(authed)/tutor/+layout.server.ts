@@ -4,7 +4,7 @@ import type { LayoutServerLoad, Actions } from "./$types";
 import { zod } from "sveltekit-superforms/adapters";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
-export const load = (async ({ locals }) => {
+export const load = (async ({ locals, params }) => {
   const updateCourseForm = await superValidate(
     zod(ZodValidationSchema.updateCourseSchema),
   );
@@ -18,5 +18,9 @@ export const load = (async ({ locals }) => {
   const myCourses = allCourses.filter(
     (course) => course.userId === (locals.user?.id as string),
   );
-  return { myCourses, updateCourseForm, deleteCourseForm };
+
+  const course = myCourses.filter((course) => course.id === params.id);
+
+  const title = `My Course | ${course.map((course) => course.title)}`;
+  return { myCourses, updateCourseForm, deleteCourseForm, title };
 }) satisfies LayoutServerLoad;

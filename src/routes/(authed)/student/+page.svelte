@@ -15,7 +15,7 @@
   $: today = dateFormatter("en-PH", dateOption, new Date());
 </script>
 
-<div class="container mx-auto px-6">
+<div class="container mx-auto p-6">
   <div class="mt-8 mb-6">
     <h2 class="h2">Welcome, {data.firstName}</h2>
     <p>

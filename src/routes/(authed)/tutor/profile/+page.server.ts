@@ -6,6 +6,7 @@ export const load = (async ({ locals }) => {
     return;
   }
   const user = await getUserById(locals.user.id as string);
+  const title = "Profile - ";
 
-  return { user };
+  return { user, title };
 }) satisfies PageServerLoad;

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import dateFormatter from "@jhenbert/date-formatter";
+  import { dateOption } from "$lib/util.client";
 
   export let data: PageData;
 
@@ -18,15 +19,9 @@
         return "no role";
     }
   };
-
-  const dateOption: Intl.DateTimeFormatOptions = {
-    dateStyle: "medium",
-    timeStyle: "short",
-    timeZone: "Asia/Manila",
-  };
 </script>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-6">
   <div class="bg-surface-50 p-4 rounded shadow">
     <h3 class="h3 mb-4">All Users</h3>
     <table class="w-full">

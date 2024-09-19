@@ -3,6 +3,8 @@
   import { UserBioPublic } from "$lib/components";
   import { route } from "$lib/ROUTES";
   import type { PageData } from "./$types";
+  import { onDestroy } from "svelte";
+  import { resetTitle } from "$lib/util.client";
 
   export let data: PageData;
 
@@ -12,7 +14,11 @@
   };
 
   $: courses = data.tutor?.courses as Course[];
+
+  onDestroy(resetTitle);
 </script>
+
+<svelte:head><title>{data.title}</title></svelte:head>
 
 <div class="container mx-auto py-8">
   <div class="grid grid-cols-4 md:grid-cols-12 gap-6 px-4">

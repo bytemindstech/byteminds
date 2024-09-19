@@ -16,6 +16,8 @@ export const load = (async ({ locals }) => {
 
   const user = await getUserById(locals.user.id as string);
 
+  const title = "Dashboard - " + `${user?.firstName} ${user?.lastName}`;
+
   if (!user) {
     return;
   }
@@ -28,7 +30,7 @@ export const load = (async ({ locals }) => {
     throw redirect(302, route("/user-profile"));
   }
 
-  return { courseForm };
+  return { courseForm, title };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {

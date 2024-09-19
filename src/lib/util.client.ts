@@ -64,3 +64,17 @@ export const dateOption: Intl.DateTimeFormatOptions = {
   timeStyle: "short",
   timeZone: "Asia/Manila",
 };
+
+//SEO Meta tags
+export const metaDefaults = {
+  title: "ByteMinds PH - Online Tutoring for Academic Excellence",
+  description:
+    "ByteMinds PH - your trusted partner in online education. Access expert tutoring services anytime, anywhere, and elevate your learning experience.",
+  image: `${route("githubAvatar", { avatarId: 159615949 })}`,
+};
+
+export const resetTitle = () => {
+  if (typeof document !== "undefined") {
+    document.title = metaDefaults.title;
+  }
+};
