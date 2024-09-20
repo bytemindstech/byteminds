@@ -2,6 +2,8 @@
   import { goto } from "$app/navigation";
   import { route } from "$lib/ROUTES";
   import { getModalStore } from "@skeletonlabs/skeleton";
+  import { isDeletedStore } from "$lib/store";
+  import { onDestroy } from "svelte";
 
   type DeleteResponse = {
     message: string;
@@ -10,6 +12,8 @@
 
   const modalStore = getModalStore();
   const courseId = $modalStore[0].meta.id;
+
+  let isDeleted: boolean;
 
   const confirmDelete = async () => {
     //delete logic
@@ -22,7 +26,10 @@
       if (response.ok) {
         const message: DeleteResponse = await response.json();
         console.log(`${message.message} with ID: ${courseId}`);
-        goto("/tutor");
+        // tracking the deletion state
+        isDeletedStore.update((value) => !value);
+
+        goto(route("/tutor"));
       } else {
         const errorMessage: DeleteResponse = await response.json();
         console.log(`Failed to delete course ${errorMessage.errorMessage}`);
@@ -30,8 +37,22 @@
     } catch (error) {
       console.error("Error during deletion", (error as Error).message);
     }
+
+    // closing the modal
     modalStore.close();
   };
+
+  onDestroy(() => {
+    isDeletedStore.set(false);
+  });
+
+  const unsubscribe = isDeletedStore.subscribe((value) => {
+    isDeleted = value;
+  });
+
+  onDestroy(() => {
+    unsubscribe();
+  });
 </script>
 
 <div class="w-modal-slim bg-surface-100 p-4 rounded-lg">
@@ -47,7 +68,7 @@
       <button
         type="button"
         class="btn variant-filled-tertiary font-semibold"
-        on:click={confirmDelete}>Confirm</button
+        on:click={confirmDelete}>{isDeleted ? "Deleting..." : "Confirm"}</button
       >
       <button
         type="button"

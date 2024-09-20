@@ -24,10 +24,10 @@
   import { page } from "$app/stores";
   import { afterNavigate } from "$app/navigation";
   import type { AfterNavigate } from "@sveltejs/kit";
+  import { ConfirmModal } from "$lib/components/ui";
 
   //global css
   import "../app.pcss";
-  import { ConfirmModal } from "$lib/components/ui";
 
   const meta = {
     title: metaDefaults.title,
