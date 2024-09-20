@@ -17,6 +17,7 @@
 
   const confirmDelete = async () => {
     //delete logic
+    isDeletedStore.update((value) => !value);
     try {
       const response = await fetch(
         route("DELETE /api/courses/[id]", { id: courseId }),
@@ -27,8 +28,6 @@
         const message: DeleteResponse = await response.json();
         console.log(`${message.message} with ID: ${courseId}`);
         // tracking the deletion state
-        isDeletedStore.update((value) => !value);
-
         goto(route("/tutor"));
       } else {
         const errorMessage: DeleteResponse = await response.json();
@@ -37,7 +36,6 @@
     } catch (error) {
       console.error("Error during deletion", (error as Error).message);
     }
-
     // closing the modal
     modalStore.close();
   };
