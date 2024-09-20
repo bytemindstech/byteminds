@@ -1,0 +1,31 @@
+import { deleteCourse } from "$lib/server/course.service.js";
+import { json } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types.js";
+import type { User } from "lucia";
+
+/**
+ *
+ * @param id - course id
+ * @param authUser
+ * @returns an object containing success and error message
+ */
+const requestDeleteCourse = async (id: string, authUser: User | null) => {
+  // Check if user is logged in
+  if (!authUser) {
+    return { message: "Unauthorize access, please login" };
+  }
+
+  try {
+    await deleteCourse(id);
+    return { message: "Course is successfuly deleted" };
+  } catch (error) {
+    return { errorMessage: (error as Error).message };
+  }
+};
+
+// Put you request handler functions here
+export const DELETE: RequestHandler = async ({ params, locals }) => {
+  const { id } = params;
+  const response = await requestDeleteCourse(id, locals.user);
+  return json(response);
+};

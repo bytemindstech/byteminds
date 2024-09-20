@@ -8,7 +8,9 @@
     initializeStores,
     storePopup,
     Modal,
+    type ModalComponent,
   } from "@skeletonlabs/skeleton";
+
   import {
     computePosition,
     autoUpdate,
@@ -69,15 +71,6 @@
   const drawerClose = () => {
     drawerStore.close();
   };
-
-  interface ModalComponent {
-    /** Import and provide your component reference. */
-    ref: any;
-    /** Provide component props as key/value pairs. */
-    props?: Record<string, unknown>;
-    /** Provide an HTML template literal for the default slot. */
-    slot?: string;
-  }
 
   const modalRegistry: Record<string, ModalComponent> = {
     confirmModal: { ref: ConfirmModal },

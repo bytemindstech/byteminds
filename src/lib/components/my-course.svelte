@@ -5,6 +5,7 @@
   import { superForm } from "sveltekit-superforms/client";
   import type { SuperValidated } from "sveltekit-superforms/client";
   import { Toast } from "./ui";
+  import { getModalStore, type ModalSettings } from "@skeletonlabs/skeleton";
 
   export let courseTitle: string;
   export let rate: number;
@@ -20,6 +21,7 @@
   }>;
   export let deleteCourseFormData: SuperValidated<{ courseId: string }>;
 
+  const modalStore = getModalStore();
   const { errors, constraints, message, delayed, enhance } = superForm(
     updateCourseFormData,
     {
@@ -54,12 +56,19 @@
   };
 
   //Cancel edit
-  const toggleCancelOrDelete = (event: Event) => {
-    if (isEdit) {
-      console.log("delete form not submiting");
-      event.preventDefault();
-      isEdit = false;
-    }
+  const toggleCancel = () => {
+    console.log("delete form not submiting");
+    isEdit = false;
+  };
+
+  //delete
+  const toggleDelete = () => {
+    const modal: ModalSettings = {
+      type: "component",
+      component: "confirmModal",
+      meta: { id: courseId, title: courseTitle },
+    };
+    modalStore.trigger(modal);
   };
 </script>
 
@@ -107,26 +116,23 @@
             </div>
 
             <div class="w-1/2 px-2">
-              <form
-                method="post"
-                action={route("deleteCourse /tutor")}
-                use:deleteCourseFormEnhance
-                class="w-full"
-              >
-                <!--hidden input-->
-                <input type="hidden" name="courseId" value={courseId} />
+              {#if isEdit}
                 <button
-                  type={!isEdit ? "submit" : "button"}
+                  type="button"
                   class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
-                  on:click={toggleCancelOrDelete}
+                  on:click={toggleCancel}
                 >
-                  {!isEdit
-                    ? $deleteCourseFormDelayed
-                      ? "deleting..."
-                      : "delete"
-                    : "cancel"}
+                  cancel
                 </button>
-              </form>
+              {:else}
+                <button
+                  type="button"
+                  class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
+                  on:click={toggleDelete}
+                >
+                  delete
+                </button>
+              {/if}
             </div>
           </div>
         </div>

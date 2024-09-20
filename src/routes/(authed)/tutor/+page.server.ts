@@ -80,24 +80,4 @@ export const actions: Actions = {
       `Successfully updated the ${updateCourseForm.data.courseTitle} course`,
     );
   },
-
-  deleteCourse: async ({ request }) => {
-    const deleteCourseForm = await superValidate(
-      request,
-      zod(ZodValidationSchema.deleteCourseSchema),
-    );
-
-    if (!deleteCourseForm.valid) {
-      return message(deleteCourseForm, "Invalid form", { status: 406 });
-    }
-
-    await CourseService.deleteCourse(deleteCourseForm.data.courseId);
-
-    return (
-      message(
-        deleteCourseForm,
-        `Successfully deleted the course with ID: ${deleteCourseForm.data.courseId}`,
-      ) && redirect(302, route("/tutor"))
-    );
-  },
 };

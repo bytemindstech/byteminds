@@ -72,5 +72,3 @@ export const updateCourseSchema = courseSchema
     description: true,
   })
   .merge(z.object({ courseId: z.string() }));
-
-  export const deleteCourseSchema = updateCourseSchema.pick({courseId: true})

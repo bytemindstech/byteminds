@@ -9,10 +9,6 @@ export const load = (async ({ locals, params }) => {
     zod(ZodValidationSchema.updateCourseSchema),
   );
 
-  const deleteCourseForm = await superValidate(
-    zod(ZodValidationSchema.deleteCourseSchema),
-  );
-
   const allCourses = await getAllCourses();
 
   const myCourses = allCourses.filter(
@@ -22,5 +18,5 @@ export const load = (async ({ locals, params }) => {
   const course = myCourses.filter((course) => course.id === params.id);
 
   const title = `My Course | ${course.map((course) => course.title)}`;
-  return { myCourses, updateCourseForm, deleteCourseForm, title };
+  return { myCourses, updateCourseForm, title };
 }) satisfies LayoutServerLoad;
