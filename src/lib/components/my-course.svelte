@@ -3,9 +3,9 @@
   import { page } from "$app/stores";
   import { route } from "$lib/ROUTES";
   import { superForm } from "sveltekit-superforms/client";
-  import type { SuperValidated } from "sveltekit-superforms/client";
   import { Toast } from "./ui";
   import { getModalStore, type ModalSettings } from "@skeletonlabs/skeleton";
+  import type { SuperValidated } from "sveltekit-superforms/client";
 
   export let courseTitle: string;
   export let rate: number;
@@ -19,7 +19,6 @@
     description: string;
     courseImage: string;
   }>;
-  export let deleteCourseFormData: SuperValidated<{ courseId: string }>;
 
   const modalStore = getModalStore();
   const { errors, constraints, message, delayed, enhance } = superForm(
@@ -33,11 +32,6 @@
       },
     },
   );
-
-  const { delayed: deleteCourseFormDelayed, enhance: deleteCourseFormEnhance } =
-    superForm(deleteCourseFormData, {
-      resetForm: true,
-    });
 
   // Fallback image handler
   const handleImageError = (event: Event) => {
@@ -57,7 +51,6 @@
 
   //Cancel edit
   const toggleCancel = () => {
-    console.log("delete form not submiting");
     isEdit = false;
   };
 
@@ -68,6 +61,7 @@
       component: "confirmModal",
       meta: { id: courseId, title: courseTitle },
     };
+    // will trigger the modal
     modalStore.trigger(modal);
   };
 </script>

@@ -1,6 +1,6 @@
-import { deleteCourse } from "$lib/server/course.service.js";
+import { deleteCourse } from "$lib/server/course.service";
 import { json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types.js";
+import type { RequestHandler } from "./$types";
 import type { User } from "lucia";
 
 /**
@@ -27,5 +27,6 @@ const requestDeleteCourse = async (id: string, authUser: User | null) => {
 export const DELETE: RequestHandler = async ({ params, locals }) => {
   const { id } = params;
   const response = await requestDeleteCourse(id, locals.user);
+
   return json(response);
 };
