@@ -4,7 +4,9 @@
 </script>
 
 <div class="px-2 py-20 w-full flex justify-center mt-8">
-  <div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg">
+  <div
+    class="bg-surface-100 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg"
+  >
     <div class="lg:w-1/2">
       <div
         class="lg:scale-110 h-80 bg-cover lg:h-full rounded-b-none border lg:rounded-lg bg-[url('$lib/assets/images/online-teacher.webp')]"
