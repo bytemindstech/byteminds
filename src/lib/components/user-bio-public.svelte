@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ProfileData } from "./ui";
 
-  export let bio;
+  export let bio: string;
 </script>
 
 <h2 class="text-xl font-bold mb-4">About Me</h2>

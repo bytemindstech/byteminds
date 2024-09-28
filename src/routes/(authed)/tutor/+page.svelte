@@ -1,12 +1,12 @@
 <script lang="ts">
   import { CourseForm, CourseGrid } from "$lib/components";
-  import { CourseCard, Toast } from "$lib/components/ui";
+  import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
-  let showForm = false;
+  $: showForm = false;
 
   const showFormHandler = () => {
     showForm = !showForm;

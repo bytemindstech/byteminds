@@ -2,14 +2,12 @@
   import { Statistics } from "$lib/components/ui";
   import Icon from "@iconify/svelte";
   import dateFormatter from "@jhenbert/date-formatter";
-  import type { PageData } from "./$types";
-  import type { Course } from "@prisma/client";
   import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
+  import type { PageData } from "./$types";
+  import type { Course } from "@prisma/client";
 
   export let data: PageData;
-
-  let courses: Course[] = [];
 
   const dateOption: Intl.DateTimeFormatOptions = {
     dateStyle: "full",
@@ -17,14 +15,25 @@
     timeZone: "Asia/Manila",
   };
 
+  $: courses = [] as Course[];
+  $: tutorCounts = 0;
+  $: courseCounts = 0;
+  $: enrolleeCounts = 0;
   $: today = dateFormatter("en-PH", dateOption, new Date());
 
   onMount(async () => {
     const response = await getCourses();
+    const users = await data.users;
+
+    if (users) {
+      tutorCounts = users.filter((user) => user.role?.isTutor).length;
+    }
 
     if (response.status === "success") {
       courses = response.data;
     }
+
+    courseCounts = courses.length;
   });
 </script>
 
@@ -45,7 +54,7 @@
     <div class="flex-1 min-w-[250px]">
       <Statistics
         title="Freelance Tutors"
-        data={data.tutorCounts}
+        data={tutorCounts}
         cardBg="bg-tertiary-400/40"
       >
         <svelte:fragment slot="icon">
@@ -57,7 +66,7 @@
     <div class="flex-1 min-w-[250px]">
       <Statistics
         title="Courses Available"
-        data={courses.length}
+        data={courseCounts}
         cardBg="bg-success-400/40"
       >
         <svelte:fragment slot="icon">
@@ -69,7 +78,7 @@
     <div class="flex-1 min-w-[250px]">
       <Statistics
         title="Courses Enrolled"
-        data="0"
+        data={enrolleeCounts}
         cardBg="bg-secondary-400/40"
       >
         <svelte:fragment slot="icon">

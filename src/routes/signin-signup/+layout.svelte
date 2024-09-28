@@ -15,7 +15,7 @@
 
   $: positionClasses = $drawerStore.open ? "translate-x[50%]" : "";
 
-  let isSignIn = false;
+  $: isSignIn = false;
 
   const handleClick = () => {
     isSignIn = !isSignIn;

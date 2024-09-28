@@ -3,8 +3,11 @@
   import { dateOption, capitalize } from "$lib/util.client";
   import { match } from "ts-pattern";
   import dateFormatter from "@jhenbert/date-formatter";
+  import { onMount } from "svelte";
 
   export let data: PageData;
+
+  $: users = [] as any;
 
   type Role = {
     isAdmin: boolean;
@@ -23,6 +26,10 @@
         .otherwise(() => "no role");
     }
   };
+
+  onMount(async () => {
+    users = await data.users;
+  });
 </script>
 
 <div class="container mx-auto p-6">
@@ -37,8 +44,8 @@
         </tr>
       </thead>
       <tbody>
-        {#if data.users && data.users.length > 0}
-          {#each data.users as user}
+        {#if users?.length > 0}
+          {#each users as user}
             {#if !user.role?.isAdmin}
               <tr class="border-b">
                 <td class="p-2 capitalize">{user.firstName} {user.lastName}</td>

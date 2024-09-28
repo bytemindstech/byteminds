@@ -3,10 +3,18 @@
   import { route } from "$lib/ROUTES";
   import { dateOption, tableheader, capitalize } from "$lib/util.client";
   import dateFormatter from "@jhenbert/date-formatter";
+  import { onMount } from "svelte";
+  import type { User } from "@prisma/client";
+  import type { any } from "zod";
 
   export let data: PageData;
 
-  $: tutors = data.users.filter((user) => user.role?.isTutor);
+  $: tutors = [] as any;
+
+  onMount(async () => {
+    const users = await data.users;
+    tutors = users.filter((user) => user.role?.isTutor);
+  });
 </script>
 
 <div class="container mx-auto p-6">

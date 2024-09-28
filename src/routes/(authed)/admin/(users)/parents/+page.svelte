@@ -3,10 +3,16 @@
   import type { PageData } from "./$types";
   import { dateOption, tableheader, capitalize } from "$lib/util.client";
   import { route } from "$lib/ROUTES";
+  import { onMount } from "svelte";
 
   export let data: PageData;
 
-  $: parents = data.users.filter((user) => user.role?.isParent);
+  $: parents = [] as any;
+
+  onMount(async () => {
+    const users = await data.users;
+    parents = users.filter((user) => user.role?.isParent);
+  });
 </script>
 
 <div class="container mx-auto p-6">

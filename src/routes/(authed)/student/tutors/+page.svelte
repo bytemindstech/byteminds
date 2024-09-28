@@ -1,11 +1,15 @@
 <script lang="ts">
   import { Tutors } from "$lib/components";
+  import { onMount } from "svelte";
 
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
-  $: tutors = data.tutors as Array<{
+  let tutorArr: any;
+
+  $: isLoading = true;
+  $: tutors = tutorArr as Array<{
     id: string;
     profile: { image: string };
     courses: Array<any>;
@@ -13,10 +17,18 @@
     lastName: string;
     emailVerified: { isEmailVerified: boolean };
   }>;
+
+  onMount(async () => {
+    const users = await data.users;
+    tutorArr = users.filter((user) => user.role?.isTutor);
+    isLoading = false;
+  });
 </script>
 
 <div class="container mx-auto p-6">
-  {#if tutors && tutors.length > 0}
+  {#if isLoading}
+    <p class="text-lg font-bold">Loading tutors please wait....</p>
+  {:else if tutors && tutors.length > 0}
     <Tutors {tutors} />
   {:else}
     <p class="text-lg font-bold">
