@@ -4,8 +4,6 @@
   import { dateOption, tableheader, capitalize } from "$lib/util.client";
   import dateFormatter from "@jhenbert/date-formatter";
   import { onMount } from "svelte";
-  import type { User } from "@prisma/client";
-  import type { any } from "zod";
 
   export let data: PageData;
 
