@@ -1,0 +1,56 @@
+<script lang="ts">
+  import { browser } from "$app/environment";
+  import { page } from "$app/stores";
+  import { route } from "$lib/ROUTES";
+</script>
+
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+
+<main
+  class="flex items-center justify-center w-full min-h-screen py-8 text-gray-900 page md:py-16"
+>
+  <div
+    class="relative flex flex-col items-center w-full gap-8 px-8 md:px-18 xl:px-40 md:gap-16"
+  >
+    <h1
+      class="text-9xl md:text-[300px] w-full select-none text-center font-black text-gray-400"
+    >
+      {$page.status}
+    </h1>
+    <p class="text-3xl font-bold capitalize">
+      You have discovered a secret place
+    </p>
+    <p class="text-2xl font-medium break-words text-dull">
+      Unfortunately, this is only a {$page.status} page. You may have mistyped the
+      address, or the page has been moved to another URL.
+    </p>
+    {#if $page.error}
+      <p class="text-lg break-words text-dull">{$page.error.message}</p>
+    {/if}
+
+    <div
+      class="flex flex-col justify-between w-full gap-8 md:flex-row md:gap-32 xl:px-16"
+    >
+      <button
+        on:click={() => {
+          if (browser) window.history.back();
+        }}
+        class="flex items-center justify-center w-full gap-4 p-3 font-semibold capitalize border-2 border-primary-500 rounded shadow-lg md:w-fit hover:bg-primary-500 md:p-6 focus:outline-none hover:scale-105 active:scale-90 hover:shadow-xl"
+      >
+        <span class="rotate-180 material-symbols-outlined">arrow_right_alt</span
+        >
+        Go back to Previous Page
+      </button>
+      <a
+        href={route("/")}
+        class="rounded flex w-full md:w-fit group items-center gap-4 justify-center border-2 border-success-500 font-semibold hover:bg-success-500 p-3 md:p-6 capitalize focus:outline-none hover:scale-105 active:scale-90 shadow-lg hover:shadow-xl"
+      >
+        <span class="material-symbols-outlined">home</span>
+        Go back to Home Page
+      </a>
+    </div>
+  </div>
+</main>
