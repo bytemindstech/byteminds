@@ -2,35 +2,52 @@ import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
-import type { Actions, PageServerLoad } from "./$types";
-import * as UserService from "$lib/server/user.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import { createAndSetSession } from "@jhenbert/byteminds-util";
+import { match } from "ts-pattern";
 import {
   generateEmailVerificationCode,
   validateVerificationCode,
   sendVerificationCode,
 } from "$lib/util.sever";
 import { route } from "$lib/ROUTES";
+import type { Actions, PageServerLoad } from "./$types";
+import * as UserService from "$lib/server/user.service";
+import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load = (async ({ parent, locals }) => {
   await parent();
 
   const user = await UserService.getUserById(locals.user?.id as string);
 
-  if (user?.emailVerified?.isEmailVerified) {
-    switch (true) {
-      case user.role?.isAdmin:
-        throw redirect(302, route("/admin"));
+  if (!user) {
+    return;
+  }
+  if (!user.emailVerified) {
+    return;
+  }
 
-      case user.role?.isParent:
-        throw redirect(302, route("/parent"));
+  if (!user.role) {
+    return;
+  }
 
-      case user.role?.isStudent:
-        throw redirect(302, route("/student"));
+  const { isEmailVerified } = user.emailVerified;
+  const { isAdmin, isParent, isStudent } = user.role;
+
+  const redirectTo = () => {
+    return match({ isAdmin, isParent, isStudent })
+      .with({ isAdmin: true }, () => route("/admin"))
+      .with({ isParent: true }, () => route("/parent"))
+      .with({ isStudent }, () => route("/student"))
+      .otherwise(() => route("/user-profile"));
+  };
+
+  const redirection = redirectTo();
+
+  // check user's email verification status before redirecting to respective page
+  if (isEmailVerified) {
+    if (redirection) {
+      throw redirect(302, redirection);
     }
-
-    redirect(302, route("/user-profile"));
   }
 
   return {

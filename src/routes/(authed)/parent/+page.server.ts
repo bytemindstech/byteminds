@@ -6,12 +6,12 @@ import { getAllCourses } from "$lib/server/course.service";
 
 export const load = (async ({ locals, parent }) => {
   await parent();
+
   if (!locals.user) {
     return;
   }
 
   const users = await getAllUsers();
-  const courses = await getAllCourses();
   const user = await getUserById(locals.user.id as string);
 
   const tutorCounts = users.filter((user) => user.role?.isTutor).length;
@@ -28,5 +28,5 @@ export const load = (async ({ locals, parent }) => {
     throw redirect(302, route("/user-profile"));
   }
 
-  return { user, courses, tutorCounts };
+  return { user, tutorCounts };
 }) satisfies PageServerLoad;

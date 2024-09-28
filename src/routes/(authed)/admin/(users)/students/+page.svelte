@@ -1,24 +1,10 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import type { PageData } from "./$types";
-  import { createConnection } from "./notification.store";
   import dateFormatter from "@jhenbert/date-formatter";
-  import { dateOption } from "$lib/util.client";
+  import { dateOption, tableheader, capitalize } from "$lib/util.client";
   import { route } from "$lib/ROUTES";
 
   export let data: PageData;
-
-  // $: currentUserId = data.user ? data.user.id : "";
-
-  // let notificationStore: ReturnType<typeof createConnection>;
-
-  // onMount(() => {
-  //   notificationStore = createConnection(currentUserId);
-
-  //   notificationStore.init();
-
-  //   return () => notificationStore.close();
-  // });
 
   $: students = data.users.filter((user) => user.role?.isStudent);
 </script>
@@ -29,10 +15,9 @@
     <table class="w-full">
       <thead>
         <tr class="bg-surface-200">
-          <th class="p-2 text-left">Name</th>
-          <th class="p-2 text-left">Email</th>
-          <th class="p-2 text-left">Email Status</th>
-          <th class="p-2 text-left">Last Login</th>
+          {#each tableheader as th}
+            <th class="p-2 text-left">{capitalize(th)}</th>
+          {/each}
         </tr>
       </thead>
       <tbody>
