@@ -3,6 +3,9 @@
   import Icon from "@iconify/svelte";
   import dateFormatter from "@jhenbert/date-formatter";
   import type { PageData } from "./$types";
+  import type { Course } from "@prisma/client";
+  import { onMount } from "svelte";
+  import { getCourses } from "$lib/util.client";
 
   export let data: PageData;
 
@@ -13,6 +16,16 @@
   };
 
   $: today = dateFormatter("en-PH", dateOption, new Date());
+
+  let courses: Course[] = [];
+
+  onMount(async () => {
+    const response = await getCourses();
+
+    if (response.status === "success") {
+      courses = response.data;
+    }
+  });
 </script>
 
 <div class="container mx-auto p-6">
@@ -39,7 +52,7 @@
     <div class="flex-1 min-w-[250px]">
       <Statistics
         title="Courses Available"
-        data={data.courses?.length}
+        data={courses.length}
         cardBg="bg-success-400/40"
       >
         <svelte:fragment slot="icon">

@@ -4,7 +4,6 @@ import { zod } from "sveltekit-superforms/adapters";
 import { match } from "ts-pattern";
 import { route } from "$lib/ROUTES";
 import { getAllUsers, getUserById } from "$lib/server/user.service";
-import { getAllCourses } from "$lib/server/course.service";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as RoleService from "$lib/server/role.service";
@@ -12,10 +11,8 @@ import * as RoleService from "$lib/server/role.service";
 export const load = (async ({ locals, url, parent }) => {
   await parent();
 
-  const courses = getAllCourses();
   const users = await getAllUsers();
   const user = await getUserById(locals.user?.id as string);
-
   const tutors = users.filter((user) => user.role?.isTutor);
 
   if (!user?.role) {
@@ -40,6 +37,7 @@ export const load = (async ({ locals, url, parent }) => {
 
   // execute redirectTo function
   const redirection = redirectTo();
+
   if (redirection) {
     throw redirect(302, redirection);
   }
@@ -48,7 +46,7 @@ export const load = (async ({ locals, url, parent }) => {
     zod(ZodValidationSchema.userRoleSchema),
   );
 
-  return { userRoleForm, user, courses, tutors };
+  return { userRoleForm, user, tutors };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {

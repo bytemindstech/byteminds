@@ -1,9 +1,10 @@
 /**
  * PUT YOUR REUSEABLE CLIENT SIDE FUNCTIONS HERE
  */
-
 import { getToastStore, type ToastSettings } from "@skeletonlabs/skeleton";
 import { route } from "./ROUTES";
+import fetchHandler, { type ServerResponse } from "@jhenbert/fetch";
+import type { Course } from "@prisma/client";
 
 export type TriggerToast = "error" | "success";
 
@@ -78,3 +79,18 @@ export const resetTitle = () => {
     document.title = metaDefaults.title;
   }
 };
+
+// utility function to capitalize word
+export const capitalize = (s: string) => {
+  return s
+    .split(" ") //split strings into an array of words
+    .map((w) => w[0].toUpperCase() + w.slice(1)) //capitalize each word
+    .join(" "); //join back into single string
+};
+
+//table header for admin dashboard
+export const tableheader = ["name", "email", "email status", "last login"];
+
+// get all courses
+export const getCourses: () => Promise<ServerResponse<Course[], Error>> =
+  fetchHandler<Course[]>(() => fetch(route("GET /api/courses")));

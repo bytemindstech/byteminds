@@ -1,22 +1,26 @@
 <script lang="ts">
   import type { PageData } from "./$types";
+  import { dateOption, capitalize } from "$lib/util.client";
+  import { match } from "ts-pattern";
   import dateFormatter from "@jhenbert/date-formatter";
-  import { dateOption } from "$lib/util.client";
 
   export let data: PageData;
 
-  $: getUserRole = (role: any): string => {
-    switch (true) {
-      case role.isAdmin:
-        return "admin";
-      case role.isTutor:
-        return "tutor";
-      case role.isParent:
-        return "parent";
-      case role.isStudent:
-        return "student";
-      default:
-        return "no role";
+  type Role = {
+    isAdmin: boolean;
+    isTutor: boolean;
+    isParent: boolean;
+    isStudent: boolean;
+  };
+
+  $: getUserRole = (role: Role | null) => {
+    if (role) {
+      return match(role)
+        .with({ isAdmin: true }, () => "admin")
+        .with({ isTutor: true }, () => "tutor")
+        .with({ isParent: true }, () => "parent")
+        .with({ isStudent: true }, () => "student")
+        .otherwise(() => "no role");
     }
   };
 </script>
@@ -27,27 +31,35 @@
     <table class="w-full">
       <thead>
         <tr class="bg-surface-200">
-          <th class="p-2 text-left">Name</th>
-          <th class="p-2 text-left">Email</th>
-          <th class="p-2 text-left">Email Status</th>
-          <th class="p-2 text-left">Role</th>
-          <th class="p-2 text-left">Last Login</th>
+          {#each ["name", "email", "email status", "role", "last login"] as th}
+            <th class="p-2 text-left">{capitalize(th)}</th>
+          {/each}
         </tr>
       </thead>
       <tbody>
-        {#each data.users as user}
-          <tr class="border-b">
-            <td class="p-2 capitalize">{user.firstName} {user.lastName}</td>
-            <td class="p-2">{user.email}</td>
-            <td class="p-2 capitalize"
-              >{user.emailVerified ? "verified" : "not verified"}</td
-            >
-            <td class="p-2 capitalize">{getUserRole(user.role)}</td>
-            <td class="p-2"
-              >{dateFormatter("en-PH", dateOption, user.updatedAt)}</td
+        {#if data.users && data.users.length > 0}
+          {#each data.users as user}
+            {#if !user.role?.isAdmin}
+              <tr class="border-b">
+                <td class="p-2 capitalize">{user.firstName} {user.lastName}</td>
+                <td class="p-2">{user.email}</td>
+                <td class="p-2 capitalize"
+                  >{user.emailVerified ? "verified" : "not verified"}</td
+                >
+                <td class="p-2 capitalize">{getUserRole(user.role)}</td>
+                <td class="p-2"
+                  >{dateFormatter("en-PH", dateOption, user.updatedAt)}</td
+                >
+              </tr>
+            {/if}
+          {/each}
+        {:else}
+          <tr class="border-b"
+            ><td colspan="5" class="text-center p-2"
+              >No tutors registered yet</td
             >
           </tr>
-        {/each}
+        {/if}
       </tbody>
     </table>
   </div>
