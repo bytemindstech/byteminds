@@ -6,29 +6,28 @@ import { route } from "$lib/ROUTES";
 import { getAllUsers, getUserById } from "$lib/server/user.service";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
-import * as RoleService from "$lib/server/role.service";
+import * as UserService from "$lib/server/user.service";
 
 export const load = (async ({ locals, url, parent }) => {
   await parent();
 
   const users = await getAllUsers();
   const user = await getUserById(locals.user?.id as string);
-  const tutors = users.filter((user) => user.role?.isTutor);
+  const tutors = users.filter((user) => user.role === "TUTOR");
 
-  if (!user?.role) {
+  if (!user) {
     return;
   }
 
-  const { isParent, isStudent, isTutor, isAdmin } = user.role;
-
   const redirectTo = () => {
-    return match({ isParent, isStudent, isTutor, isAdmin }) // alternative for switch statement of if-else
-      .with({ isAdmin: true }, () => route("/admin"))
-      .with({ isParent: true }, () => route("/parent"))
-      .with({ isTutor: true }, () => route("/tutor"))
-      .with({ isStudent: true }, () => route("/student"))
+    
+    return match(user.role) // alternative for switch statement of if-else
+      .with("ADMIN", () => route("/admin"))
+      .with("PARENT", () => route("/parent"))
+      .with("TUTOR", () => route("/tutor"))
+      .with("STUDENT", () => route("/student"))
       .otherwise(() => {
-        if (!user.emailVerified?.isEmailVerified) {
+        if (user.isEmailVerified === "FALSE") {
           return route("/email-verification") + `?redirectTo=${url.pathname}`;
         }
         return null;
@@ -61,24 +60,15 @@ export const actions: Actions = {
     }
 
     if (userRoleForm.data.role === "parent") {
-      await RoleService.updateRole(
-        { isParent: true, isStudent: false, isTutor: false },
-        locals.user?.id as string,
-      );
+      await UserService.updateUserRole(locals.user?.id as string, "PARENT");
     }
 
     if (userRoleForm.data.role === "student") {
-      await RoleService.updateRole(
-        { isParent: false, isStudent: true, isTutor: false },
-        locals.user?.id as string,
-      );
+      await UserService.updateUserRole(locals.user?.id as string, "STUDENT");
     }
 
     if (userRoleForm.data.role === "tutor") {
-      await RoleService.updateRole(
-        { isParent: false, isStudent: false, isTutor: true },
-        locals.user?.id as string,
-      );
+      await UserService.updateUserRole(locals.user?.id as string, "TUTOR");
     }
 
     return message(

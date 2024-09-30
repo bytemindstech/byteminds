@@ -7,10 +7,25 @@
   import { quintOut } from "svelte/easing";
   import { superForm } from "sveltekit-superforms/client";
   import { PersonPlus } from "$lib/components/icons";
+  import { isSignInStore } from "$lib/store";
+  import { goto } from "$app/navigation";
   import Icon from "@iconify/svelte";
   // import SuperDebug from "sveltekit-superforms";
 
   export let formData;
+
+  let isSignIn = false;
+
+  const handleClick = () => {
+    isSignIn = !isSignIn;
+    isSignInStore.update((value) => !value);
+
+    if (!isSignIn) {
+      goto("signin-signup?register");
+    } else {
+      goto("signin-signup?login");
+    }
+  };
 
   const { form, errors, constraints, message, delayed, enhance } = superForm(
     formData,
@@ -40,9 +55,9 @@
   <div
     class="max-w-screen-xl m-0 sm:m-10 sm:rounded-lg flex justify-center flex-1 bg-tertiary-100"
   >
-    <div class="card w-2/3 p-5">
+    <div class="card md:w-2/3">
       <header
-        class="card-header flex flex-col items-center justify-center space-y-5"
+        class="card-header flex flex-col items-center justify-center space-y-4"
       >
         <Avatar
           src={route("githubAvatar", { avatarId: 159615949 })}
@@ -50,7 +65,7 @@
         />
       </header>
       <form
-        class="flex flex-col justify-center space-y-4 p-7"
+        class="flex flex-col justify-center space-y-4 p-5"
         method="post"
         action={route("register /signin-signup")}
         use:enhance
@@ -255,6 +270,18 @@
             Privacy Policy
           </a>
         </p>
+        <div class="md:hidden">
+          <p class="text-sm text-surface-600 text-center">
+            Already have an account?
+            <button
+              type="button"
+              class="btn text-primary-700 hover:text-error-600 text-sm capitalize -ml-4"
+              on:click={handleClick}
+            >
+              Login here
+            </button>
+          </p>
+        </div>
       </form>
     </div>
 

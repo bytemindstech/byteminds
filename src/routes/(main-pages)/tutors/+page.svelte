@@ -1,9 +1,9 @@
 <script lang="ts">
   import { Tutors } from "$lib/components";
   import { onDestroy } from "svelte";
-
   import type { PageData } from "./$types";
   import { resetTitle } from "$lib/util.client";
+  import type { EmailVerified } from "@prisma/client";
 
   export let data: PageData;
 
@@ -13,7 +13,7 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    emailVerified: { isEmailVerified: boolean };
+    isEmailVerified: EmailVerified;
   }>;
 
   onDestroy(resetTitle);
@@ -24,7 +24,7 @@
 >
 
 <div class="container min-h-screen mx-auto p-6">
-  {#if tutors}
+  {#if tutors && tutors.length > 0}
     <Tutors {tutors} />
   {:else}
     <p class="text-lg font-bold">

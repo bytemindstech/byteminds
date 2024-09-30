@@ -11,7 +11,7 @@ export const load = (async ({ locals, parent }) => {
   }
   const users = await getAllUsers();
   const user = await getUserById(locals.user.id as string);
-  const tutorCounts = users.filter((user) => user.role?.isTutor).length;
+  const tutorCounts = users.filter((user) => user.role === "TUTOR").length;
 
   if (!user) {
     return;
@@ -21,7 +21,7 @@ export const load = (async ({ locals, parent }) => {
     return;
   }
 
-  if (!user.role.isStudent) {
+  if (user.role !== "STUDENT") {
     throw redirect(302, route("/user-profile"));
   }
 

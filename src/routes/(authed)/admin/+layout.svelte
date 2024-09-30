@@ -18,11 +18,13 @@
     { name: "courses", route: route("/admin/courses") },
   ];
 
-  $: parentCounts = data.users.filter((user) => user.role?.isParent).length;
+  $: parentCounts = data.users.filter((user) => user.role === "PARENT").length;
 
-  $: studentCounts = data.users.filter((user) => user.role?.isStudent).length;
+  $: studentCounts = data.users.filter(
+    (user) => user.role === "STUDENT",
+  ).length;
 
-  $: tutorCounts = data.users.filter((user) => user.role?.isTutor).length;
+  $: tutorCounts = data.users.filter((user) => user.role === "TUTOR").length;
 </script>
 
 <AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4"

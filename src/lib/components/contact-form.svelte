@@ -45,7 +45,11 @@
           height="24"
           class="text-tertiary-500"
         />
-        <span class="text-sm">{email}</span>
+        <span class="text-sm"
+          ><a href={`mailto:${email}`} class="hover:text-tertiary-500"
+            >{email}</a
+          ></span
+        >
       </div>
       <div class="flex items-center space-x-2 mt-5">
         <Icon
@@ -54,7 +58,11 @@
           height="24"
           class="text-tertiary-500"
         />
-        <span class="text-sm">{phoneNo}</span>
+        <span class="text-sm"
+          ><a href={`tel:${phoneNo}`} class="hover:text-tertiary-500"
+            >{phoneNo}</a
+          ></span
+        >
       </div>
       <div class="flex items-center space-x-2 mt-5">
         <Icon

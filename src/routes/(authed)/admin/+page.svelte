@@ -3,24 +3,18 @@
   import { dateOption, capitalize } from "$lib/util.client";
   import { match } from "ts-pattern";
   import dateFormatter from "@jhenbert/date-formatter";
+  import type { Role } from "@prisma/client";
 
   export let data: PageData;
-
-  type Role = {
-    isAdmin: boolean;
-    isTutor: boolean;
-    isParent: boolean;
-    isStudent: boolean;
-  };
 
   $: getUserRole = (role: Role | null) => {
     if (role) {
       return match(role)
-        .with({ isAdmin: true }, () => "admin")
-        .with({ isTutor: true }, () => "tutor")
-        .with({ isParent: true }, () => "parent")
-        .with({ isStudent: true }, () => "student")
-        .otherwise(() => "no role");
+        .with("ADMIN", () => "admin")
+        .with("TUTOR", () => "tutor")
+        .with("PARENT", () => "parent")
+        .with("STUDENT", () => "student")
+        .otherwise(() => "user");
     }
   };
 </script>
@@ -39,12 +33,14 @@
       <tbody>
         {#if data.users && data.users.length > 0}
           {#each data.users as user}
-            {#if !user.role?.isAdmin}
+            {#if user.role !== "ADMIN"}
               <tr class="border-b">
                 <td class="p-2 capitalize">{user.firstName} {user.lastName}</td>
                 <td class="p-2">{user.email}</td>
                 <td class="p-2 capitalize"
-                  >{user.emailVerified ? "verified" : "not verified"}</td
+                  >{user.isEmailVerified === "TRUE"
+                    ? "verified"
+                    : "not verified"}</td
                 >
                 <td class="p-2 capitalize">{getUserRole(user.role)}</td>
                 <td class="p-2"

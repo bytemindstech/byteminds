@@ -6,7 +6,7 @@
 
   export let data: PageData;
 
-  $: students = data.users.filter((user) => user.role?.isStudent);
+  $: students = data.users.filter((user) => user.role === "STUDENT");
 </script>
 
 <div class="container mx-auto p-6">
@@ -33,7 +33,9 @@
               </td>
               <td class="p-2">{student.email}</td>
               <td class="p-2 capitalize"
-                >{student.emailVerified ? "verified" : "not verified"}</td
+                >{student.isEmailVerified === "TRUE"
+                  ? "verified"
+                  : "not verified"}</td
               >
               <td class="p-2"
                 >{dateFormatter("en-PH", dateOption, student.updatedAt)}</td

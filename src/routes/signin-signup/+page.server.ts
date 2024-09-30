@@ -68,18 +68,12 @@ export const actions: Actions = {
       throw redirect(302, `${redirectTo.slice(1)}`);
     }
 
-    if (!existingUser.role) {
-      return;
-    }
-
-    const { isAdmin, isParent, isTutor, isStudent } = existingUser.role;
-
     const path = () => {
-      return match({ isAdmin, isParent, isTutor, isStudent })
-        .with({ isAdmin: true }, () => route("/admin"))
-        .with({ isParent: true }, () => route("/parent"))
-        .with({ isTutor: true }, () => route("/tutor"))
-        .with({ isStudent: true }, () => route("/student"))
+      return match(existingUser.role)
+        .with("ADMIN", () => route("/admin"))
+        .with("PARENT", () => route("/parent"))
+        .with("TUTOR", () => route("/tutor"))
+        .with("STUDENT", () => route("/student"))
         .otherwise(() => route("/user-profile"));
     };
 
@@ -145,16 +139,10 @@ export const actions: Actions = {
         firstName,
         lastName,
         sourceInfo,
+        role: "USER",
+        isEmailVerified: "FALSE",
       },
       { passwordId: generateId(15), hashedPassword },
-      { emailVerifiedId: generateId(15), isEmailVerified: false },
-      {
-        roleId: generateId(15),
-        isAdmin: false,
-        isParent: false,
-        isTutor: false,
-        isStudent: false,
-      },
     );
 
     const verificationCode = await generateEmailVerificationCode(userId, email);
@@ -191,7 +179,7 @@ export const actions: Actions = {
       });
     }
 
-    if (!existingUser.emailVerified?.isEmailVerified) {
+    if (existingUser.isEmailVerified === "FALSE") {
       return message(resetPasswordFormData, "Email not verified", {
         status: 406,
       });

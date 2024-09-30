@@ -6,7 +6,7 @@ export const load = (async ({ parent }) => {
 
   const users = await getAllUsers();
 
-  const tutors = users.filter((user) => user.role?.isTutor);
+  const tutors = users.filter((user) => user.role === "TUTOR");
 
   return { tutors };
 }) satisfies PageServerLoad;

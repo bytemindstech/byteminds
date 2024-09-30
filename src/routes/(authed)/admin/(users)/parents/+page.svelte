@@ -6,7 +6,7 @@
 
   export let data: PageData;
 
-  $: parents = data.users.filter((user) => user.role?.isParent);
+  $: parents = data.users.filter((user) => user.role === "PARENT");
 </script>
 
 <div class="container mx-auto p-6">
@@ -33,7 +33,9 @@
               </td>
               <td class="p-2">{parent.email}</td>
               <td class="p-2 capitalize"
-                >{parent.emailVerified ? "verified" : "not verified"}</td
+                >{parent.isEmailVerified === "TRUE"
+                  ? "verified"
+                  : "not verified"}</td
               >
               <td class="p-2"
                 >{dateFormatter("en-PH", dateOption, parent.updatedAt)}</td

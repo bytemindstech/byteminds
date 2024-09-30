@@ -8,10 +8,13 @@
   import Icon from "@iconify/svelte";
   import { superForm } from "sveltekit-superforms/client";
   import { goto } from "$app/navigation";
+  import { isSignInStore } from "$lib/store";
   // import SuperDebug from "sveltekit-superforms";
 
   export let loginFormData;
   export let resetPasswordEmailFormData;
+
+  let isSignIn = false;
 
   const { form, errors, constraints, message, delayed, enhance } = superForm(
     loginFormData,
@@ -42,6 +45,18 @@
       goto("/signin-signup?login");
     }
   };
+
+  const handleClickRegister = () => {
+    isSignIn = !isSignIn;
+    isSignInStore.update((value) => !value);
+
+    if (!isSignIn) {
+      goto("signin-signup?register");
+    } else {
+      goto("signin-signup?login");
+    }
+  };
+
   const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
 
   $: isPasswordIconVisible = $form.password && $form.password.length > 0;
@@ -188,12 +203,26 @@
           <span class="text-sm capitalize">remember password?</span>
         {/if}
         <button
-          class="btn text-primary-700 hover:text-error-600 text-sm float-left capitalize"
+          type="button"
+          class="btn text-primary-700 hover:text-error-600 text-sm float-left capitalize -ml-4"
           on:click={handleClick}
           >{!isForgotPasswordTriggered
             ? "forgot password?"
             : "login here"}</button
         >
+
+        {#if !isForgotPasswordTriggered}
+          <p class="text-sm text-surface-600 text-center md:hidden">
+            No account yet?
+            <button
+              type="button"
+              class="btn text-primary-700 hover:text-error-600 text-sm capitalize -ml-4"
+              on:click={handleClickRegister}
+            >
+              Register here
+            </button>
+          </p>
+        {/if}
       </div>
     </footer>
   </div>

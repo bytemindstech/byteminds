@@ -26,7 +26,7 @@ export const load = (async ({ locals }) => {
     return;
   }
 
-  if (!user.role.isTutor) {
+  if (user.role !== "TUTOR") {
     throw redirect(302, route("/user-profile"));
   }
 

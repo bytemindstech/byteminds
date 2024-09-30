@@ -6,7 +6,7 @@
 
   export let data: PageData;
 
-  $: tutors = data.users.filter((user) => user.role?.isTutor);
+  $: tutors = data.users.filter((user) => user.role === "TUTOR");
 </script>
 
 <div class="container mx-auto p-6">
@@ -33,7 +33,9 @@
               </td>
               <td class="p-2">{tutor.email}</td>
               <td class="p-2 capitalize"
-                >{tutor.emailVerified ? "verified" : "not verified"}</td
+                >{tutor.isEmailVerified === "TRUE"
+                  ? "verified"
+                  : "not verified"}</td
               >
               <td class="p-2"
                 >{dateFormatter("en-PH", dateOption, tutor.updatedAt)}</td

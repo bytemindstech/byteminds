@@ -22,29 +22,19 @@ export const load = (async ({ parent, locals }) => {
   if (!user) {
     return;
   }
-  if (!user.emailVerified) {
-    return;
-  }
-
-  if (!user.role) {
-    return;
-  }
-
-  const { isEmailVerified } = user.emailVerified;
-  const { isAdmin, isParent, isStudent } = user.role;
 
   const redirectTo = () => {
-    return match({ isAdmin, isParent, isStudent })
-      .with({ isAdmin: true }, () => route("/admin"))
-      .with({ isParent: true }, () => route("/parent"))
-      .with({ isStudent }, () => route("/student"))
+    return match(user.role)
+      .with("ADMIN", () => route("/admin"))
+      .with("PARENT", () => route("/parent"))
+      .with("STUDENT", () => route("/student"))
       .otherwise(() => route("/user-profile"));
   };
 
   const redirection = redirectTo();
 
   // check user's email verification status before redirecting to respective page
-  if (isEmailVerified) {
+  if (user.isEmailVerified === "TRUE") {
     if (redirection) {
       throw redirect(302, redirection);
     }
@@ -87,10 +77,7 @@ export const actions: Actions = {
 
     await lucia.invalidateUserSessions(user.id);
 
-    await UserService.updateUserEmailVerified(
-      { isEmailVerified: true },
-      user.id,
-    );
+    await UserService.updateUserEmailVerified(user.id);
 
     await createAndSetSession(lucia, user.id, cookies);
 

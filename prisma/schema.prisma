@@ -18,28 +18,11 @@ model Profile {
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Role {
-  roleId    String  @id
-  userId    String  @unique
-  isStudent Boolean
-  isParent  Boolean
-  isTutor   Boolean
-  isAdmin   Boolean
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model Password {
   passwordId     String @id
   userId         String @unique
   hashedPassword String
   user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model EmailVerified {
-  emailVerifiedId String  @id
-  userId          String  @unique
-  isEmailVerified Boolean
-  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -65,22 +48,22 @@ model PasswordReset {
 }
 
 model User {
-  id             String         @id
-  username       String         @unique
-  email          String         @unique
-  firstName      String
-  lastName       String
-  sourceInfo     String
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  emailVerified  EmailVerified?
-  hashedPassword Password?
-  profile        Profile?
-  role           Role?
-  passwordReset  PasswordReset?
-  sessions       Session[]
-  feedback       Feedback[]
-  courses        Course[]
+  id              String         @id
+  username        String         @unique
+  email           String         @unique
+  firstName       String
+  lastName        String
+  sourceInfo      String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  isEmailVerified EmailVerified  @default(FALSE)
+  hashedPassword  Password?
+  profile         Profile?
+  role            Role           @default(USER)
+  passwordReset   PasswordReset?
+  sessions        Session[]
+  feedback        Feedback[]
+  courses         Course[]
 }
 
 model EmailVerificationCode {
@@ -111,4 +94,25 @@ model Course {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CommunityFeedback {
+  id        String @id
+  firstName String
+  lastName  String
+  jobTitle  String
+  comments  String
+}
+
+enum Role {
+  USER
+  PARENT
+  TUTOR
+  STUDENT
+  ADMIN
+}
+
+enum EmailVerified {
+  FALSE
+  TRUE
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Tutors } from "$lib/components";
+  import type { EmailVerified } from "@prisma/client";
 
   import type { PageData } from "./$types";
 
@@ -11,7 +12,7 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    emailVerified: { isEmailVerified: boolean };
+    isEmailVerified: EmailVerified;
   }>;
 </script>
 

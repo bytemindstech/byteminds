@@ -8,7 +8,7 @@
   } from "$lib/components";
   import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
-  import type { Course } from "@prisma/client";
+  import type { Course, EmailVerified } from "@prisma/client";
   import type { PageData } from "./$types";
   import type { ServerResponse } from "@jhenbert/fetch";
   import { onMount } from "svelte";
@@ -24,7 +24,7 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    emailVerified: { isEmailVerified: boolean };
+    isEmailVerified: EmailVerified;
   }>;
 
   let courses: Course[] = [];
@@ -54,7 +54,7 @@
       email={data.email}
     />
 
-    {#if !data.user?.role?.isParent && !data.user?.role?.isStudent && !data.user?.role?.isTutor}
+    {#if data.user?.role !== "PARENT" && data.user?.role !== "STUDENT" && data.user?.role !== "TUTOR"}
       <ProfileUpdateForm formData={data.userRoleForm} />
     {/if}
   </svelte:fragment>
@@ -82,7 +82,7 @@
   <svelte:fragment slot="tutors"
     ><div class="bg-surface-100 shadow rounded-lg p-6 mt-8">
       <h3 class="h3 mb-4">Freelance Tutors</h3>
-      {#if tutors}
+      {#if tutors && tutors.length > 0}
         <Tutors {tutors} />
       {:else}
         <p class="text-lg font-bold">
