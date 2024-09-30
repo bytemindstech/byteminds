@@ -8,8 +8,8 @@
   import type { ServerResponse } from "@jhenbert/fetch";
   import type { Course } from "@prisma/client";
 
-  let courses: Course[] = [];
-  let response: ServerResponse<Course[], Error> = { status: "loading" };
+  $: courses = [] as Course[];
+  $: response = { status: "loading" } as ServerResponse<Course[], Error>;
 
   onMount(async () => {
     response = await getCourses();
@@ -30,7 +30,20 @@
 
 <div class="container mx-auto min-h-screen p-6">
   {#if response.status === "loading"}
+  {#if response.status === "loading"}
     <p class="text-lg font-bold">Loading courses please wait....</p>
+  {:else if courses.length > 0}
+    <CourseGrid {courses}>
+      <svelte:fragment slot="course-card" let:course>
+        <CourseCard
+          data={course}
+          href={route("/courses/[courseId]", { courseId: course.id })}
+        />
+      </svelte:fragment>
+    </CourseGrid>
+  {:else}
+    <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
+  {/if}
   {:else if courses.length > 0}
     <CourseGrid {courses}>
       <svelte:fragment slot="course-card" let:course>

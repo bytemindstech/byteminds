@@ -2,8 +2,7 @@ import { getAllUsers } from "$lib/server/user.service";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async () => {
-  const users = await getAllUsers();
-  const tutors = users.filter((user) => user.role === "TUTOR");
+  const users = getAllUsers();
 
-  return { tutors };
+  return { users };
 }) satisfies PageServerLoad;

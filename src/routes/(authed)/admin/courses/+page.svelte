@@ -4,19 +4,22 @@
   import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
   import type { ServerResponse } from "@jhenbert/fetch";
-  import type { Course } from "@prisma/client";
+  import type { Course, User } from "@prisma/client";
   import type { PageData } from "./$types";
-
-  let courses: Course[] = [];
-  let response: ServerResponse<Course[], Error> = { status: "loading" };
 
   export let data: PageData;
 
-  $: getTutor = (userId: string) => {
-    return data.users.find((user) => user.id === userId);
+  $: courses = [] as Course[];
+  $: response = { status: "loading" } as ServerResponse<Course[], Error>;
+  $: users = [] as User[];
+
+  const getTutor = (userId: string) => {
+    return users.find((user) => user.id === userId);
   };
 
   onMount(async () => {
+    users = await data.users;
+
     response = await getCourses();
 
     if (response.status === "success") {

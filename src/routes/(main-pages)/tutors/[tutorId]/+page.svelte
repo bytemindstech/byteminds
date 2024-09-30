@@ -3,8 +3,10 @@
   import { UserBioPublic } from "$lib/components";
   import { route } from "$lib/ROUTES";
   import type { PageData } from "./$types";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { resetTitle } from "$lib/util.client";
+  import { page } from "$app/stores";
+  import { any } from "zod";
 
   export let data: PageData;
 
@@ -13,12 +15,30 @@
     title: string;
   };
 
-  $: courses = data.tutor?.courses as Course[];
+  let title: string;
+  let tutor: any;
+  let courses: Course[] | undefined;
+
+  onMount(async () => {
+    const users = await data.users;
+
+    const selectedUser = users.find((user) => user.id === $page.params.tutorId);
+
+    if (selectedUser) {
+      tutor = selectedUser;
+      title =
+        "ByteMinds PH Tutor | " + `${tutor?.firstName} ${tutor?.lastName}`;
+
+      courses = selectedUser.courses.filter(
+        (course) => course.userId === $page.params.tutorId,
+      );
+    }
+  });
 
   onDestroy(resetTitle);
 </script>
 
-<svelte:head><title>{data.title}</title></svelte:head>
+<svelte:head><title>{title}</title></svelte:head>
 
 <div class="container mx-auto py-8">
   <div class="grid grid-cols-4 md:grid-cols-12 gap-6 px-4">
@@ -27,13 +47,13 @@
       <div class="bg-surface-100 shadow rounded-lg p-6">
         <div class="flex flex-col items-center">
           <Avatar
-            src={data.tutor?.profile?.image}
+            src={tutor?.profile?.image}
             width="w-32"
             background="bg-tertiary-500"
           />
           <h4 class="h4">
-            {data.tutor?.firstName}
-            {data.tutor?.lastName.charAt(0)}.
+            {tutor?.firstName}
+            {tutor?.lastName.charAt(0)}.
           </h4>
         </div>
 
@@ -84,7 +104,7 @@
     <!-- Bio Section -->
     <div class="col-span-4 md:col-span-9">
       <div class="bg-surface-100 shadow rounded-lg p-6">
-        <UserBioPublic bio={data.tutor?.profile?.bio} />
+        <UserBioPublic bio={tutor?.profile?.bio} />
       </div>
     </div>
   </div>

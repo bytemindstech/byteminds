@@ -3,10 +3,16 @@
   import { route } from "$lib/ROUTES";
   import { dateOption, tableheader, capitalize } from "$lib/util.client";
   import dateFormatter from "@jhenbert/date-formatter";
+  import { onMount } from "svelte";
 
   export let data: PageData;
 
-  $: tutors = data.users.filter((user) => user.role === "TUTOR");
+  $: tutors = [] as any;
+
+  onMount(async () => {
+    const users = await data.users;
+    tutors = users.filter((user) => user.role === "TUTOR");
+  });
 </script>
 
 <div class="container mx-auto p-6">

@@ -10,10 +10,8 @@ export const load = (async ({ locals, parent }) => {
     return;
   }
 
-  const users = await getAllUsers();
+  const users = getAllUsers();
   const user = await getUserById(locals.user.id as string);
-
-  const tutorCounts = users.filter((user) => user.role === "TUTOR").length;
 
   if (!user) {
     return;
@@ -27,5 +25,5 @@ export const load = (async ({ locals, parent }) => {
     throw redirect(302, route("/user-profile"));
   }
 
-  return { user, tutorCounts };
+  return { user };
 }) satisfies PageServerLoad;

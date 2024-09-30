@@ -14,8 +14,6 @@
   export let loginFormData;
   export let resetPasswordEmailFormData;
 
-  let isSignIn = false;
-
   const { form, errors, constraints, message, delayed, enhance } = superForm(
     loginFormData,
     {
@@ -45,6 +43,8 @@
       goto("/signin-signup?login");
     }
   };
+
+  let isSignIn = false;
 
   const handleClickRegister = () => {
     isSignIn = !isSignIn;

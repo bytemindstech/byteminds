@@ -6,7 +6,7 @@ export const load = (async ({ locals, parent }) => {
     return;
   }
 
-  const user = await getUserById(locals.user.id as string);
+  const user = getUserById(locals.user.id as string);
 
   return { user };
 }) satisfies PageServerLoad;

@@ -1,12 +1,15 @@
 <script lang="ts">
   import { Tutors } from "$lib/components";
-  import type { EmailVerified } from "@prisma/client";
-
+  import { onMount } from "svelte";
   import type { PageData } from "./$types";
+  import type { EmailVerified } from ".prisma/client";
 
   export let data: PageData;
 
-  $: tutors = data.tutors as Array<{
+  let tutorsArr: any;
+  $: isLoading = true;
+
+  $: tutors = tutorsArr as Array<{
     id: string;
     profile: { image: string };
     courses: Array<any>;
@@ -14,10 +17,18 @@
     lastName: string;
     isEmailVerified: EmailVerified;
   }>;
+
+  onMount(async () => {
+    const users = await data.users;
+    tutorsArr = users.filter((user) => user.role === "TUTOR");
+    isLoading = false;
+  });
 </script>
 
 <div class="container mx-auto p-6">
-  {#if tutors && tutors.length > 0}
+  {#if isLoading}
+    <p class="text-lg font-bold">Loading tutors please wait....</p>
+  {:else if tutors && tutors.length > 0}
     <Tutors {tutors} />
   {:else}
     <p class="text-lg font-bold">
