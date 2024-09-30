@@ -6,7 +6,6 @@
   import { onDestroy, onMount } from "svelte";
   import { resetTitle } from "$lib/util.client";
   import { page } from "$app/stores";
-  import { any } from "zod";
 
   export let data: PageData;
 

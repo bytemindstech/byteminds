@@ -3,7 +3,7 @@ import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { match } from "ts-pattern";
 import { route } from "$lib/ROUTES";
-import { getAllUsers, getUserById } from "$lib/server/user.service";
+import { getAllUsers } from "$lib/server/user.service";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as UserService from "$lib/server/user.service";
@@ -11,23 +11,19 @@ import * as UserService from "$lib/server/user.service";
 export const load = (async ({ locals, url, parent }) => {
   await parent();
 
-  const users = await getAllUsers();
-  const user = await getUserById(locals.user?.id as string);
-  const tutors = users.filter((user) => user.role === "TUTOR");
-
-  if (!user) {
+  if (!locals.user) {
     return;
   }
+  const users = getAllUsers();
 
   const redirectTo = () => {
-    
-    return match(user.role) // alternative for switch statement of if-else
+    return match(locals.user?.role) // alternative for switch statement of if-else
       .with("ADMIN", () => route("/admin"))
       .with("PARENT", () => route("/parent"))
       .with("TUTOR", () => route("/tutor"))
       .with("STUDENT", () => route("/student"))
       .otherwise(() => {
-        if (user.isEmailVerified === "FALSE") {
+        if (locals.user?.isEmailVerified === "FALSE") {
           return route("/email-verification") + `?redirectTo=${url.pathname}`;
         }
         return null;
@@ -45,7 +41,7 @@ export const load = (async ({ locals, url, parent }) => {
     zod(ZodValidationSchema.userRoleSchema),
   );
 
-  return { userRoleForm, user, tutors };
+  return { userRoleForm, users };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {

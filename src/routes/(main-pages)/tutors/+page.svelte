@@ -1,13 +1,15 @@
 <script lang="ts">
   import { Tutors } from "$lib/components";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import type { PageData } from "./$types";
   import { resetTitle } from "$lib/util.client";
   import type { EmailVerified } from "@prisma/client";
 
   export let data: PageData;
 
-  $: tutors = data.tutors as Array<{
+  let tutorsArr: any;
+
+  $: tutors = tutorsArr as Array<{
     id: string;
     profile: { image: string };
     courses: Array<any>;
@@ -15,6 +17,10 @@
     lastName: string;
     isEmailVerified: EmailVerified;
   }>;
+
+  onMount(async () => {
+    tutorsArr = await data.users;
+  });
 
   onDestroy(resetTitle);
 </script>

@@ -9,18 +9,10 @@ export const load = (async ({ locals, parent }) => {
   if (!locals.user) {
     return;
   }
+
   const users = getAllUsers();
-  const user = await getUserById(locals.user.id as string);
 
-  if (!user) {
-    return;
-  }
-
-  if (!user.role) {
-    return;
-  }
-
-  if (user.role !== "STUDENT") {
+  if (locals.user.role !== "STUDENT") {
     throw redirect(302, route("/user-profile"));
   }
 
