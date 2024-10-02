@@ -140,7 +140,7 @@ export const actions: Actions = {
         lastName,
         sourceInfo,
         role: "USER",
-        isEmailVerified: "FALSE",
+        isEmailVerified: false,
       },
       { passwordId: generateId(15), hashedPassword },
     );
@@ -179,7 +179,7 @@ export const actions: Actions = {
       });
     }
 
-    if (existingUser.isEmailVerified === "FALSE") {
+    if (!existingUser.isEmailVerified) {
       return message(resetPasswordFormData, "Email not verified", {
         status: 406,
       });

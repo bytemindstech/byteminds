@@ -21,7 +21,7 @@
 
 <div class="container mx-auto min-h-full flex items-center justify-center">
   <div class="flex flex-col items-center">
-    {#if data.user?.isEmailVerified === "TRUE"}
+    {#if data.user?.isEmailVerified}
       <p>Thank you! Email already verified</p>
     {:else}
       <form

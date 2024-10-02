@@ -7,6 +7,7 @@ import { getAllUsers } from "$lib/server/user.service";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as UserService from "$lib/server/user.service";
+import type { Role } from "@prisma/client";
 
 export const load = (async ({ locals, url, parent }) => {
   await parent();
@@ -23,7 +24,7 @@ export const load = (async ({ locals, url, parent }) => {
       .with("TUTOR", () => route("/tutor"))
       .with("STUDENT", () => route("/student"))
       .otherwise(() => {
-        if (locals.user?.isEmailVerified === "FALSE") {
+        if (!locals.user?.isEmailVerified) {
           return route("/email-verification") + `?redirectTo=${url.pathname}`;
         }
         return null;
@@ -55,16 +56,15 @@ export const actions: Actions = {
       return message(userRoleForm, "invalid form", { status: 406 });
     }
 
-    if (userRoleForm.data.role === "parent") {
-      await UserService.updateUserRole(locals.user?.id as string, "PARENT");
-    }
+    const roleMapping: Record<string, Role> = {
+      parent: "PARENT",
+      student: "STUDENT",
+      tutor: "TUTOR",
+    };
 
-    if (userRoleForm.data.role === "student") {
-      await UserService.updateUserRole(locals.user?.id as string, "STUDENT");
-    }
-
-    if (userRoleForm.data.role === "tutor") {
-      await UserService.updateUserRole(locals.user?.id as string, "TUTOR");
+    const selectedRole = roleMapping[userRoleForm.data.role];
+    if (selectedRole) {
+      await UserService.updateUserRole(locals.user?.id as string, selectedRole);
     }
 
     return message(

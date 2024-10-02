@@ -45,9 +45,7 @@
                 <td class="p-2 capitalize">{user.firstName} {user.lastName}</td>
                 <td class="p-2">{user.email}</td>
                 <td class="p-2 capitalize"
-                  >{user.isEmailVerified === "TRUE"
-                    ? "verified"
-                    : "not verified"}</td
+                  >{user.isEmailVerified ? "verified" : "not verified"}</td
                 >
                 <td class="p-2 capitalize">{getUserRole(user.role)}</td>
                 <td class="p-2"

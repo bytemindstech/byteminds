@@ -107,7 +107,7 @@ export const updateUserEmailVerified = async (userId: string) => {
   return await db.user.update({
     where: { id: userId },
     data: {
-      isEmailVerified: "TRUE",
+      isEmailVerified: true,
     },
     select: {
       id: true,

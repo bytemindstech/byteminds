@@ -1,6 +1,5 @@
 <script lang="ts">
   import { TutorCard } from "$lib/components/ui";
-  import type { EmailVerified } from "@prisma/client";
 
   export let tutors: Array<{
     id: string;
@@ -8,7 +7,7 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    isEmailVerified: EmailVerified;
+    isEmailVerified: boolean;
   }>;
 </script>
 
@@ -16,10 +15,10 @@
   {#each tutors as tutor (tutor.id)}
     <TutorCard
       id={tutor.id}
-      avatarImg={tutor.profile.image}
+      avatarImg={tutor.profile?.image}
       courses={tutor.courses}
       name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
-      verified={tutor.isEmailVerified === "TRUE"}
+      verified={tutor.isEmailVerified}
     />
   {/each}
 </section>

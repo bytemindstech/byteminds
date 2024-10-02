@@ -56,7 +56,7 @@ model User {
   sourceInfo      String
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
-  isEmailVerified EmailVerified  @default(FALSE)
+  isEmailVerified Boolean        @default(false)
   hashedPassword  Password?
   profile         Profile?
   role            Role           @default(USER)
@@ -110,9 +110,4 @@ enum Role {
   TUTOR
   STUDENT
   ADMIN
-}
-
-enum EmailVerified {
-  FALSE
-  TRUE
 }

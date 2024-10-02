@@ -39,9 +39,7 @@
               </td>
               <td class="p-2">{tutor.email}</td>
               <td class="p-2 capitalize"
-                >{tutor.isEmailVerified === "TRUE"
-                  ? "verified"
-                  : "not verified"}</td
+                >{tutor.isEmailVerified ? "verified" : "not verified"}</td
               >
               <td class="p-2"
                 >{dateFormatter("en-PH", dateOption, tutor.updatedAt)}</td

@@ -8,16 +8,19 @@
   } from "$lib/components";
   import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
-  import type { Course, EmailVerified, User } from "@prisma/client";
-  import type { PageData } from "./$types";
-  import type { ServerResponse } from "@jhenbert/fetch";
   import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
+  import { match } from "ts-pattern";
+  import type { Course } from "@prisma/client";
+  import type { PageData } from "./$types";
+  import type { ServerResponse } from "@jhenbert/fetch";
 
   export let data: PageData;
 
-  let tutorsArr: any;
+  let tutorsArr: Array<any> = [];
   let user: any;
+  let courses: Course[] = [];
+  let response: ServerResponse<Course[], Error> = { status: "loading" };
 
   $: name = `${data.firstName} ${data.lastName}`;
 
@@ -27,11 +30,8 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    isEmailVerified: EmailVerified;
+    isEmailVerified: boolean;
   }>;
-
-  $: courses = [] as Course[];
-  $: response = { status: "loading" } as ServerResponse<Course[], Error>;
 
   onMount(async () => {
     const users = await data.users;
@@ -42,16 +42,15 @@
       user = users.find((user) => user.id === data.id);
     }
 
-    if (response.status === "success") {
-      courses = response.data;
-    }
-
-    if (response.status === "error") {
-      console.log(
-        "Error encountered while fetching courses",
-        response.error.message,
-      );
-    }
+    match(response)
+      .with({ status: "success" }, (res) => (courses = res.data))
+      .with({ status: "error" }, (res) =>
+        console.error("Error encountered: ", res.error.message),
+      )
+      .with({ status: "loading" }, () => {
+        console.log("loading...");
+      })
+      .exhaustive();
   });
 </script>
 
@@ -60,7 +59,7 @@
     <svelte:fragment slot="profile">
       <UserProfile {name} profileImg={user.profile?.image} email={user.email} />
 
-      {#if user.role !== "PARENT" && user.role !== "STUDENT" && user.role !== "TUTOR"}
+      {#if user.role === "USER"}
         <ProfileUpdateForm formData={data.userRoleForm} />
       {/if}
     </svelte:fragment>
@@ -88,7 +87,9 @@
     <svelte:fragment slot="tutors"
       ><div class="bg-surface-100 shadow rounded-lg p-6 mt-8">
         <h3 class="h3 mb-4">Freelance Tutors</h3>
-        {#if tutors && tutors.length > 0}
+        {#if response.status === "loading"}
+          <p class="text-lg font-bold">Loading courses please wait....</p>
+        {:else if tutors && tutors.length > 0}
           <Tutors {tutors} />
         {:else}
           <p class="text-lg font-bold">

@@ -34,7 +34,7 @@ export const load = (async ({ parent, locals }) => {
   const redirection = redirectTo();
 
   // check user's email verification status before redirecting to respective page
-  if (user.isEmailVerified === "TRUE") {
+  if (user.isEmailVerified) {
     if (redirection) {
       throw redirect(302, redirection);
     }

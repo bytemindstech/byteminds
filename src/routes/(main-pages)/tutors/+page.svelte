@@ -3,7 +3,6 @@
   import { onDestroy, onMount } from "svelte";
   import type { PageData } from "./$types";
   import { resetTitle } from "$lib/util.client";
-  import type { EmailVerified } from "@prisma/client";
 
   export let data: PageData;
 
@@ -15,11 +14,12 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    isEmailVerified: EmailVerified;
+    isEmailVerified: boolean;
   }>;
 
   onMount(async () => {
-    tutorsArr = await data.users;
+    const users = await data.users;
+    tutorsArr = users.filter((user) => user.role === "TUTOR");
   });
 
   onDestroy(resetTitle);

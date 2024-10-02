@@ -11,7 +11,7 @@
 
   onMount(async () => {
     const users = await data.users;
-    parents = users.filter((user) => user.role === 'PARENT');
+    parents = users.filter((user) => user.role === "PARENT");
   });
 </script>
 
@@ -39,9 +39,7 @@
               </td>
               <td class="p-2">{parent.email}</td>
               <td class="p-2 capitalize"
-                >{parent.isEmailVerified === "TRUE"
-                  ? "verified"
-                  : "not verified"}</td
+                >{parent.isEmailVerified ? "verified" : "not verified"}</td
               >
               <td class="p-2"
                 >{dateFormatter("en-PH", dateOption, parent.updatedAt)}</td

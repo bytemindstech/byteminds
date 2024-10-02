@@ -2,7 +2,6 @@
   import { Tutors } from "$lib/components";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
-  import type { EmailVerified } from ".prisma/client";
 
   export let data: PageData;
 
@@ -15,7 +14,7 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    isEmailVerified: EmailVerified;
+    isEmailVerified: boolean;
   }>;
 
   onMount(async () => {
