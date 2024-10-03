@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build && npm run db:sync",
+    "build": "vite build",
     "start": "node build",
     "preview": "vite preview",
     "db:sync": "npx prisma db push",
