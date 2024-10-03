@@ -7,7 +7,7 @@
   export let formData;
 
   // Initialize form with superForm and its utilities
-  const { form, delayed, message, constraints, enhance } = superForm(formData, {
+  const { form, delayed, message, enhance } = superForm(formData, {
     resetForm: true,
   });
 

@@ -54,49 +54,47 @@
   });
 </script>
 
-{#if user}
-  <UserProfileLayout>
-    <svelte:fragment slot="profile">
-      <UserProfile {name} profileImg={user.profile?.image} email={user.email} />
+<UserProfileLayout>
+  <svelte:fragment slot="profile">
+    <UserProfile {name} profileImg={user?.profile?.image} email={user?.email} />
 
-      {#if user.role === "USER"}
-        <ProfileUpdateForm formData={data.userRoleForm} />
+    {#if user?.role === "USER"}
+      <ProfileUpdateForm formData={data.userRoleForm} />
+    {/if}
+  </svelte:fragment>
+
+  <svelte:fragment slot="courses"
+    ><div class="bg-surface-100 shadow rounded-lg p-6">
+      <h3 class="h3 mb-4">Available Courses</h3>
+      {#if response.status === "loading"}
+        <p class="text-lg font-bold">Loading courses please wait....</p>
+      {:else if courses.length > 0}
+        <CourseGrid {courses}
+          ><svelte:fragment slot="course-card" let:course>
+            <CourseCard
+              data={course}
+              href={route("/courses/[courseId]", { courseId: course.id })}
+            />
+          </svelte:fragment>
+        </CourseGrid>
+      {:else}
+        <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
       {/if}
-    </svelte:fragment>
+    </div>
+  </svelte:fragment>
 
-    <svelte:fragment slot="courses"
-      ><div class="bg-surface-100 shadow rounded-lg p-6">
-        <h3 class="h3 mb-4">Available Courses</h3>
-        {#if response.status === "loading"}
-          <p class="text-lg font-bold">Loading courses please wait....</p>
-        {:else if courses.length > 0}
-          <CourseGrid {courses}
-            ><svelte:fragment slot="course-card" let:course>
-              <CourseCard
-                data={course}
-                href={route("/courses/[courseId]", { courseId: course.id })}
-              />
-            </svelte:fragment>
-          </CourseGrid>
-        {:else}
-          <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
-        {/if}
-      </div>
-    </svelte:fragment>
-
-    <svelte:fragment slot="tutors"
-      ><div class="bg-surface-100 shadow rounded-lg p-6 mt-8">
-        <h3 class="h3 mb-4">Freelance Tutors</h3>
-        {#if response.status === "loading"}
-          <p class="text-lg font-bold">Loading courses please wait....</p>
-        {:else if tutors && tutors.length > 0}
-          <Tutors {tutors} />
-        {:else}
-          <p class="text-lg font-bold">
-            No freelance tutors available yet, stay tuned.
-          </p>
-        {/if}
-      </div>
-    </svelte:fragment>
-  </UserProfileLayout>
-{/if}
+  <svelte:fragment slot="tutors"
+    ><div class="bg-surface-100 shadow rounded-lg p-6 mt-8">
+      <h3 class="h3 mb-4">Freelance Tutors</h3>
+      {#if response.status === "loading"}
+        <p class="text-lg font-bold">Loading courses please wait....</p>
+      {:else if tutors && tutors.length > 0}
+        <Tutors {tutors} />
+      {:else}
+        <p class="text-lg font-bold">
+          No freelance tutors available yet, stay tuned.
+        </p>
+      {/if}
+    </div>
+  </svelte:fragment>
+</UserProfileLayout>

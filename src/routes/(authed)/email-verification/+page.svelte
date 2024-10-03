@@ -57,7 +57,10 @@
         action={route("resendVerificationCode /email-verification")}
         use:resendCodeEnhance
       >
-        <button type="submit" class="btn btn-sm !bg-transparent text-sm"
+        <button
+          type="submit"
+          class="btn btn-sm !bg-transparent text-sm"
+          disabled={$resendCodeDelayed}
           >{$resendCodeDelayed
             ? "Re-sending verification code ..."
             : "Re-send Verification Code"}</button

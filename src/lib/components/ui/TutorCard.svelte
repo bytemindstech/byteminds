@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Avatar } from "@skeletonlabs/skeleton";
-  import VerifiedBadge from "./verified-badge.svelte";
+  import VerifiedBadge from "./VerifiedBadge.svelte";
   import { route } from "$lib/ROUTES";
   import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
 

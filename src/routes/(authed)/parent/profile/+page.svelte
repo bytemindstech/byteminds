@@ -2,7 +2,7 @@
   import type { PageData } from "./$types";
 
   import { UserBioPrivate, UserProfile } from "$lib/components";
-  import UserProfileLayout from "$lib/components/user-profile-layout.svelte";
+  import UserProfileLayout from "$lib/components/UserProfileLayout.svelte";
   import { onMount } from "svelte";
 
   export let data: PageData;

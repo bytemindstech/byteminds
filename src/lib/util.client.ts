@@ -88,9 +88,6 @@ export const capitalize = (s: string) => {
     .join(" "); //join back into single string
 };
 
-//table header for admin dashboard
-export const tableheader = ["name", "email", "email status", "last login"];
-
 // get all courses
 export const getCourses: () => Promise<ServerResponse<Course[], Error>> =
   fetchHandler<Course[]>(() => fetch(route("GET /api/courses")));

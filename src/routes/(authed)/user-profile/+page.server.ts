@@ -63,6 +63,7 @@ export const actions: Actions = {
     };
 
     const selectedRole = roleMapping[userRoleForm.data.role];
+
     if (selectedRole) {
       await UserService.updateUserRole(locals.user?.id as string, selectedRole);
     }
