@@ -3,18 +3,26 @@
   import { page } from "$app/stores";
   import { superForm } from "sveltekit-superforms/client";
   import { Toast } from "./ui";
-  //   import SuperDebug from "sveltekit-superforms";
 
   export let formData;
 
-  const { form, delayed, message, constraints, enhance } = superForm(formData, {
+  // Initialize form with superForm and its utilities
+  const { form, delayed, message, enhance } = superForm(formData, {
     resetForm: true,
   });
+
+  if ($form.role) {
+    $form.role = "";
+  }
+
+  // Helper to determine the toast type based on status
+  const toastType = $page.status === 200 ? "success" : "error";
 </script>
 
-{#if typeof $message === "string" && $message}
-  <Toast message={$message} type={$page.status === 200 ? "success" : "error"} />
+{#if $message}
+  <Toast message={$message} type={toastType} />
 {/if}
+
 <div class="bg-surface-100 shadow rounded-lg p-6 mt-5">
   <div class="flex flex-col items-center">
     <form method="post" action={route("default /user-profile")} use:enhance>
@@ -24,7 +32,6 @@
           class="select capitalize text-primary-700"
           name="role"
           bind:value={$form.role}
-          {...$constraints.role}
         >
           <option value="" disabled hidden>choose</option>
           {#each ["parent", "student", "tutor"] as role}
@@ -33,10 +40,12 @@
         </select>
       </label>
 
-      <div class="mt-4 flex flex-wrap gap-4 justify-center">
+      <div class="mt-4 flex justify-center w-full">
         <button
           class="btn btn-sm md:btn-md variant-filled-tertiary w-full capitalize"
-          >{$delayed ? "submitting ..." : "submit"}
+          disabled={$delayed}
+        >
+          {$delayed ? "Submitting..." : "Submit"}
         </button>
       </div>
     </form>

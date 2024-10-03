@@ -3,32 +3,28 @@ import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { match } from "ts-pattern";
 import { route } from "$lib/ROUTES";
-import { getAllUsers, getUserById } from "$lib/server/user.service";
+import { getAllUsers } from "$lib/server/user.service";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
-import * as RoleService from "$lib/server/role.service";
+import * as UserService from "$lib/server/user.service";
+import type { Role } from "@prisma/client";
 
 export const load = (async ({ locals, url, parent }) => {
   await parent();
 
-  const users = await getAllUsers();
-  const user = await getUserById(locals.user?.id as string);
-  const tutors = users.filter((user) => user.role?.isTutor);
-
-  if (!user?.role) {
+  if (!locals.user) {
     return;
   }
-
-  const { isParent, isStudent, isTutor, isAdmin } = user.role;
+  const users = getAllUsers();
 
   const redirectTo = () => {
-    return match({ isParent, isStudent, isTutor, isAdmin }) // alternative for switch statement of if-else
-      .with({ isAdmin: true }, () => route("/admin"))
-      .with({ isParent: true }, () => route("/parent"))
-      .with({ isTutor: true }, () => route("/tutor"))
-      .with({ isStudent: true }, () => route("/student"))
+    return match(locals.user?.role) // alternative for switch statement of if-else
+      .with("ADMIN", () => route("/admin"))
+      .with("PARENT", () => route("/parent"))
+      .with("TUTOR", () => route("/tutor"))
+      .with("STUDENT", () => route("/student"))
       .otherwise(() => {
-        if (!user.emailVerified?.isEmailVerified) {
+        if (!locals.user?.isEmailVerified) {
           return route("/email-verification") + `?redirectTo=${url.pathname}`;
         }
         return null;
@@ -46,7 +42,7 @@ export const load = (async ({ locals, url, parent }) => {
     zod(ZodValidationSchema.userRoleSchema),
   );
 
-  return { userRoleForm, user, tutors };
+  return { userRoleForm, users };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
@@ -60,25 +56,16 @@ export const actions: Actions = {
       return message(userRoleForm, "invalid form", { status: 406 });
     }
 
-    if (userRoleForm.data.role === "parent") {
-      await RoleService.updateRole(
-        { isParent: true, isStudent: false, isTutor: false },
-        locals.user?.id as string,
-      );
-    }
+    const roleMapping: Record<string, Role> = {
+      parent: "PARENT",
+      student: "STUDENT",
+      tutor: "TUTOR",
+    };
 
-    if (userRoleForm.data.role === "student") {
-      await RoleService.updateRole(
-        { isParent: false, isStudent: true, isTutor: false },
-        locals.user?.id as string,
-      );
-    }
+    const selectedRole = roleMapping[userRoleForm.data.role];
 
-    if (userRoleForm.data.role === "tutor") {
-      await RoleService.updateRole(
-        { isParent: false, isStudent: false, isTutor: true },
-        locals.user?.id as string,
-      );
+    if (selectedRole) {
+      await UserService.updateUserRole(locals.user?.id as string, selectedRole);
     }
 
     return message(

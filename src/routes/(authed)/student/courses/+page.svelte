@@ -2,13 +2,13 @@
   import { CourseGrid } from "$lib/components";
   import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
-  import type { Course } from "@prisma/client";
-  import type { ServerResponse } from "@jhenbert/fetch";
   import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
+  import type { Course } from "@prisma/client";
+  import type { ServerResponse } from "@jhenbert/fetch";
 
-  let courses: Course[] = [];
-  let response: ServerResponse<Course[], Error> = { status: "loading" };
+  $: courses = [] as Course[];
+  $: response = { status: "loading" } as ServerResponse<Course[], Error>;
 
   onMount(async () => {
     response = await getCourses();

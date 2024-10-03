@@ -14,19 +14,10 @@ export const load = (async ({ locals }) => {
   }
   const courseForm = await superValidate(zod(ZodValidationSchema.courseSchema));
 
-  const user = await getUserById(locals.user.id as string);
+  const title =
+    "Dashboard - " + `${locals.user.firstName} ${locals.user.lastName}`;
 
-  const title = "Dashboard - " + `${user?.firstName} ${user?.lastName}`;
-
-  if (!user) {
-    return;
-  }
-
-  if (!user.role) {
-    return;
-  }
-
-  if (!user.role.isTutor) {
+  if (locals.user.role !== "TUTOR") {
     throw redirect(302, route("/user-profile"));
   }
 

@@ -6,7 +6,7 @@
 
   export let data: PageData;
 
-  let showForm = false;
+  $: showForm = false;
 
   const showFormHandler = () => {
     showForm = !showForm;

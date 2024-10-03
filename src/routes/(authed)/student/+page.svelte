@@ -17,13 +17,22 @@
 
   $: today = dateFormatter("en-PH", dateOption, new Date());
 
-  let courses: Course[] = [];
+  $: courses = [] as Course[];
+  $: courseCounts = 0;
+  $: tutorCounts = 0;
+  $: enrolleeCounts = 0;
 
   onMount(async () => {
     const response = await getCourses();
 
     if (response.status === "success") {
       courses = response.data;
+    }
+    courseCounts = courses.length;
+
+    const users = await data.users;
+    if (users) {
+      tutorCounts = users.filter((user) => user.role === "TUTOR").length;
     }
   });
 </script>
@@ -40,7 +49,7 @@
     <div class="flex-1 min-w-[250px]">
       <Statistics
         title="Freelance Tutors"
-        data={data.tutorCounts}
+        data={tutorCounts}
         cardBg="bg-tertiary-400/40"
       >
         <svelte:fragment slot="icon">
@@ -52,7 +61,7 @@
     <div class="flex-1 min-w-[250px]">
       <Statistics
         title="Courses Available"
-        data={courses.length}
+        data={courseCounts}
         cardBg="bg-success-400/40"
       >
         <svelte:fragment slot="icon">
@@ -64,7 +73,7 @@
     <div class="flex-1 min-w-[250px]">
       <Statistics
         title="Courses Enrolled"
-        data="0"
+        data={enrolleeCounts}
         cardBg="bg-secondary-400/40"
       >
         <svelte:fragment slot="icon">

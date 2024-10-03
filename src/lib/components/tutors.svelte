@@ -7,7 +7,7 @@
     courses: Array<any>;
     firstName: string;
     lastName: string;
-    emailVerified: { isEmailVerified: boolean };
+    isEmailVerified: boolean;
   }>;
 </script>
 
@@ -15,10 +15,10 @@
   {#each tutors as tutor (tutor.id)}
     <TutorCard
       id={tutor.id}
-      avatarImg={tutor.profile.image}
+      avatarImg={tutor.profile?.image}
       courses={tutor.courses}
       name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
-      verified={tutor.emailVerified.isEmailVerified}
+      verified={tutor.isEmailVerified}
     />
   {/each}
 </section>

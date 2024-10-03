@@ -21,7 +21,7 @@
 
 <div class="container mx-auto min-h-full flex items-center justify-center">
   <div class="flex flex-col items-center">
-    {#if data.user?.emailVerified?.isEmailVerified}
+    {#if data.user?.isEmailVerified}
       <p>Thank you! Email already verified</p>
     {:else}
       <form
@@ -57,7 +57,10 @@
         action={route("resendVerificationCode /email-verification")}
         use:resendCodeEnhance
       >
-        <button type="submit" class="btn btn-sm !bg-transparent text-sm"
+        <button
+          type="submit"
+          class="btn btn-sm !bg-transparent text-sm"
+          disabled={$resendCodeDelayed}
           >{$resendCodeDelayed
             ? "Re-sending verification code ..."
             : "Re-send Verification Code"}</button
