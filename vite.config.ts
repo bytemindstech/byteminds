@@ -20,6 +20,7 @@ export default defineConfig({
         githubAvatar: "https://avatars.githubusercontent.com/u/[avatarId]?v=4",
         blog: "https://blog.bytemindsph.com",
         bmlearning: "https://bmlearninghub.site",
+        bytemindsph: "https://bytemindsph.com",
       },
     }),
   ],

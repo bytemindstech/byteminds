@@ -5,13 +5,22 @@
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
+  import { onMount } from "svelte";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
-  $: user = data.users.find((user) => user.id === $page.params.id);
+  let user: any;
+  let img: string;
+  let bio: string;
 
-  $: img = user?.profile?.image ?? "";
+  onMount(async () => {
+    const users = await data.users;
+    user = users.find((user) => user.id === $page.params.id);
+
+    img = user.profile?.image;
+    bio = user.profile?.bio;
+  });
 </script>
 
 {#if user}
@@ -26,7 +35,7 @@
 
     <svelte:fragment slot="bio">
       <div class="bg-surface-100 shadow rounded-lg p-6">
-        <UserBioPublic bio={user.profile?.bio} />
+        <UserBioPublic {bio} />
       </div>
     </svelte:fragment>
   </UserProfileLayout>

@@ -18,7 +18,7 @@ export const load = (async ({ locals }) => {
     return;
   }
 
-  if (!user.role.isAdmin) {
+  if (user.role !== "ADMIN") {
     throw redirect(302, route("/user-profile"));
   }
 

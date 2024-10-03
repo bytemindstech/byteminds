@@ -1,11 +1,8 @@
 import { getAllUsers } from "$lib/server/user.service";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ params }) => {
-  const users = await getAllUsers();
-  const tutor = users.find((user) => user.id === params.tutorId);
-  const title =
-    "ByteMinds PH Tutor | " + `${tutor?.firstName} ${tutor?.lastName}`;
+export const load = (async () => {
+  const users = getAllUsers();
 
-  return { tutor, title };
+  return { users };
 }) satisfies PageServerLoad;

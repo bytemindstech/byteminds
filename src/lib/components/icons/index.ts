@@ -1,6 +1,6 @@
-export { default as Certificate } from "./cert-icon.svelte";
-export { default as Laptop } from "./laptop-icon.svelte";
-export { default as Time } from "./time-icon.svelte";
-export { default as DoubleQoute } from "./double-qoute.svelte";
-export { default as People } from "./people.svelte";
-export { default as PersonPlus } from "./person-plus.svelte";
+export { default as Certificate } from "./Certificate.svelte";
+export { default as Laptop } from "./Laptop.svelte";
+export { default as Time } from "./Time.svelte";
+export { default as DoubleQoute } from "./DoubleQoute.svelte";
+export { default as People } from "./People.svelte";
+export { default as PersonPlus } from "./PersonPlusSign.svelte";

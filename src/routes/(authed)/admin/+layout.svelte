@@ -2,11 +2,11 @@
   import { route } from "$lib/ROUTES";
   import { Navigation } from "$lib/components";
   import { Statistics } from "$lib/components/ui";
+  import { AppShell } from "@skeletonlabs/skeleton";
+  import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
 
   import type { LayoutData } from "./$types";
-
-  import { AppShell } from "@skeletonlabs/skeleton";
 
   export let data: LayoutData;
 
@@ -18,11 +18,20 @@
     { name: "courses", route: route("/admin/courses") },
   ];
 
-  $: parentCounts = data.users.filter((user) => user.role?.isParent).length;
+  let parentCounts: number = 0;
+  let studentCounts: number = 0;
+  let tutorCounts: number = 0;
+  let courseCounts: number = 0;
 
-  $: studentCounts = data.users.filter((user) => user.role?.isStudent).length;
+  onMount(async () => {
+    const users = await data.users;
+    const courses = await data.courses;
 
-  $: tutorCounts = data.users.filter((user) => user.role?.isTutor).length;
+    parentCounts = users.filter((user) => user.role === "PARENT").length;
+    studentCounts = users.filter((user) => user.role === "STUDENT").length;
+    tutorCounts = users.filter((user) => user.role === "TUTOR").length;
+    courseCounts = courses.length;
+  });
 </script>
 
 <AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4"
@@ -70,7 +79,7 @@
 
       <Statistics
         title="Courses Available"
-        data={data.courses.length}
+        data={courseCounts}
         cardBg="bg-success-400/40"
         ><svelte:fragment slot="icon"
           ><Icon icon="ic:round-book" width="48" height="48" />

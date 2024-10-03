@@ -153,6 +153,7 @@
           <button
             class="btn variant-filled-tertiary font-bold mt-3 capitalize"
             type="submit"
+            disabled={$delayed}
           >
             {$delayed ? "sending ..." : "send message"}
           </button>

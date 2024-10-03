@@ -49,7 +49,7 @@ export const generateEmailVerificationCode = async (
 ): Promise<string> => {
   const code = generateRandomString(6, alphabet("0-9", "A-Z"));
   const expiresAt = createDate(new TimeSpan(24, "h"));
-
+  console.log("Code: ", code); //for debugging purpose only
   //delete email verification code if exist and create new one
   await EmailService.databaseEmailVerificationCodeTransaction(
     userId,
