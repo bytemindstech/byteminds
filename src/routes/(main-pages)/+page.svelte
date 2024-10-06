@@ -1,9 +1,22 @@
 <script>
-  import { Hero, CallToAction, CommunityFeedback } from "$lib/components";
+  import { Lazy, Hero } from "$lib/components";
 </script>
 
 <Hero />
 
-<CallToAction />
+<!--Lazy loading component via dynamic import-->
+<Lazy this={() => import("$lib/components/CallToAction.svelte")}
+  ><div slot="loading">loading component...</div>
 
-<CommunityFeedback />
+  <svelte:fragment slot="component" let:Component
+    ><Component />
+  </svelte:fragment>
+</Lazy>
+
+<Lazy this={() => import("$lib/components/CommunityFeedback.svelte")}
+  ><div slot="loading">loading component...</div>
+
+  <svelte:fragment slot="component" let:Component
+    ><Component />
+  </svelte:fragment>
+</Lazy>

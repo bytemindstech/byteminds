@@ -4,6 +4,7 @@
   import { Statistics } from "$lib/components/ui";
   import { AppShell } from "@skeletonlabs/skeleton";
   import { onMount } from "svelte";
+  import { match } from "ts-pattern";
   import Icon from "@iconify/svelte";
 
   import type { LayoutData } from "./$types";
@@ -27,9 +28,13 @@
     const users = await data.users;
     const courses = await data.courses;
 
-    parentCounts = users.filter((user) => user.role === "PARENT").length;
-    studentCounts = users.filter((user) => user.role === "STUDENT").length;
-    tutorCounts = users.filter((user) => user.role === "TUTOR").length;
+    users.forEach((user) => {
+      match(user.role)
+        .with("PARENT", () => parentCounts++)
+        .with("STUDENT", () => studentCounts++)
+        .with("TUTOR", () => tutorCounts++);
+    });
+
     courseCounts = courses.length;
   });
 </script>

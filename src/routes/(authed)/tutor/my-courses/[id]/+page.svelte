@@ -1,17 +1,16 @@
 <script lang="ts">
   import { MyCourse } from "$lib/components";
   import { page } from "$app/stores";
-  import type { PageData } from "./$types";
-  import { resetTitle } from "$lib/util.client";
-  import { onDestroy, onMount } from "svelte";
   import { route } from "$lib/ROUTES";
   import type { Course } from "@prisma/client";
+  import type { PageData } from "./$types";
+  import { onDestroy, onMount } from "svelte";
+  import { resetTitle } from "$lib/util.client";
 
   export let data: PageData;
 
-  // Reactive declaration for the courseId
-  $: courseId = $page.params.id;
-  $: isLoading = true;
+  let courseId = $page.params.id;
+  let isLoading = true;
 
   let course: Course;
 
@@ -33,7 +32,7 @@
     isLoading = false;
   });
 
-  onDestroy(resetTitle);
+  onDestroy(() => resetTitle(data.meta.title));
 </script>
 
 <svelte:head><title>{data.title}</title></svelte:head>

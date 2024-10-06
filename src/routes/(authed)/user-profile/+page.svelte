@@ -1,12 +1,12 @@
 <script lang="ts">
   import {
     CourseGrid,
-    Tutors,
+    TutorGrid,
     ProfileUpdateForm,
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
-  import { CourseCard } from "$lib/components/ui";
+  import { CourseCard, TutorCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
   import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
@@ -89,7 +89,17 @@
       {#if response.status === "loading"}
         <p class="text-lg font-bold">Loading courses please wait....</p>
       {:else if tutors && tutors.length > 0}
-        <Tutors {tutors} />
+        <TutorGrid {tutors}
+          ><svelte:fragment slot="tutor-card" let:tutor
+            ><TutorCard
+              id={tutor.id}
+              avatarImg={tutor.profile?.image}
+              courses={tutor.courses}
+              name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
+              verified={tutor.isEmailVerified}
+            />
+          </svelte:fragment>
+        </TutorGrid>
       {:else}
         <p class="text-lg font-bold">
           No freelance tutors available yet, stay tuned.

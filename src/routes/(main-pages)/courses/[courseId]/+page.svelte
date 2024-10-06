@@ -1,14 +1,11 @@
 <script lang="ts">
   import { CourseProfile } from "$lib/components";
-  import { onDestroy, onMount } from "svelte";
-  import { resetTitle } from "$lib/util.client";
+  import { onMount } from "svelte";
   import { page } from "$app/stores";
   import type { PageData } from "./$types";
 
   export let data: PageData;
-
-  $: title = "ByteMinds PH - Available Courses";
-
+  let title: string;
   let course: any;
   let user: any;
 
@@ -24,12 +21,9 @@
       course = selectedUser.courses.find(
         (course) => course.id === $page.params.courseId,
       );
-
-      title = `ByteMinds PH - ${course.title}`;
+      title = "Available Course | " + course.title;
     }
   });
-
-  onDestroy(resetTitle);
 </script>
 
 <svelte:head><title>{title}</title></svelte:head>

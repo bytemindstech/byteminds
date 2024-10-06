@@ -1,5 +1,11 @@
 <script lang="ts">
   import { Footer, Navigation } from "$lib/components";
+  import { paths } from "$lib/util.client";
+  import { route } from "$lib/ROUTES";
+  import { page } from "$app/stores";
+  import { afterNavigate } from "$app/navigation";
+  import { ConfirmModal } from "$lib/components/ui";
+  import type { AfterNavigate } from "@sveltejs/kit";
   import {
     AppShell,
     Drawer,
@@ -10,7 +16,6 @@
     Modal,
     type ModalComponent,
   } from "@skeletonlabs/skeleton";
-
   import {
     computePosition,
     autoUpdate,
@@ -19,39 +24,9 @@
     flip,
     arrow,
   } from "@floating-ui/dom";
-  import { paths, metaDefaults } from "$lib/util.client";
-  import { route } from "$lib/ROUTES";
-  import { page } from "$app/stores";
-  import { afterNavigate } from "$app/navigation";
-  import type { AfterNavigate } from "@sveltejs/kit";
-  import { ConfirmModal } from "$lib/components/ui";
 
   //global css
   import "../app.pcss";
-
-  const meta = {
-    title: metaDefaults.title,
-    description: metaDefaults.description,
-    image: metaDefaults.image,
-
-    //Twitter
-    twitter: {
-      title: metaDefaults.title,
-      description: metaDefaults.description,
-      image: metaDefaults.image,
-    },
-  };
-
-  page.subscribe(() => {
-    //Restore Page Defaults
-    meta.title = metaDefaults.title;
-    meta.description = metaDefaults.description;
-    meta.image = metaDefaults.image;
-    //Restore Twitter Defaults
-    meta.twitter.title = metaDefaults.title;
-    meta.twitter.description = metaDefaults.description;
-    meta.twitter.image = metaDefaults.image;
-  });
 
   //requirement for popup
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -75,6 +50,12 @@
   const modalRegistry: Record<string, ModalComponent> = {
     confirmModal: { ref: ConfirmModal },
   };
+
+  let meta: Meta;
+
+  page.subscribe(($page) => {
+    meta = $page.data.meta; //Restore Page Defaults
+  });
 </script>
 
 <svelte:head

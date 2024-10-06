@@ -67,6 +67,7 @@
     "@jhenbert/byteminds-util": "npm:@jsr/jhenbert__byteminds-util@^0.1.4",
     "@jhenbert/date-formatter": "npm:@jsr/jhenbert__date-formatter@^0.1.3",
     "@jhenbert/fetch": "npm:@jsr/jhenbert__fetch@^1.0.1",
+    "@jhenbert/viewport-action": "npm:@jsr/jhenbert__viewport-action@^0.1.0",
     "@lucia-auth/adapter-prisma": "^4.0.1",
     "@prisma/client": "^5.20.0",
     "dotenv": "^16.4.5",

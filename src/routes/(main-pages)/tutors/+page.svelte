@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { Tutors } from "$lib/components";
+  import { TutorGrid } from "$lib/components";
   import { onDestroy, onMount } from "svelte";
-  import type { PageData } from "./$types";
   import { resetTitle } from "$lib/util.client";
+  import { TutorCard } from "$lib/components/ui";
+  import type { PageData } from "./$types";
 
   export let data: PageData;
 
@@ -22,16 +23,24 @@
     tutorsArr = users.filter((user) => user.role === "TUTOR");
   });
 
-  onDestroy(resetTitle);
+  onDestroy(() => resetTitle(data.meta.title));
 </script>
 
-<svelte:head
-  ><title>ByteMinds PH - Available Freelance Tutors</title></svelte:head
->
+<svelte:head><title>{data.title}</title></svelte:head>
 
 <div class="container min-h-screen mx-auto p-6">
   {#if tutors && tutors.length > 0}
-    <Tutors {tutors} />
+    <TutorGrid {tutors}
+      ><svelte:fragment slot="tutor-card" let:tutor
+        ><TutorCard
+          id={tutor.id}
+          avatarImg={tutor.profile?.image}
+          courses={tutor.courses}
+          name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
+          verified={tutor.isEmailVerified}
+        />
+      </svelte:fragment>
+    </TutorGrid>
   {:else}
     <p class="text-lg font-bold">
       No freelance tutors available yet, stay tuned.

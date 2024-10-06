@@ -4,7 +4,7 @@
   import { CoursesTable } from "$lib/components";
 </script>
 
-<div class="container mx-auto p-6">
+<div class="container mx-auto p-6 min-h-screen">
   {#await getCourses()}
     <p class="text-lg font-bold">Loading courses please wait....</p>
   {:then response}

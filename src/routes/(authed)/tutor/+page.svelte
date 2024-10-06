@@ -1,8 +1,10 @@
 <script lang="ts">
   import { CourseForm, CourseGrid } from "$lib/components";
-  import { CourseCard, Toast } from "$lib/components/ui";
+  import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
+  import { onDestroy } from "svelte";
   import type { PageData } from "./$types";
+  import { resetTitle } from "$lib/util.client";
 
   export let data: PageData;
 
@@ -11,6 +13,8 @@
   const showFormHandler = () => {
     showForm = !showForm;
   };
+
+  onDestroy(() => resetTitle(data.meta.title));
 </script>
 
 <svelte:head><title>{data.title}</title></svelte:head>

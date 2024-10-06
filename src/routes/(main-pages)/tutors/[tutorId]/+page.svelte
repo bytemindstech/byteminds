@@ -34,7 +34,7 @@
     }
   });
 
-  onDestroy(resetTitle);
+  onDestroy(() => resetTitle(data.meta.title));
 </script>
 
 <svelte:head><title>{title}</title></svelte:head>
