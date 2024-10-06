@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Navigation } from "$lib/components";
   import { route } from "$lib/ROUTES";
+  import { paths } from "$lib/util.client";
   import Icon from "@iconify/svelte";
   import {
     AppShell,
@@ -8,7 +9,6 @@
     getDrawerStore,
     Avatar,
   } from "@skeletonlabs/skeleton";
-  import { paths } from "$lib/util.client";
 
   const drawerStore = getDrawerStore();
 
@@ -37,6 +37,7 @@
             /></button
           ></span
         >
+
         <h2 class="h2">
           <span class="text-primary-800 dark:text-dark-token">Byte</span><span
             class="text-red-700"

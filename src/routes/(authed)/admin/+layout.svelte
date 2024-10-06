@@ -39,7 +39,7 @@
   });
 </script>
 
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4"
+<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4 hidden md:block"
   ><svelte:fragment slot="sidebarLeft"><Navigation {paths} /></svelte:fragment>
   <div class="container mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6">
