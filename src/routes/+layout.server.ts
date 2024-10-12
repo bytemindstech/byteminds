@@ -26,9 +26,7 @@ export const load = (async () => {
   };
 
   const inHouseTutors = getAllInhouseTutors();
-
   const communityFeedback = getAllCommunityFeedback();
-
   return {
     meta,
     inHouseTutors,

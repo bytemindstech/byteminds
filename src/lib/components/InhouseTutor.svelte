@@ -15,10 +15,10 @@
 <div class="w-full bg-surface-100/65 p-6">
   <h2 class="h2 text-center capitalize my-6 pb-10">meet our in-house tutors</h2>
 
-  {#if inhouseTutors}
-    {#await inhouseTutors}
-      <p class="text-lg font-bold">Loading inhouse tutors please wait....</p>
-    {:then inhouseTutors}
+  {#await inhouseTutors}
+    <p class="text-lg font-bold">Loading inhouse tutors please wait....</p>
+  {:then inhouseTutors}
+    {#if inhouseTutors && inhouseTutors.length > 0}
       {#each inhouseTutors as inhouseTutor (inhouseTutor.id)}
         <InhouseTutorCard
           tutorImg={inhouseTutor.image}
@@ -27,10 +27,10 @@
           bio={inhouseTutor.bio}
         />
       {/each}
-    {/await}
-  {:else}
-    <p class="text-lg font-bold">
-      No available inhouse tutors yet, please stay tune for updates....
-    </p>
-  {/if}
+    {:else}
+      <p class="text-lg semi-bold">
+        Be the first to become our in-house tutor — get in touch now!
+      </p>
+    {/if}
+  {/await}
 </div>

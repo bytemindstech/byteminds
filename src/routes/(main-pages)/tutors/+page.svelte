@@ -42,8 +42,8 @@
       </svelte:fragment>
     </TutorGrid>
   {:else}
-    <p class="text-lg font-bold">
-      No freelance tutors available yet, stay tuned.
+    <p class="text-lg semi-bold">
+      Be the first to join our team of freelance tutors — apply today!
     </p>
   {/if}
 </div>
