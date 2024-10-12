@@ -1,4 +1,4 @@
-import { getAllCourses } from "$lib/server/course.service";
+import { getAllCourses } from "$lib/server/services/course.service";
 import { superValidate } from "sveltekit-superforms/server";
 import type { LayoutServerLoad, Actions } from "./$types";
 import { zod } from "sveltekit-superforms/adapters";

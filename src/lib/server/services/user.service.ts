@@ -1,4 +1,4 @@
-import db from "./db";
+import db from "../db";
 import { Role, type Password, type User } from "@prisma/client";
 
 /**

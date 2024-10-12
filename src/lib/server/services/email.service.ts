@@ -1,5 +1,5 @@
 import { generateId } from "lucia";
-import db from "./db";
+import db from "../db";
 
 export const getEmailVerificationCodeByUserId = async (userId: string) => {
   return await db.emailVerificationCode.findUnique({ where: { userId } });

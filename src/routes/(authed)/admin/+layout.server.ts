@@ -1,5 +1,5 @@
-import { getAllCourses } from "$lib/server/course.service";
-import { getAllUsers } from "$lib/server/user.service";
+import { getAllCourses } from "$lib/server/services/course.service";
+import { getAllUsers } from "$lib/server/services/user.service";
 import type { LayoutServerLoad } from "./$types";
 
 export const load = (async () => {

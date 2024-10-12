@@ -19,6 +19,7 @@
   let tutorCounts = 0;
   let courseCounts = 0;
   let enrolleeCounts = 0;
+
   $: today = dateFormatter("en-PH", dateOption, new Date());
 
   onMount(async () => {

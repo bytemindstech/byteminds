@@ -15,12 +15,12 @@
     timeZone: "Asia/Manila",
   };
 
-  $: today = dateFormatter("en-PH", dateOption, new Date());
+  let courses: Course[] = [];
+  let courseCounts = 0;
+  let tutorCounts = 0;
+  let enrolleeCounts = 0;
 
-  $: courses = [] as Course[];
-  $: courseCounts = 0;
-  $: tutorCounts = 0;
-  $: enrolleeCounts = 0;
+  $: today = dateFormatter("en-PH", dateOption, new Date());
 
   onMount(async () => {
     const response = await getCourses();
@@ -31,8 +31,11 @@
     courseCounts = courses.length;
 
     const users = await data.users;
+
     if (users) {
-      tutorCounts = users.filter((user) => user.role === "TUTOR").length;
+      users.forEach((user) => {
+        if (user.role === "TUTOR") tutorCounts++;
+      });
     }
   });
 </script>

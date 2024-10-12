@@ -1,4 +1,6 @@
 import { route } from "$lib/ROUTES";
+import { getAllCommunityFeedback } from "$lib/server/services/community-feedback.service";
+import { getAllInhouseTutors } from "$lib/server/services/inhouse-tutor.service";
 import type { LayoutServerLoad } from "./$types";
 
 export const load = (async () => {
@@ -23,7 +25,13 @@ export const load = (async () => {
     },
   };
 
+  const inHouseTutors = getAllInhouseTutors();
+
+  const communityFeedback = getAllCommunityFeedback();
+
   return {
     meta,
+    inHouseTutors,
+    communityFeedback,
   };
 }) satisfies LayoutServerLoad;

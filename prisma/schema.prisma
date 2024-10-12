@@ -11,11 +11,11 @@ datasource db {
 }
 
 model Profile {
-  profileId String @id
-  userId    String @unique
-  image     String
-  bio       String @db.Text
-  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId String  @id
+  image     String?
+  bio       String  @db.Text
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Password {
@@ -97,11 +97,32 @@ model Course {
 }
 
 model CommunityFeedback {
-  id        String @id
-  firstName String
-  lastName  String
-  jobTitle  String
-  comments  String
+  id         String   @id
+  name       String
+  image      String
+  location   String
+  occupation String
+  comment    String   @db.LongText
+  createdAt  DateTime @default(now())
+}
+
+model InHouseTutor {
+  id            String   @id
+  name          String
+  subjectTaught String
+  bio           String   @db.LongText
+  image         String
+  createdAt     DateTime @default(now())
+  socials       Social[]
+}
+
+model Social {
+  id             String       @id
+  facebook       String
+  linkedIn       String
+  tiktok         String
+  inhouseTutorId String
+  inhouseTutor   InHouseTutor @relation(fields: [inhouseTutorId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

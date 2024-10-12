@@ -98,8 +98,9 @@
 
         <p>
           To exercise any of these rights, please contact us at
-          <a href="mailto:info@bytemindsph.com" class="anchor"
-            >info@bytemindsph.com</a
+          <a
+            href={route("mailTo", { email: "info@bytemindsph.com" })}
+            class="anchor">info@bytemindsph.com</a
           >
         </p>
       </li>
@@ -118,8 +119,9 @@
         <ul class="ml-4 mt-4">
           <li><h6 class="h6">ByteMinds PH</h6></li>
           <li>
-            Email: <a href="mailto:info@bytemindsph.com" class="anchor"
-              >info@bytemindsph.com</a
+            Email: <a
+              href={route("mailTo", { email: "info@bytemindsph.com" })}
+              class="anchor">info@bytemindsph.com</a
             >
           </li>
           <li>

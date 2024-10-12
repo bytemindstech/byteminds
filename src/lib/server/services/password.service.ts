@@ -1,4 +1,4 @@
-import db from "./db";
+import db from "../db";
 
 export const getPasswordByUserId = async (userId: string) => {
   return await db.password.findUnique({

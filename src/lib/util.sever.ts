@@ -9,10 +9,10 @@ import { Argon2id } from "oslo/password";
 import { generateId, type User } from "lucia";
 import dateFormatter from "@jhenbert/date-formatter";
 import * as mod from "@jhenbert/byteminds-util";
-import * as EmailService from "./server/email.service";
-import * as ResetPasswordService from "./server/reset-password.service";
-import * as PasswordService from "./server/password.service";
-import * as UserService from "./server/user.service";
+import * as EmailService from "./server/services/email.service";
+import * as ResetPasswordService from "./server/services/reset-password.service";
+import * as PasswordService from "./server/services/password.service";
+import * as UserService from "./server/services/user.service";
 import {
   SMTP_HOST,
   SMTP_PORT,

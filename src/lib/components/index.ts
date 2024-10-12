@@ -25,3 +25,6 @@ export { default as AllUsersTable } from "./AllUsersTable.svelte";
 export { default as UsersTable } from "./UsersTable.svelte";
 export { default as CoursesTable } from "./CoursesTable.svelte";
 export { default as Lazy } from "./Lazy.svelte";
+export { default as InhouseTutorForm } from "./InhouseTutorForm.svelte";
+export { default as InhouseTutorTable } from "./InhouseTutorTable.svelte";
+export { default as Metadata } from "./Metadata.svelte";

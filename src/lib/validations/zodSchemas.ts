@@ -72,3 +72,20 @@ export const updateCourseSchema = courseSchema
     description: true,
   })
   .merge(z.object({ courseId: z.string() }));
+
+export const inHouseTutorSchema = z.object({
+  name: z.string(),
+  subjectTaught: z.string(),
+  bio: z.string(),
+  image: z.string(),
+});
+
+export const communityFeedbackSchema = inHouseTutorSchema
+  .pick({ name: true })
+  .merge(
+    z.object({
+      occupation: z.string(),
+      comments: z.string(),
+      location: z.string(),
+    }),
+  );

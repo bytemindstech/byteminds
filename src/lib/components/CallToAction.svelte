@@ -3,7 +3,7 @@
   import Icon from "@iconify/svelte";
 </script>
 
-<div class="px-2 py-20 w-full flex justify-center mt-8">
+<div class="px-6 py-20 w-full flex justify-center mt-8">
   <div
     class="bg-surface-100 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg"
   >

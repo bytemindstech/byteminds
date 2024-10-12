@@ -21,6 +21,8 @@ export default defineConfig({
         blog: "https://blog.bytemindsph.com",
         bmlearning: "https://bmlearninghub.site",
         bytemindsph: "https://bytemindsph.com",
+        mailTo: "mailto:[email]",
+        callTo: "tel:[phoneNo]",
       },
     }),
   ],

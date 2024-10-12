@@ -1,13 +1,16 @@
 <script lang="ts">
-  import { Lazy, MissionVision } from "$lib/components";
+  import { MissionVision, Lazy } from "$lib/components";
+  import type { LayoutData } from "../$types";
+
+  export let data: LayoutData;
 </script>
 
 <MissionVision />
 
-<!--Lazy loading component via dynamic import-->
-<Lazy this={() => import("$lib/components/InhouseTutor.svelte")}>
-  <div slot="loading">loading component...</div>
-  <svelte:fragment slot="component" let:Component>
-    <Component />
+<Lazy this={() => import("$lib/components/InhouseTutor.svelte")} threshold={100}
+  ><div slot="fallback">loading component...</div>
+
+  <svelte:fragment slot="component" let:Component
+    ><Component inhouseTutors={data.inHouseTutors} />
   </svelte:fragment>
 </Lazy>

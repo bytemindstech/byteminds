@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
-import * as ContactUsService from "$lib/server/contact-us.service";
+import * as ContactUsService from "$lib/server/services/contact-us.service";
 import { generateId } from "lucia";
 
 export const load = (async () => {
@@ -10,7 +10,14 @@ export const load = (async () => {
     zod(ZodValidationSchema.contactUsSchema),
   );
 
-  return { contactUsForm };
+  const contactUsDetails = {
+    email: "info@bytemindsph.com",
+    phoneNo: "+63 919 125 3021",
+    article:
+      "At Byteminds, your feedback is highly valued.  Whether you need clarification or want to share an idea, we're here to listen. We encourage you to reach out if you have any questions - our team is always happy to help!",
+  };
+
+  return { contactUsForm, contactUsDetails };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {

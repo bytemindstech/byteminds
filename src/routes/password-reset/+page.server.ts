@@ -8,7 +8,7 @@ import { route } from "$lib/ROUTES";
 import { createAndSetSession } from "@jhenbert/byteminds-util";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
-import * as PasswordService from "$lib/server/password.service";
+import * as PasswordService from "$lib/server/services/password.service";
 
 export const load = (async ({ url }) => {
   const passwordResetFormData = await superValidate(

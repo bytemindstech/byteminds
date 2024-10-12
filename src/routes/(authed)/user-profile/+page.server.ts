@@ -3,10 +3,10 @@ import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { match } from "ts-pattern";
 import { route } from "$lib/ROUTES";
-import { getAllUsers } from "$lib/server/user.service";
+import { getAllUsers } from "$lib/server/services/user.service";
 import type { Actions, PageServerLoad } from "./$types";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
-import * as UserService from "$lib/server/user.service";
+import * as UserService from "$lib/server/services/user.service";
 import type { Role } from "@prisma/client";
 
 export const load = (async ({ locals, url, parent }) => {

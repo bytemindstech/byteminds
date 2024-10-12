@@ -16,6 +16,7 @@
     { name: "tutors", route: route("/admin/tutors") },
     { name: "parents", route: route("/admin/parents") },
     { name: "students", route: route("/admin/students") },
+    { name: "inhouse tutors", route: route("/admin/inhouse-tutors") },
     { name: "courses", route: route("/admin/courses") },
   ];
 

@@ -4,11 +4,9 @@
   import { route } from "$lib/ROUTES";
   import { Toast } from "./ui";
   import Icon from "@iconify/svelte";
-  // import SuperDebug from "sveltekit-superforms";
 
   export let email;
   export let phoneNo;
-  export let openHrs;
   export let article;
   export let formData;
 
@@ -45,7 +43,12 @@
           height="24"
           class="text-tertiary-500"
         />
-        <span class="text-sm">{email}</span>
+        <span class="text-sm"
+          ><a
+            href={route("mailTo", { email: email })}
+            class="hover:text-tertiary-500">{email}</a
+          ></span
+        >
       </div>
       <div class="flex items-center space-x-2 mt-5">
         <Icon
@@ -54,16 +57,12 @@
           height="24"
           class="text-tertiary-500"
         />
-        <span class="text-sm">{phoneNo}</span>
-      </div>
-      <div class="flex items-center space-x-2 mt-5">
-        <Icon
-          icon="lucide:clock"
-          width="24"
-          height="24"
-          class="text-tertiary-500"
-        />
-        <span class="text-sm uppercase">{openHrs}</span>
+        <span class="text-sm"
+          ><a
+            href={route("callTo", { phoneNo: phoneNo.replace(/\s+/g, "") })}
+            class="hover:text-tertiary-500">{phoneNo}</a
+          ></span
+        >
       </div>
     </div>
 

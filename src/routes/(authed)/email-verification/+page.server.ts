@@ -11,7 +11,7 @@ import {
 } from "$lib/util.sever";
 import { route } from "$lib/ROUTES";
 import type { Actions, PageServerLoad } from "./$types";
-import * as UserService from "$lib/server/user.service";
+import * as UserService from "$lib/server/services/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load = (async ({ parent, locals }) => {

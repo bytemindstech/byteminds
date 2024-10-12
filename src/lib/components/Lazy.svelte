@@ -1,25 +1,27 @@
 <script lang="ts">
-  import viewport from "$lib/viewportAction";
+  import viewport from "@jhenbert/viewport-action";
 
   let loadComponent;
   export { loadComponent as this };
 
-  let isShowing = false;
+  export let threshold: number = 0;
+
+  let isShowingComponent = false;
   let componentPromise: Promise<{
     default: ConstructorOfATypedSvelteComponent;
   }>;
 
   const handleEnterViewport = () => {
     componentPromise = loadComponent();
-    isShowing = true;
+    isShowingComponent = true;
   };
 </script>
 
-{#if !isShowing}
-  <div use:viewport on:enterViewport={handleEnterViewport} />
+{#if !isShowingComponent}
+  <div use:viewport={threshold} on:enterViewport={handleEnterViewport} />
 {:else}
   {#await componentPromise}
-    <slot name="loading">Loading...</slot>
+    <slot name="fallback">Loading...</slot>
   {:then { default: Component }}
     <slot name="component" {Component} />
   {/await}

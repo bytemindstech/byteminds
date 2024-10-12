@@ -1,4 +1,4 @@
-import db from "./db";
+import db from "../db";
 
 export const getTokenById = async (id: string) => {
   return await db.passwordReset.findUnique({
