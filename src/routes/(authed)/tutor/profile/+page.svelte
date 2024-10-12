@@ -5,15 +5,16 @@
     UserProfileLayout,
   } from "$lib/components";
   import { onDestroy } from "svelte";
-  import { resetTitle } from "$lib/util.client";
   import type { PageData } from "./$types";
+  import { resetTitle } from "$lib/util.client";
+  import { page } from "$app/stores";
 
   export let data: PageData;
 
   $: name = `${data.firstName} ${data.lastName}`;
   $: img = data.user?.profile?.image ?? "";
 
-  onDestroy(resetTitle);
+  onDestroy(() => resetTitle(data.meta.title));
 </script>
 
 <svelte:head><title>{data.title} {name}</title></svelte:head>

@@ -1,4 +1,4 @@
-import { getUserById } from "$lib/server/user.service";
+import { getUserById } from "$lib/server/services/user.service";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ locals }) => {

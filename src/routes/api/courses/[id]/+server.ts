@@ -2,7 +2,7 @@ import {
   deleteCourse,
   getAllCourses,
   getCourseById,
-} from "$lib/server/course.service";
+} from "$lib/server/services/course.service";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import type { User } from "lucia";

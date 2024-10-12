@@ -1,4 +1,4 @@
-import db from "./db";
+import db from "../db";
 import type { Contact } from "@prisma/client";
 
 export const createContact = async (contact: Contact) => {

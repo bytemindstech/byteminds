@@ -1,21 +1,36 @@
 <script lang="ts">
-  import { InhouseTutor } from "./ui";
-  import { inhouseTutors } from "$lib/mock.data";
+  import { InhouseTutorCard } from "./ui";
+
+  export let inhouseTutors: Promise<
+    Array<{
+      id: string;
+      name: string;
+      subjectTaught: string;
+      bio: string;
+      image: string;
+    }>
+  >;
 </script>
 
-<div class="w-full bg-surface-100/65 py-8">
-  <h2 class="h2 text-center capitalize relative my-8">
-    meet our in-house tutors
-  </h2>
+<div class="w-full bg-surface-100/65 p-6">
+  <h2 class="h2 text-center capitalize my-6 pb-10">meet our in-house tutors</h2>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 p-6">
-    {#each inhouseTutors as inhouseTutor}
-      <InhouseTutor
-        tutorImg={inhouseTutor.tutorImg}
-        name={inhouseTutor.name}
-        designation={inhouseTutor.designation}
-        bio={inhouseTutor.bio}
-      />
-    {/each}
-  </div>
+  {#await inhouseTutors}
+    <p class="text-lg font-bold">Loading inhouse tutors please wait....</p>
+  {:then inhouseTutors}
+    {#if inhouseTutors && inhouseTutors.length > 0}
+      {#each inhouseTutors as inhouseTutor (inhouseTutor.id)}
+        <InhouseTutorCard
+          tutorImg={inhouseTutor.image}
+          name={inhouseTutor.name}
+          designation={inhouseTutor.subjectTaught}
+          bio={inhouseTutor.bio}
+        />
+      {/each}
+    {:else}
+      <p class="text-lg semi-bold">
+        Be the first to become our in-house tutor — get in touch now!
+      </p>
+    {/if}
+  {/await}
 </div>

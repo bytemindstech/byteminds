@@ -14,7 +14,7 @@ import {
   sendResetPasswordToken,
   sendVerificationCode,
 } from "$lib/util.sever";
-import * as UserService from "$lib/server/user.service";
+import * as UserService from "$lib/server/services/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load = (async () => {

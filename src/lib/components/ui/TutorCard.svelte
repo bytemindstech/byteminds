@@ -31,7 +31,7 @@
 </script>
 
 <a
-  class="card card-hover overflow-hidden min-w-[100px] flex flex-col"
+  class="card card-hover flex flex-col overflow-hidden min-w-[100px]"
   href={route("/tutors/[tutorId]", { tutorId: id })}
 >
   <header class="relative">

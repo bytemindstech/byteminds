@@ -8,34 +8,34 @@ const prisma = new PrismaClient();
 const main = async () => {
   try {
     // Create user with admin role
-    await prisma.user.upsert({
-      where: { email: "admin@mail.net" },
-      update: {},
-      create: {
-        id: generateId(15),
-        username: "superuser2123",
-        email: "admin@mail.net",
-        firstName: "Super2",
-        lastName: "User2",
-        sourceInfo: "facebook",
-        role: "ADMIN",
-        isEmailVerified: "TRUE",
-        hashedPassword: {
-          create: {
-            passwordId: generateId(15),
-            hashedPassword: await new Argon2id().hash("secret123"),
-          },
-        },
-        profile: {
-          create: {
-            profileId: generateId(15),
-            image:
-              "https://images.pexels.com/photos/7562313/pexels-photo-7562313.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            bio: "I am an admin user",
-          },
-        },
-      },
-    });
+    // await prisma.user.upsert({
+    //   where: { email: "admin@mail.net" },
+    //   update: {},
+    //   create: {
+    //     id: generateId(15),
+    //     username: "superuser123",
+    //     email: "admin@mail.net",
+    //     firstName: "Super",
+    //     lastName: "User",
+    //     sourceInfo: "facebook",
+    //     role: "ADMIN",
+    //     isEmailVerified: true,
+    //     hashedPassword: {
+    //       create: {
+    //         passwordId: generateId(15),
+    //         hashedPassword: await new Argon2id().hash("secret123"),
+    //       },
+    //     },
+    //     profile: {
+    //       create: {
+    //         profileId: generateId(15),
+    //         image:
+    //           "https://images.pexels.com/photos/7562313/pexels-photo-7562313.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //         bio: "I am an admin user",
+    //       },
+    //     },
+    //   },
+    // });
 
     //Create user with parent role
     // await prisma.user.upsert({
@@ -54,6 +54,8 @@ const main = async () => {
     //         hashedPassword: await new Argon2id().hash("secret123"),
     //       },
     //     },
+    //     role: "PARENT",
+    //     isEmailVerified: true,
     //     profile: {
     //       create: {
     //         profileId: generateId(15),
@@ -66,87 +68,76 @@ const main = async () => {
     // });
 
     //Create user with student role
-    // await prisma.user.upsert({
-    //   where: { email: "student@mail.net" },
-    //   update: {},
-    //   create: {
-    //     id: generateId(15),
-    //     email: "student@mail.net",
-    //     username: "studentuser123",
-    //     firstName: "User",
-    //     lastName: "Student",
-    //     sourceInfo: "youtube",
-    //     hashedPassword: {
-    //       create: {
-    //         passwordId: generateId(15),
-    //         hashedPassword: await new Argon2id().hash("secret123"),
-    //       },
-    //     },
-    //     emailVerified: {
-    //       create: {
-    //         emailVerifiedId: generateId(15),
-    //         isEmailVerified: true,
-    //       },
-    //     },
-    //     profile: {
-    //       create: {
-    //         profileId: generateId(15),
-    //         image:
-    //           "https://images.pexels.com/photos/5615665/pexels-photo-5615665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    //         bio: "I am a student",
-    //       },
-    //     },
-    //     role: {
-    //       create: {
-    //         roleId: generateId(15),
-    //         isAdmin: false,
-    //         isParent: false,
-    //         isStudent: true,
-    //         isTutor: false,
-    //       },
-    //     },
-    //   },
-    // });
+    await prisma.user.upsert({
+      where: { email: "student@mail.net" },
+      update: {},
+      create: {
+        id: generateId(15),
+        email: "student@mail.net",
+        username: "studentuser123",
+        firstName: "User",
+        lastName: "Student",
+        sourceInfo: "youtube",
+        hashedPassword: {
+          create: {
+            passwordId: generateId(15),
+            hashedPassword: await new Argon2id().hash("secret123"),
+          },
+        },
+        role: "STUDENT",
+        isEmailVerified: true,
+        profile: {
+          create: {
+            profileId: generateId(15),
+            image:
+              "https://images.pexels.com/photos/5615665/pexels-photo-5615665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            bio: "I am a student",
+          },
+        },
+      },
+    });
 
     //Create user with tutor role
-    // await prisma.user.upsert({
-    //   where: { email: "tutor2@mail.net" },
-    //   update: {},
-    //   create: {
-    //     id: generateId(15),
-    //     email: "tutor2@mail.net",
-    //     username: "tutoruser2123",
-    //     firstName: "User2",
-    //     lastName: "Tutor2",
-    //     sourceInfo: "facebook",
-    //     hashedPassword: {
-    //       create: {
-    //         passwordId: generateId(15),
-    //         hashedPassword: await new Argon2id().hash("secret123"),
-    //       },
-    //     },
-    //     profile: {
-    //       create: {
-    //         profileId: generateId(15),
-    //         image:
-    //           "https://images.pexels.com/photos/7275385/pexels-photo-7275385.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    //         bio: "I am an experienced reading tutor with over 10 years of dedicated work in the field of literacy education. With a background in Elementary Education and a Master's degree in Literacy Studies, Jane has helped hundreds of students improve their reading comprehension, vocabulary, and fluency. She specializes in working with young learners who struggle with reading, offering personalized, one-on-one sessions tailored to each student's unique learning style.",
-    //       },
-    //     },
-    //     courses: {
-    //       create: {
-    //         id: generateId(15),
-    //         title: "reading",
-    //         price: 50.99,
-    //         description:
-    //           "Reading is a magical journey for children, opening the doors to imagination, knowledge, and endless possibilities. Through stories, kids can explore faraway lands, meet fascinating characters, and learn valuable lessons about life and the world around them. Reading not only improves vocabulary and comprehension but also helps develop critical thinking and creativity.",
-    //         image:
-    //           "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    //         rating: "5",
-    //       },
-    //     },
-    //   },
-    // });
+    await prisma.user.upsert({
+      where: { email: "tutor@mail.net" },
+      update: {},
+      create: {
+        id: generateId(15),
+        email: "tutor@mail.net",
+        username: "tutoruser123",
+        firstName: "User2",
+        lastName: "Tutor2",
+        sourceInfo: "facebook",
+        hashedPassword: {
+          create: {
+            passwordId: generateId(15),
+            hashedPassword: await new Argon2id().hash("secret123"),
+          },
+        },
+        role: "TUTOR",
+        isEmailVerified: true,
+        profile: {
+          create: {
+            profileId: generateId(15),
+            image:
+              "https://images.pexels.com/photos/7275385/pexels-photo-7275385.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            bio: "I am an experienced reading tutor with over 10 years of dedicated work in the field of literacy education. With a background in Elementary Education and a Master's degree in Literacy Studies, Jane has helped hundreds of students improve their reading comprehension, vocabulary, and fluency. She specializes in working with young learners who struggle with reading, offering personalized, one-on-one sessions tailored to each student's unique learning style.",
+          },
+        },
+        courses: {
+          create: {
+            id: generateId(15),
+            title: "reading",
+            price: 50.99,
+            description:
+              "Reading is a magical journey for children, opening the doors to imagination, knowledge, and endless possibilities. Through stories, kids can explore faraway lands, meet fascinating characters, and learn valuable lessons about life and the world around them. Reading not only improves vocabulary and comprehension but also helps develop critical thinking and creativity.",
+            image:
+              "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            rating: "5",
+          },
+        },
+      },
+    });
 
     // const id = generateId(15)
     //create course
@@ -163,6 +154,46 @@ const main = async () => {
     //     image:
     //       "https://images.pexels.com/photos/374918/pexels-photo-374918.jpeg?auto=compress&cs=tinysrgb&w=600",
     //     rating: "4.5",
+    //   },
+    // });
+
+    // Create Inhouse Tutor
+    // const id = generateId(15);
+    // await prisma.inHouseTutor.upsert({
+    //   where: { id: id },
+    //   update: {},
+    //   create: {
+    //     id: id,
+    //     name: "John Doe",
+    //     subjectTaught: "Math",
+    //     bio: "I am an experienced reading tutor with over 10 years of dedicated work in the field of literacy education. With a background in Elementary Education and a Master's degree in Literacy Studies, Jane has helped hundreds of students improve their reading comprehension, vocabulary, and fluency. She specializes in working with young learners who struggle with reading, offering personalized, one-on-one sessions tailored to each student's unique learning style.",
+    //     image:
+    //       "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     socials: {
+    //       create: {
+    //         id: generateId(15),
+    //         facebook: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    //         linkedIn: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    //         tiktok: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    //       },
+    //     },
+    //   },
+    // });
+
+    // Create Community feedback
+    // const id = generateId(15);
+    // await prisma.communityFeedback.upsert({
+    //   where: { id: id },
+    //   update: {},
+    //   create: {
+    //     id: id,
+    //     name: "John Doe",
+    //     location: "Quezon City",
+    //     occupation: "Web Developer",
+    //     comment:
+    //       "As a developer, I've found this platform to be incredibly well-designed and efficient. The intuitive interface and smooth user experience made it easy to integrate my online tutorials and manage my sessions seamlessly. The platform's robust set of features, such as scheduling and student interaction tools, saved me a lot of development time. It's clear that a lot of thought went into making this platform both teacher- and developer-friendly, and it's been a valuable tool in helping me expand my online teaching presence. Highly recommend for anyone in the education tech space!",
+    //     image:
+    //       "https://images.pexels.com/photos/8129903/pexels-photo-8129903.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     //   },
     // });
   } catch (e) {

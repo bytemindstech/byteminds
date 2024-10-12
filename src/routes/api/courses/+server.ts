@@ -1,6 +1,6 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { getAllCourses } from "$lib/server/course.service";
+import { getAllCourses } from "$lib/server/services/course.service";
 
 const requestGetAllCourses = async () => {
   try {

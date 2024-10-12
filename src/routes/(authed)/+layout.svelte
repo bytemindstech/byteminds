@@ -4,6 +4,7 @@
   import { AppBar, AppShell, Avatar, popup } from "@skeletonlabs/skeleton";
   import type { PopupSettings } from "@skeletonlabs/skeleton";
   import type { LayoutData } from "./$types";
+  import Icon from "@iconify/svelte";
   // import { Notification } from "$lib/components/ui";
   // import { UserNav } from "$lib/components";
 
@@ -20,7 +21,15 @@
   <svelte:fragment slot="pageHeader">
     <AppBar>
       <svelte:fragment slot="lead"
-        ><a href={route("/")}
+        ><button class="btn btn-sm md:hidden"
+          ><Icon
+            icon="icon-park-outline:hamburger-button"
+            width="48"
+            height="48"
+          />
+        </button>
+
+        <a href={route("/")} class="hidden md:block"
           ><h2 class="h2">
             <span class="text-primary-800 dark:text-dark-token">Byte</span><span
               class="text-red-700"

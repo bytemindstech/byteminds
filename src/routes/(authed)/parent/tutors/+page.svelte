@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { Tutors } from "$lib/components";
+  import { TutorGrid } from "$lib/components";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
+  import { TutorCard } from "$lib/components/ui";
 
   export let data: PageData;
 
@@ -28,7 +29,17 @@
   {#if isLoading}
     <p class="text-lg font-bold">Loading tutors please wait....</p>
   {:else if tutors && tutors.length > 0}
-    <Tutors {tutors} />
+    <TutorGrid {tutors}
+      ><svelte:fragment slot="tutor-card" let:tutor
+        ><TutorCard
+          id={tutor.id}
+          avatarImg={tutor.profile?.image}
+          courses={tutor.courses}
+          name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
+          verified={tutor.isEmailVerified}
+        />
+      </svelte:fragment>
+    </TutorGrid>
   {:else}
     <p class="text-lg font-bold">
       No freelance tutors available yet, stay tuned.

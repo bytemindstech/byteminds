@@ -1,27 +1,23 @@
 <script lang="ts">
-   export let tutorImg;
+  export let tutorImg;
   export let bio;
   export let name;
   export let designation;
 </script>
 
-<div class="relative mt-16 max-w-sm mx-auto mb-16">
+<div class="relative max-w-full mx-auto my-16 py-6">
   <div class="rounded overflow-hidden shadow-md bg-surface-50">
-    <div class="absolute -mt-20 w-full flex justify-center">
-      <div class="h-32 w-32">
-        <img
-          src={tutorImg}
-          class="rounded-full object-cover h-full w-full shadow-md outline outline-offset-2 outline-2 outline-primary-400"
-          alt="tutor_image"
-        />
-      </div>
+    <div class="absolute inset-x-0 -top-14 flex justify-center">
+      <img
+        src={tutorImg}
+        class="h-36 w-36 rounded-full object-cover shadow-md outline outline-2 outline-offset-2 outline-primary-400"
+        alt="tutor_image"
+      />
     </div>
-    <div class="px-6 mt-16 pb-5">
-      <h1 class="font-bold text-3xl text-center mb-1">{name}</h1>
-      <p class="text-surface-800 text-sm text-center">{designation}</p>
-      <p class="text-center text-surface-600 text-base pt-3 font-normal">
-        {bio}
-      </p>
+    <div class="px-6 pt-20 pb-5 text-center">
+      <h1 class="font-bold text-3xl mb-1">{name}</h1>
+      <p class="text-surface-800 text-sm">{designation}</p>
+      <p class="text-surface-600 text-base pt-3">{bio}</p>
     </div>
   </div>
 </div>

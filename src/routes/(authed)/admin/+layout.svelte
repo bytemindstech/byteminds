@@ -4,6 +4,7 @@
   import { Statistics } from "$lib/components/ui";
   import { AppShell } from "@skeletonlabs/skeleton";
   import { onMount } from "svelte";
+  import { match } from "ts-pattern";
   import Icon from "@iconify/svelte";
 
   import type { LayoutData } from "./$types";
@@ -15,6 +16,7 @@
     { name: "tutors", route: route("/admin/tutors") },
     { name: "parents", route: route("/admin/parents") },
     { name: "students", route: route("/admin/students") },
+    { name: "inhouse tutors", route: route("/admin/inhouse-tutors") },
     { name: "courses", route: route("/admin/courses") },
   ];
 
@@ -27,14 +29,18 @@
     const users = await data.users;
     const courses = await data.courses;
 
-    parentCounts = users.filter((user) => user.role === "PARENT").length;
-    studentCounts = users.filter((user) => user.role === "STUDENT").length;
-    tutorCounts = users.filter((user) => user.role === "TUTOR").length;
+    users.forEach((user) => {
+      match(user.role)
+        .with("PARENT", () => parentCounts++)
+        .with("STUDENT", () => studentCounts++)
+        .with("TUTOR", () => tutorCounts++);
+    });
+
     courseCounts = courses.length;
   });
 </script>
 
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4"
+<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4 hidden md:block"
   ><svelte:fragment slot="sidebarLeft"><Navigation {paths} /></svelte:fragment>
   <div class="container mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6">

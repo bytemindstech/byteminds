@@ -5,11 +5,15 @@
   import { onDestroy, onMount } from "svelte";
   import { resetTitle } from "$lib/util.client";
   import { getCourses } from "$lib/util.client";
+  import { page } from "$app/stores";
   import type { ServerResponse } from "@jhenbert/fetch";
   import type { Course } from "@prisma/client";
+  import type { PageData } from "./$types";
 
-  $: courses = [] as Course[];
-  $: response = { status: "loading" } as ServerResponse<Course[], Error>;
+  export let data: PageData;
+
+  let courses = [] as Course[];
+  let response = { status: "loading" } as ServerResponse<Course[], Error>;
 
   onMount(async () => {
     response = await getCourses();
@@ -23,10 +27,10 @@
     }
   });
 
-  onDestroy(resetTitle);
+  onDestroy(() => resetTitle(data.meta.title));
 </script>
 
-<svelte:head><title>ByteMinds PH - Available Courses</title></svelte:head>
+<svelte:head><title>{data.title}</title></svelte:head>
 
 <div class="container mx-auto min-h-screen p-6">
   {#if response.status === "loading"}

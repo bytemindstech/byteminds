@@ -1,4 +1,4 @@
-import { getAllCourses } from "$lib/server/course.service";
+import { getAllCourses } from "$lib/server/services/course.service";
 import { superValidate } from "sveltekit-superforms/server";
 import type { LayoutServerLoad, Actions } from "./$types";
 import { zod } from "sveltekit-superforms/adapters";
@@ -12,11 +12,12 @@ export const load = (async ({ locals, params }) => {
   const allCourses = await getAllCourses();
 
   const myCourses = allCourses.filter(
-    (course) => course.userId === (locals.user?.id as string),
+    (course) => course.userId === locals.user?.id,
   );
 
-  const course = myCourses.filter((course) => course.id === params.id);
+  const course = myCourses.find((course) => course.id === params.id);
 
-  const title = `My Course | ${course.map((course) => course.title)}`;
+  const title = `My Course | ${course?.title}`;
+
   return { myCourses, updateCourseForm, title };
 }) satisfies LayoutServerLoad;

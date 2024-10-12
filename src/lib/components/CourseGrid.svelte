@@ -1,10 +1,4 @@
 <script lang="ts">
-  type Course = {
-    id: string;
-    title: string;
-    price: number;
-    image?: string; // Optional image field
-  };
   export let courses: Course[];
 </script>
 

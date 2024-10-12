@@ -7,8 +7,8 @@
   import type { Course } from "@prisma/client";
   import type { ServerResponse } from "@jhenbert/fetch";
 
-  $: courses = [] as Course[];
-  $: response = { status: "loading" } as ServerResponse<Course[], Error>;
+  let courses = [] as Course[];
+  let response = { status: "loading" } as ServerResponse<Course[], Error>;
 
   onMount(async () => {
     response = await getCourses();

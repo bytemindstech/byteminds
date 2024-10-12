@@ -3,7 +3,12 @@
   import Icon from "@iconify/svelte";
   import { Avatar } from "@skeletonlabs/skeleton";
 
-  const products = ["learning hub", "web development bootcamp", "coaching"];
+  const products = [
+    "learning hub",
+    "coaching",
+    "web development bootcamp",
+    "web development service",
+  ];
 
   const links = [
     { route: route("/about"), name: "about us" },

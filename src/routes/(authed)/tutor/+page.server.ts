@@ -1,14 +1,15 @@
 import { route } from "$lib/ROUTES";
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
-import { getUserById } from "$lib/server/user.service";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
-import * as CourseService from "$lib/server/course.service";
+import * as CourseService from "$lib/server/services/course.service";
 import { generateId } from "lucia";
 
-export const load = (async ({ locals }) => {
+export const load = (async ({ locals, parent }) => {
+  await parent();
+
   if (!locals.user) {
     return;
   }

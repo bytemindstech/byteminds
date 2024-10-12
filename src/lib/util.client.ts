@@ -66,20 +66,6 @@ export const dateOption: Intl.DateTimeFormatOptions = {
   timeZone: "Asia/Manila",
 };
 
-//SEO Meta tags
-export const metaDefaults = {
-  title: "ByteMinds PH - Online Tutoring for Academic Excellence",
-  description:
-    "ByteMinds PH - your trusted partner in online education. Access expert tutoring services anytime, anywhere, and elevate your learning experience.",
-  image: `${route("githubAvatar", { avatarId: 159615949 })}`,
-};
-
-export const resetTitle = () => {
-  if (typeof document !== "undefined") {
-    document.title = metaDefaults.title;
-  }
-};
-
 // utility function to capitalize word
 export const capitalize = (s: string) => {
   return s
@@ -91,3 +77,9 @@ export const capitalize = (s: string) => {
 // get all courses
 export const getCourses: () => Promise<ServerResponse<Course[], Error>> =
   fetchHandler<Course[]>(() => fetch(route("GET /api/courses")));
+
+export const resetTitle = (title: string) => {
+  if (typeof document !== "undefined") {
+    return (document.title = title);
+  }
+};

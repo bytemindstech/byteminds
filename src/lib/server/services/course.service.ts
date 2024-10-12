@@ -1,4 +1,4 @@
-import db from "./db";
+import db from "../db";
 import type { Course } from "@prisma/client";
 
 export const getAllCourses = async () => {
