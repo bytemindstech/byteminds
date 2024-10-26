@@ -10,7 +10,7 @@
   <meta name="description" content={meta.description} />
   <meta
     name="keywords"
-    content="online tutoring, expert tutors, academic success, online education, virtual online services, web development, top-rated tutors, academic improvement, subject-specific tutoring, reddit"
+    content="online tutoring, online tutor, expert tutors, online education, virtual online services, web development, bootcamp, top-rated tutors, academic improvement, subject-specific tutoring, reddit"
   />
   <meta name="author" content="ByteMinds PH" />
   <!-- Open Graph - https://ogp.me/ -->

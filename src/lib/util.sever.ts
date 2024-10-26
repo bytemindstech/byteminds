@@ -1,7 +1,4 @@
-/**
- * PUT YOUR REUSABLE SERVER SIDE FUNCTIONS HERE
- */
-
+// PUT YOUR REUSABLE SERVER SIDE FUNCTIONS HERE
 import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
 import { route } from "./ROUTES";

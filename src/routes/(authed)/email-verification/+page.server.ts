@@ -4,15 +4,15 @@ import { message, superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { createAndSetSession } from "@jhenbert/byteminds-util";
 import { match } from "ts-pattern";
+import { route } from "$lib/ROUTES";
+import type { Actions, PageServerLoad } from "./$types";
+import * as UserService from "$lib/server/services/user.service";
+import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import {
   generateEmailVerificationCode,
   validateVerificationCode,
   sendVerificationCode,
 } from "$lib/util.sever";
-import { route } from "$lib/ROUTES";
-import type { Actions, PageServerLoad } from "./$types";
-import * as UserService from "$lib/server/services/user.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
 export const load = (async ({ parent, locals }) => {
   await parent();
@@ -33,7 +33,7 @@ export const load = (async ({ parent, locals }) => {
 
   const redirection = redirectTo();
 
-  // check user's email verification status before redirecting to respective page
+  // Check user's email verification status before redirecting to respective page.
   if (user.isEmailVerified) {
     if (redirection) {
       throw redirect(302, redirection);

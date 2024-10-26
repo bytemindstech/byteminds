@@ -1,13 +1,13 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { onMount } from "svelte";
+  import type { PageData } from "./$types";
   import {
     UserBioPublic,
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
-  import { onMount } from "svelte";
-  import type { PageData } from "./$types";
-
+  
   export let data: PageData;
 
   let user: any;
