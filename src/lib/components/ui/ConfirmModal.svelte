@@ -11,7 +11,8 @@
   const modalStore = getModalStore();
   const courseId = $modalStore[0].meta.id;
 
-  $: isDelete = false;
+  let isDelete = $state(false);
+  
 
   const confirmDelete = async () => {
     isDelete = true;
@@ -54,12 +55,12 @@
       <button
         type="button"
         class="btn variant-filled-tertiary font-semibold"
-        on:click={confirmDelete}>{isDelete ? "Deleting..." : "Confirm"}</button
+        onclick={confirmDelete}>{isDelete ? "Deleting..." : "Confirm"}</button
       >
       <button
         type="button"
         class="btn variant-filled-tertiary font-semibold"
-        on:click={() => modalStore.close()}>Cancel</button
+        onclick={() => modalStore.close()}>Cancel</button
       >
     </div>
   </footer>

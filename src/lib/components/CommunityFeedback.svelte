@@ -1,7 +1,8 @@
 <script lang="ts">
   import { ReviewCard } from "./ui";
 
-  export let data: Promise<
+  interface Props {
+    data: Promise<
     Array<{
       id: string;
       name: string;
@@ -11,6 +12,9 @@
       comment: string;
     }>
   >;
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <div class="pt-8 mb-8">

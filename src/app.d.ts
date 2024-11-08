@@ -1,6 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 
-import type { PrismaClient } from "@prisma/client";
+import type { Image, PrismaClient } from "@prisma/client";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HTMLAttributes } from "svelte/elements";
 
 // for information about these interfaces
@@ -17,13 +18,14 @@ declare global {
     // interface Platform {}
   }
 
+  // eslint-disable-next-line no-var
   var __db: PrismaClient | undefined;
 
   type Course = {
     id: string;
     title: string;
     price: number;
-    image?: string; // Optional image field
+    image: Image | null;
   };
 
   type MetaDefault = { title: string; description: string; image: string };
@@ -31,12 +33,23 @@ declare global {
   type Meta = MetaDefault & {
     twitter: MetaDefault;
   };
+
+  type Tutor = {
+    id: string;
+    profile: { image: string };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    courses: Array<any>;
+    firstName: string;
+    lastName: string;
+    isEmailVerified: boolean;
+  };
 }
 
 declare module "svelte/elements" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface HTMLAttributes<T> {
-    "on:enterViewport"?: (event: CustomEvent<void>) => void;
-    "on:exitViewport"?: (event: CustomEvent<void>) => void;
+    onenterViewport?: (event: CustomEvent<void>) => void;
+    onexitViewport?: (event: CustomEvent<void>) => void;
   }
 }
 

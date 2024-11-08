@@ -2,7 +2,11 @@
   import type { PageData } from "./$types";
   import { ContactForm } from "$lib/components";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   const { email, phoneNo, article } = data.contactUsDetails;
 </script>

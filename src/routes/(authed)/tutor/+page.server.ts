@@ -1,11 +1,30 @@
 import { route } from "$lib/ROUTES";
 import { redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
+import { generateId } from "lucia";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  BUCKET_NAME,
+  S3_ACCESS_KEY_ID,
+  S3_REGION,
+  S3_SECRET_ACCESS_KEY,
+} from "$lib/constants";
+
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as CourseService from "$lib/server/services/course.service";
-import { generateId } from "lucia";
+
+import type { Actions, PageServerLoad } from "./$types";
+
+const minIOClient = new S3Client({
+  endpoint: "https://minio-gw8go8o0wkkg0cosk08gkw8o.51.79.156.25.sslip.io",
+  region: S3_REGION,
+  credentials: {
+    accessKeyId: S3_ACCESS_KEY_ID,
+    secretAccessKey: S3_SECRET_ACCESS_KEY,
+  },
+  forcePathStyle: true,
+});
 
 export const load = (async ({ locals, parent }) => {
   await parent();
@@ -13,6 +32,7 @@ export const load = (async ({ locals, parent }) => {
   if (!locals.user) {
     return;
   }
+
   const courseForm = await superValidate(zod(ZodValidationSchema.courseSchema));
 
   const title =
@@ -36,15 +56,44 @@ export const actions: Actions = {
       return message(courseForm, "invalid form", { status: 406 });
     }
 
-    await CourseService.createCourse({
-      id: generateId(15),
-      userId: courseForm.data.userId,
-      title: courseForm.data.courseTitle,
-      price: courseForm.data.price,
-      description: courseForm.data.description,
-      image: courseForm.data.courseImage,
-      rating: "",
-    });
+    // Logic for s3 bucket
+    const file = courseForm.data.courseImage as File | null;
+
+    if (!file) {
+      return message(courseForm, "No file uploaded", { status: 406 });
+    }
+
+    const courseId = generateId(15);
+    const fileName = `${courseId}-${file.name}`;
+    const arrayBuffer = await file.arrayBuffer();
+    const fileContent = new Uint8Array(arrayBuffer);
+
+    const uploadParams = {
+      Bucket: BUCKET_NAME,
+      Key: fileName,
+      Body: fileContent,
+    };
+
+    // Send image to Object Storage
+    const command = new PutObjectCommand(uploadParams);
+    await minIOClient.send(command);
+
+    // Send to database
+    await CourseService.createCourse(
+      {
+        id: courseId,
+        userId: courseForm.data.userId,
+        title: courseForm.data.courseTitle,
+        price: courseForm.data.price,
+        description: courseForm.data.description,
+        rating: "",
+      },
+
+      {
+        id: generateId(15),
+        key: fileName,
+      },
+    );
 
     return message(courseForm, "Course added successfully");
   },
@@ -63,7 +112,6 @@ export const actions: Actions = {
       title: updateCourseForm.data.courseTitle,
       price: updateCourseForm.data.price,
       description: updateCourseForm.data.description,
-      image: updateCourseForm.data.courseImage,
       updatedAt: new Date(),
     });
 

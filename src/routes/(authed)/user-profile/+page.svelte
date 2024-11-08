@@ -1,4 +1,10 @@
 <script lang="ts">
+  import { CourseCard, TutorCard } from "$lib/components/ui";
+  import { route } from "$lib/ROUTES";
+  import { onMount } from "svelte";
+  import { getCourses } from "$lib/util.client";
+  import { match } from "ts-pattern";
+
   import {
     CourseGrid,
     TutorGrid,
@@ -6,32 +12,23 @@
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
-  import { CourseCard, TutorCard } from "$lib/components/ui";
-  import { route } from "$lib/ROUTES";
-  import { onMount } from "svelte";
-  import { getCourses } from "$lib/util.client";
-  import { match } from "ts-pattern";
-  import type { Course } from "@prisma/client";
+
   import type { PageData } from "./$types";
   import type { ServerResponse } from "@jhenbert/fetch";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   let tutorsArr: Array<any> = [];
-  let user: any;
-  let courses: Course[] = [];
-  let response: ServerResponse<Course[], Error> = { status: "loading" };
+  let user: any = $state();
+  let coursesArr: Course[] = $state([]);
+  let response: ServerResponse<Course[], Error> = $state({ status: "loading" });
 
-  $: name = `${data.firstName} ${data.lastName}`;
-
-  $: tutors = tutorsArr as Array<{
-    id: string;
-    profile: { image: string };
-    courses: Array<any>;
-    firstName: string;
-    lastName: string;
-    isEmailVerified: boolean;
-  }>;
+  let name = $derived(`${data.firstName} ${data.lastName}`);
+  let tutorArr = $derived(tutorsArr as Tutor[]);
 
   onMount(async () => {
     const users = await data.users;
@@ -43,7 +40,7 @@
     }
 
     match(response)
-      .with({ status: "success" }, (res) => (courses = res.data))
+      .with({ status: "success" }, (res) => (coursesArr = res.data))
       .with({ status: "error" }, (res) =>
         console.error("Error encountered: ", res.error.message),
       )
@@ -55,50 +52,50 @@
 </script>
 
 <UserProfileLayout>
-  <svelte:fragment slot="profile">
+  {#snippet profile()}
     <UserProfile {name} profileImg={user?.profile?.image} email={user?.email} />
 
     {#if user?.role === "USER"}
       <ProfileUpdateForm formData={data.userRoleForm} />
     {/if}
-  </svelte:fragment>
+  {/snippet}
 
-  <svelte:fragment slot="courses"
-    ><div class="bg-surface-100 shadow rounded-lg p-6">
+  {#snippet courses()}
+    <div class="rounded-lg bg-surface-100 p-6 shadow">
       <h3 class="h3 mb-4">Available Courses</h3>
       {#if response.status === "loading"}
         <p class="text-lg font-bold">Loading courses please wait....</p>
-      {:else if courses.length > 0}
-        <CourseGrid {courses}
-          ><svelte:fragment slot="course-card" let:course>
+      {:else if coursesArr.length > 0}
+        <CourseGrid courses={coursesArr}>
+          {#snippet courseCard({ course })}
             <CourseCard
               data={course}
               href={route("/courses/[courseId]", { courseId: course.id })}
             />
-          </svelte:fragment>
+          {/snippet}
         </CourseGrid>
       {:else}
         <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
       {/if}
     </div>
-  </svelte:fragment>
+  {/snippet}
 
-  <svelte:fragment slot="tutors"
-    ><div class="bg-surface-100 shadow rounded-lg p-6 mt-8">
+  {#snippet tutors()}
+    <div class="mt-8 rounded-lg bg-surface-100 p-6 shadow">
       <h3 class="h3 mb-4">Freelance Tutors</h3>
       {#if response.status === "loading"}
         <p class="text-lg font-bold">Loading courses please wait....</p>
-      {:else if tutors && tutors.length > 0}
-        <TutorGrid {tutors}
-          ><svelte:fragment slot="tutor-card" let:tutor
-            ><TutorCard
+      {:else if tutorArr && tutorArr.length > 0}
+        <TutorGrid tutors={tutorArr}>
+          {#snippet tutorCard({ tutor })}
+            <TutorCard
               id={tutor.id}
               avatarImg={tutor.profile?.image}
               courses={tutor.courses}
               name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
               verified={tutor.isEmailVerified}
             />
-          </svelte:fragment>
+          {/snippet}
         </TutorGrid>
       {:else}
         <p class="text-lg font-bold">
@@ -106,5 +103,5 @@
         </p>
       {/if}
     </div>
-  </svelte:fragment>
+  {/snippet}
 </UserProfileLayout>

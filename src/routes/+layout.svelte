@@ -27,6 +27,11 @@
 
   //global css
   import "../app.pcss";
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 
   //requirement for popup
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -51,7 +56,7 @@
     confirmModal: { ref: ConfirmModal },
   };
 
-  let meta: Meta;
+  let meta: Meta | undefined = $state();
 
   page.subscribe(($page) => {
     meta = $page.data.meta; //Restore Page Defaults
@@ -59,7 +64,7 @@
 </script>
 
 <!-- Metadata for SEO-->
-<Metadata {meta} pathname={$page.url.pathname} />
+<Metadata meta={meta as Meta} pathname={$page.url.pathname} />
 
 <!-- Overlays -->
 <Modal components={modalRegistry} />
@@ -71,16 +76,18 @@
     <a
       href={route("/signin-signup") + "?register"}
       class="btn btn-lg variant-filled-tertiary font-bold"
-      on:click={drawerClose}>Apply Now</a
+      onclick={drawerClose}>Apply Now</a
     >
   </div>
 </Drawer>
 
 <!--App Shell-->
 <AppShell slotPageFooter="bg-secondary">
-  <slot />
+  {@render children?.()}
 
-  <svelte:fragment slot="pageFooter">
-    <Footer year={new Date().getFullYear()} brand="ByteMinds PH" />
-  </svelte:fragment>
+  {#snippet pageFooter()}
+  
+      <Footer year={new Date().getFullYear()} brand="ByteMinds PH" />
+    
+  {/snippet}
 </AppShell>

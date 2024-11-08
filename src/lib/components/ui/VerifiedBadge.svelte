@@ -26,5 +26,5 @@
     This tutor has undergone verification according to ByteMinds PH standard
     procedures, ensuring compliance with data privacy regulations.
   </p>
-  <div class="arrow variant-filled-secondary" />
+  <div class="arrow variant-filled-secondary"></div>
 </div>

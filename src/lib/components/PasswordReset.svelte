@@ -5,8 +5,8 @@
   import { Toast } from "./ui";
   import Icon from "@iconify/svelte";
 
-  export let formData;
-  export let isResetPasswordTokenRequired = false;
+  /** @type {{formData: any, isResetPasswordTokenRequired?: boolean}} */
+  let { formData, isResetPasswordTokenRequired = false } = $props();
 
   const { form, errors, constraints, message, delayed, enhance } =
     superForm(formData);
@@ -16,10 +16,10 @@
   const showConfirmPasswordHandle = () =>
     ($form.showConfirmPassword = !$form.showConfirmPassword);
 
-  $: isPasswordIconVisible = $form.password && $form.password.length > 0;
+  let isPasswordIconVisible = $derived($form.password && $form.password.length > 0);
 
-  $: isConfirmPasswordIconVisible =
-    $form.confirmPassword && $form.confirmPassword.length > 0;
+  let isConfirmPasswordIconVisible =
+    $derived($form.confirmPassword && $form.confirmPassword.length > 0);
 </script>
 
 {#if typeof $message === "string" && $message}
@@ -59,7 +59,7 @@
       {/if}
       <div>
         {#if isPasswordIconVisible}
-          <button type="button" on:click={showPasswordHandle}
+          <button type="button" onclick={showPasswordHandle}
             ><Icon
               icon={$form.showPassword
                 ? "mdi:eye-off-outline"
@@ -100,7 +100,7 @@
       {/if}
       <div>
         {#if isConfirmPasswordIconVisible}
-          <button type="button" on:click={showConfirmPasswordHandle}
+          <button type="button" onclick={showConfirmPasswordHandle}
             ><Icon
               icon={$form.showConfirmPassword
                 ? "mdi:eye-off-outline"

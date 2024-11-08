@@ -2,15 +2,22 @@
   import { MissionVision, Lazy } from "$lib/components";
   import type { LayoutData } from "../$types";
 
-  export let data: LayoutData;
+  interface Props {
+    data: LayoutData;
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <MissionVision />
 
 <Lazy this={() => import("$lib/components/InhouseTutor.svelte")} threshold={100}
-  ><div slot="fallback">loading component...</div>
+  >{#snippet fallback()}
+    <div >loading component...</div>
+  {/snippet}
 
-  <svelte:fragment slot="component" let:Component
-    ><Component inhouseTutors={data.inHouseTutors} />
-  </svelte:fragment>
+  {#snippet component({ Component })}
+    <Component inhouseTutors={data.inHouseTutors} />
+    
+  {/snippet}
 </Lazy>

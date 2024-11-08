@@ -1,11 +1,11 @@
-## Onboarding Development
+# Onboarding Development
 
-### Requirements
+## Requirements
 
-- [MySQL](https://hub.docker.com/_/mysql)
+- [MySQL](https://laragon.org/)
 - [NodeJS](https://nodejs.org/en/download/package-manager) 18+
 
-### Setup Environment and install requirements
+## Setup Environment and install requirements
 
 ```bash
 #Copy .env.example to .env and fill in your credentials.
@@ -20,7 +20,7 @@ DATABASE_URL="mysql://root:@localhost:3306/awesome"
 DATABASE_URL="mysql://root:secret@localhost:3306/awesome"
 ```
 
-### Running dev server
+## Running dev server
 
 ```bash
 #1. Install dependencies
@@ -32,24 +32,3 @@ npm run db:sync # This commands uses db push to sync the db with schema and gene
 #4. Run dev server
 npm run dev
 ```
-
-### REFERENCES
-
-#### Setup MySQL Docker Compose
-
-```yaml
-version: "3.9"
-
-services:
-  mysql:
-    image: mysql:latest
-    volumes:
-      - /var/lib/docker/mysql:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysql
-      - MYSQL_DATABASE=mysql
-```
-
-Run the container using `docker-compose up -d`

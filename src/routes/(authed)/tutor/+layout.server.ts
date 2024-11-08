@@ -1,8 +1,10 @@
 import { getAllCourses } from "$lib/server/services/course.service";
 import { superValidate } from "sveltekit-superforms/server";
-import type { LayoutServerLoad, Actions } from "./$types";
 import { zod } from "sveltekit-superforms/adapters";
+
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+
+import type { LayoutServerLoad } from "./$types";
 
 export const load = (async ({ locals, params }) => {
   const updateCourseForm = await superValidate(

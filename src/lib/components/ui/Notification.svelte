@@ -1,6 +1,7 @@
 <script>
   import Icon from "@iconify/svelte";
-  export let notify;
+  /** @type {{notify: any}} */
+  let { notify } = $props();
 </script>
 
 <div class="relative inline-block">

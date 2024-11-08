@@ -7,16 +7,20 @@
   import { resetTitle } from "$lib/util.client";
   import { page } from "$app/stores";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   type Course = {
     id: string;
     title: string;
   };
 
-  let title: string;
-  let tutor: any;
-  let courses: Course[] | undefined;
+  let title: string | undefined = $state();
+  let tutor: any = $state();
+  let courses: Course[] | undefined = $state();
 
   onMount(async () => {
     const users = await data.users;
@@ -40,10 +44,10 @@
 <svelte:head><title>{title}</title></svelte:head>
 
 <div class="container mx-auto py-8">
-  <div class="grid grid-cols-4 md:grid-cols-12 gap-6 px-4">
+  <div class="grid grid-cols-4 gap-6 px-4 md:grid-cols-12">
     <!-- Tutor Profile Section -->
     <div class="col-span-4 md:col-span-3">
-      <div class="bg-surface-100 shadow rounded-lg p-6">
+      <div class="rounded-lg bg-surface-100 p-6 shadow">
         <div class="flex flex-col items-center">
           <Avatar
             src={tutor?.profile?.image}
@@ -52,14 +56,14 @@
           />
           <h4 class="h4">
             {tutor?.firstName}
-            {tutor?.lastName.charAt(0)}.
+            {tutor?.lastName.charAt(0).toUpperCase()}.
           </h4>
         </div>
 
         <hr class="my-6 border-surface-300" />
 
         <div class="flex flex-col">
-          <span class="text-surface-700 uppercase font-bold tracking-wider mb-2"
+          <span class="mb-2 font-bold uppercase tracking-wider text-surface-700"
             >Subject Taught</span
           >
           <ul class="grid grid-cols-3 gap-1">
@@ -67,16 +71,16 @@
               {#each courses as course}
                 <li>
                   <a
-                    class="block text-center capitalize text-xs badge variant-filled-primary transform transition-transform hover:scale-105 overflow-hidden text-ellipsis whitespace-nowrap"
+                    class="variant-filled-primary badge block transform overflow-hidden text-ellipsis whitespace-nowrap text-center text-xs capitalize transition-transform hover:scale-105"
                     href={route("/courses/[courseId]", { courseId: course.id })}
                   >
-                    {course.title || "untitled course"}
+                    {course.title}
                   </a>
                 </li>
               {/each}
             {:else}
               <li>
-                <span class="badge variant-filled-primary"
+                <span class="variant-filled-primary badge"
                   >No course available</span
                 >
               </li>
@@ -87,13 +91,13 @@
         <hr class="mt-4 border-surface-300" />
 
         <!-- Buttons Section -->
-        <div class="md:flex gap-2 justify-center">
+        <div class="justify-center gap-2 md:flex">
           <button
-            class="btn btn-sm variant-filled-success font-semibold my-4"
+            class="variant-filled-success btn btn-sm my-4 font-semibold"
             disabled>Book Now</button
           >
           <button
-            class="btn btn-sm variant-filled-success font-semibold my-4"
+            class="variant-filled-success btn btn-sm my-4 font-semibold"
             disabled>Message Me</button
           >
         </div>
@@ -102,8 +106,8 @@
 
     <!-- Bio Section -->
     <div class="col-span-4 md:col-span-9">
-      <div class="bg-surface-100 shadow rounded-lg p-6">
-        <UserBioPublic bio={tutor?.profile?.bio} />
+      <div class="rounded-lg bg-surface-100 p-6 shadow">
+        <UserBioPublic biography={tutor?.profile?.bio} />
       </div>
     </div>
   </div>

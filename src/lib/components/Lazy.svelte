@@ -1,15 +1,28 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
   import viewport from "@jhenbert/viewport-action";
 
-  let loadComponent;
-  export { loadComponent as this };
+  interface Props {
+    this: any;
+    threshold?: number;
+    fallback?: Snippet;
+    component?: Snippet<[{ Component: ConstructorOfATypedSvelteComponent }]>;
+  }
 
-  export let threshold: number = 0;
+  let {
+    this: loadComponent,
+    threshold = 0,
+    fallback,
+    component,
+  }: Props = $props();
 
-  let isShowingComponent = false;
-  let componentPromise: Promise<{
-    default: ConstructorOfATypedSvelteComponent;
-  }>;
+  let isShowingComponent = $state(false);
+
+  let componentPromise:
+    | Promise<{
+        default: ConstructorOfATypedSvelteComponent;
+      }>
+    | undefined = $state();
 
   const handleEnterViewport = () => {
     componentPromise = loadComponent();
@@ -18,11 +31,11 @@
 </script>
 
 {#if !isShowingComponent}
-  <div use:viewport={threshold} on:enterViewport={handleEnterViewport} />
-{:else}
+  <div use:viewport={threshold} onenterViewport={handleEnterViewport}></div>
+{:else if componentPromise}
   {#await componentPromise}
-    <slot name="fallback">Loading...</slot>
+    {#if fallback}{@render fallback()}{:else}Loading...{/if}
   {:then { default: Component }}
-    <slot name="component" {Component} />
+    {@render component?.({ Component })}
   {/await}
 {/if}

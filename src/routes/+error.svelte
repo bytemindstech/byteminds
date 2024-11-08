@@ -35,7 +35,7 @@
       class="flex flex-col justify-between w-full gap-8 md:flex-row md:gap-32 xl:px-16"
     >
       <button
-        on:click={() => {
+        onclick={() => {
           if (browser) window.history.back();
         }}
         class="flex items-center justify-center w-full gap-4 p-3 font-semibold capitalize border-2 border-primary-500 rounded shadow-lg md:w-fit hover:bg-primary-500 md:p-6 focus:outline-none hover:scale-105 active:scale-90 hover:shadow-xl"

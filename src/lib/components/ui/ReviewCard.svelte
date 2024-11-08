@@ -3,11 +3,21 @@
   import { DoubleQoute } from "../icons";
   import Icon from "@iconify/svelte";
 
-  export let avatarImg: string;
-  export let user: string;
-  export let profession: string;
-  export let comment: string;
-  export let location: string;
+  interface Props {
+    avatarImg: string;
+    user: string;
+    profession: string;
+    comment: string;
+    location: string;
+  }
+
+  let {
+    avatarImg,
+    user,
+    profession,
+    comment,
+    location
+  }: Props = $props();
 </script>
 
 <div

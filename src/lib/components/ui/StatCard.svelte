@@ -1,7 +1,13 @@
 <script lang="ts">
-  export let data;
-  export let title;
-  export let cardBg;
+  import type { Snippet } from "svelte";
+  interface Props {
+    data: any;
+    title: any;
+    cardBg: any;
+    icon?: Snippet;
+  }
+
+  let { data, title, cardBg, icon }: Props = $props();
 </script>
 
 <div class="card card-hover p-6 {cardBg} overflow-hidden">
@@ -9,7 +15,7 @@
     <h4 class="h4 mb-4">{title}</h4>
   </header>
   <section class="flex justify-between">
-    <slot name="icon" />
+    {@render icon?.()}
     <span>
       <h1 class="h1 text-surface-600/40">{data}</h1>
     </span>

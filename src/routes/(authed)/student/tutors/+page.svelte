@@ -5,19 +5,26 @@
   import type { PageData } from "./$types";
   import { TutorCard } from "$lib/components/ui";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   let tutorArr: any;
 
-  $: isLoading = true;
-  $: tutors = tutorArr as Array<{
-    id: string;
-    profile: { image: string };
-    courses: Array<any>;
-    firstName: string;
-    lastName: string;
-    isEmailVerified: boolean;
-  }>;
+  let isLoading = $state(true);
+
+  let tutors = $derived(
+    tutorArr as Array<{
+      id: string;
+      profile: { image: string };
+      courses: Array<any>;
+      firstName: string;
+      lastName: string;
+      isEmailVerified: boolean;
+    }>,
+  );
 
   onMount(async () => {
     const users = await data.users;
@@ -31,15 +38,15 @@
     <p class="text-lg font-bold">Loading tutors please wait....</p>
   {:else if tutors && tutors.length > 0}
     <TutorGrid {tutors}>
-      <svelte:fragment slot="tutor-card" let:tutor
-        ><TutorCard
+      {#snippet tutorCard({ tutor })}
+        <TutorCard
           id={tutor.id}
           avatarImg={tutor.profile?.image}
           courses={tutor.courses}
           name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
           verified={tutor.isEmailVerified}
         />
-      </svelte:fragment>
+      {/snippet}
     </TutorGrid>
   {:else}
     <p class="text-lg font-bold">

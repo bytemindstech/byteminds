@@ -13,8 +13,12 @@
   } from "./ui";
   import { route } from "$lib/ROUTES";
 
-  export let tableData;
-  export let role: Role;
+  interface Props {
+    tableData: any;
+    role: Role;
+  }
+
+  let { tableData, role }: Props = $props();
 
   const handler = new DataHandler(tableData, { rowsPerPage: 5 });
   const rows = handler.getRows();

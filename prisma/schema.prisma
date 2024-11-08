@@ -84,16 +84,16 @@ model Contact {
 }
 
 model Course {
-  id          String   @id
-  userId      String
+  id          String       @id
   title       String
   price       Float
-  description String   @db.LongText
-  image       String
+  description String       @db.LongText
+  image       CourseImage?
   rating      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model CommunityFeedback {
@@ -123,6 +123,15 @@ model Social {
   tiktok         String
   inhouseTutorId String
   inhouseTutor   InHouseTutor @relation(fields: [inhouseTutorId], references: [id], onDelete: Cascade)
+}
+
+model CourseImage {
+  id        String   @id
+  key       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  courseId  String   @unique
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
