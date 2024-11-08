@@ -12,7 +12,11 @@
   import Icon from "@iconify/svelte";
   // import SuperDebug from "sveltekit-superforms";
 
-  export let formData;
+  interface Props {
+    formData: any;
+  }
+
+  let { formData }: Props = $props();
 
   let isSignIn = false;
 
@@ -39,10 +43,10 @@
   const showConfirmPasswordHandle = () =>
     ($form.showConfirmPassword = !$form.showConfirmPassword);
 
-  $: isPasswordIconVisible = $form.password && $form.password.length > 0;
+  let isPasswordIconVisible = $derived($form.password && $form.password.length > 0);
 
-  $: isConfirmPassworIconVisible =
-    $form.confirmPassword && $form.confirmPassword.length > 0;
+  let isConfirmPassworIconVisible =
+    $derived($form.confirmPassword && $form.confirmPassword.length > 0);
 </script>
 
 {#if typeof $message === "string" && $message}
@@ -157,7 +161,7 @@
               {/if}
               <div>
                 {#if isPasswordIconVisible}
-                  <button type="button" on:click={showPasswordHandle}
+                  <button type="button" onclick={showPasswordHandle}
                     ><Icon
                       icon={$form.showPassword
                         ? "mdi:eye-off-outline"
@@ -199,7 +203,7 @@
               {/if}
               <div>
                 {#if isConfirmPassworIconVisible}
-                  <button type="button" on:click={showConfirmPasswordHandle}
+                  <button type="button" onclick={showConfirmPasswordHandle}
                     ><Icon
                       icon={$form.showConfirmPassword
                         ? "mdi:eye-off-outline"
@@ -276,7 +280,7 @@
             <button
               type="button"
               class="btn text-primary-700 hover:text-error-600 text-sm capitalize -ml-4"
-              on:click={handleClick}
+              onclick={handleClick}
             >
               Login here
             </button>

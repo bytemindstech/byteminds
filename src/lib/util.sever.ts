@@ -4,12 +4,15 @@ import { generateRandomString, alphabet } from "oslo/crypto";
 import { route } from "./ROUTES";
 import { Argon2id } from "oslo/password";
 import { generateId, type User } from "lucia";
+
 import dateFormatter from "@jhenbert/date-formatter";
+
 import * as mod from "@jhenbert/byteminds-util";
 import * as EmailService from "./server/services/email.service";
 import * as ResetPasswordService from "./server/services/reset-password.service";
 import * as PasswordService from "./server/services/password.service";
 import * as UserService from "./server/services/user.service";
+
 import {
   SMTP_HOST,
   SMTP_PORT,
@@ -18,7 +21,16 @@ import {
   ADMIN_EMAIL,
   ADMIN_EMAIL_APP_PASSWORD,
   SMTP_SERVICE,
+  S3_ACCESS_KEY_ID,
+  S3_REGION,
+  S3_SECRET_ACCESS_KEY,
 } from "./constants";
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 type ValidateVerificationCode = {
   valid: boolean;
@@ -46,7 +58,9 @@ export const generateEmailVerificationCode = async (
 ): Promise<string> => {
   const code = generateRandomString(6, alphabet("0-9", "A-Z"));
   const expiresAt = createDate(new TimeSpan(24, "h"));
-  console.log("Code: ", code); //for debugging purpose only
+  //for debugging purpose only
+  // console.log("Code: ", code);
+
   //delete email verification code if exist and create new one
   await EmailService.databaseEmailVerificationCodeTransaction(
     userId,
@@ -84,9 +98,9 @@ export const sendVerificationCode = async (
     existingVerificationCode.expiresAt,
   );
 
-  let subject = `Email verification code: ${verificationCode}`;
+  const subject = `Email verification code: ${verificationCode}`;
 
-  let htmlContent = `<div style="font-family: Arial, sans-serif; padding: 20px; color: #260202;">
+  const htmlContent = `<div style="font-family: Arial, sans-serif; padding: 20px; color: #260202;">
   <h1>Verification Code</h1>
   
   <p>Verify your email, you've registered to ByteMinds using ${existingVerificationCode.email}</p>
@@ -158,9 +172,9 @@ export const sendResetPasswordToken = async (
     existingUser.passwordReset.expiresAt,
   );
 
-  let subject = "Password Reset Request";
+  const subject = "Password Reset Request";
 
-  let htmlContent = `<div style="font-family: Arial, sans-serif; padding: 20px; color: #260202;">
+  const htmlContent = `<div style="font-family: Arial, sans-serif; padding: 20px; color: #260202;">
 		<h1>Password Reset Request</h1>
 		<p>We've received a request to reset your password. If you didn't make the request, just ignore this email. Otherwise, you can reset your password using the link below.</p>
 
@@ -247,4 +261,47 @@ export const htmlElementsToString = (element: HTMLElement): string => {
   container.appendChild(element.cloneNode(true));
 
   return container.innerHTML;
+};
+
+// Object storage instance
+export const minIOClient = new S3Client({
+  endpoint: "https://minio-gw8go8o0wkkg0cosk08gkw8o.51.79.156.25.sslip.io",
+  region: S3_REGION,
+  credentials: {
+    accessKeyId: S3_ACCESS_KEY_ID,
+    secretAccessKey: S3_SECRET_ACCESS_KEY,
+  },
+  forcePathStyle: true,
+});
+
+/**
+ *
+ * @param bucket bucket name where the object is stored
+ * @param key key of the object to be accessed
+ * @returns secured url to access the object
+ */
+export const generatePresignedUrl = async (
+  bucket: string,
+  key: string | undefined,
+) => {
+  const command = new GetObjectCommand({ Bucket: bucket, Key: key });
+  const url = await getSignedUrl(minIOClient, command, { expiresIn: 3600 });
+  return url;
+};
+
+/**
+ *
+ * @param bucket bucket name where the object is stored
+ * @param key key of the object to be accessed
+ */
+export const deleteObject = async (bucket: string, key: string | undefined) => {
+  try {
+    const deleteParams = {
+      Bucket: bucket,
+      Key: key,
+    };
+    await minIOClient.send(new DeleteObjectCommand(deleteParams));
+  } catch (error) {
+    console.error("Error deleting object", (error as Error).message);
+  }
 };

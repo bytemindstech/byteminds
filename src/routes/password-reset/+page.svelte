@@ -3,7 +3,11 @@
   import { route } from "$lib/ROUTES";
   import type { PageData } from "./$types";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <div class="container mx-auto min-h-screen flex items-center justify-center">

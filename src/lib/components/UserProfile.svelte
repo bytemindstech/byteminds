@@ -2,11 +2,15 @@
   import { Avatar } from "@skeletonlabs/skeleton";
   import { getInitials } from "$lib/util.client";
 
-  export let name: string;
-  export let profileImg: string;
-  export let email: string;
+  interface Props {
+    name: string;
+    profileImg: string;
+    email: string;
+  }
 
-  $: initials = getInitials(name);
+  let { name, profileImg, email }: Props = $props();
+
+  let initials = $derived(getInitials(name));
 </script>
 
 <div class="bg-surface-100 shadow rounded-lg p-6">

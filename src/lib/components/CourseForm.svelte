@@ -4,13 +4,24 @@
   import { Toast } from "./ui";
   import { route } from "$lib/ROUTES";
 
-  export let formData;
-  export let userId;
+  interface Props {
+    formData: any;
+    userId: any;
+  }
+
+  let { formData, userId }: Props = $props();
 
   const { form, errors, constraints, message, delayed, enhance } = superForm(
     formData,
     { resetForm: true },
   );
+
+  let selectedImage: File | null = null;
+
+  const handleFileChange = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    selectedImage = input.files ? input.files[0] : null;
+  };
 </script>
 
 {#if typeof $message === "string" && $message}
@@ -21,6 +32,7 @@
   class="space-y-6 p-6"
   method="post"
   action={route("addCourse /tutor")}
+  enctype="multipart/form-data"
   use:enhance
 >
   <div class="grid grid-cols-6 gap-6">
@@ -46,14 +58,15 @@
     <!-- Image link -->
     <div class="col-span-6 sm:col-span-3">
       <label class="label text-primary-500">
-        <span>Course Image URL</span>
+        <span>Course Image</span>
         <input
           class="input text-primary-500"
-          type="text"
-          placeholder="Image full URL (e.g. https://example.com/image/sample-image.jpg)"
+          type="file"
+          accept="image/*"
           name="courseImage"
           aria-invalid={$errors.courseImage ? "true" : undefined}
           bind:value={$form.courseImage}
+          onchange={handleFileChange}
         />
       </label>
     </div>
@@ -87,12 +100,12 @@
           aria-invalid={$errors.description ? "true" : undefined}
           bind:value={$form.description}
           {...$constraints.description}
-        />
+        ></textarea>
       </label>
     </div>
 
     <!-- Add Button -->
-    <button type="submit" class="btn variant-filled-tertiary"
+    <button type="submit" class="variant-filled-tertiary btn"
       >{$delayed ? "Adding course..." : "Add Course"}</button
     >
   </div>

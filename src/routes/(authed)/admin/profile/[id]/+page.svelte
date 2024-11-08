@@ -8,35 +8,42 @@
     UserProfileLayout,
   } from "$lib/components";
   
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
 
-  let user: any;
-  let img: string;
-  let bio: string;
+  let { data }: Props = $props();
+
+  let user: any = $state();
+  let img: string | undefined = $state();
+  let biography: string | undefined = $state();
 
   onMount(async () => {
     const users = await data.users;
     user = users.find((user) => user.id === $page.params.id);
 
     img = user.profile?.image;
-    bio = user.profile?.bio;
+    biography = user.profile?.bio;
   });
 </script>
 
 {#if user}
   <UserProfileLayout
-    ><svelte:fragment slot="profile"
-      ><UserProfile
-        profileImg={img}
-        email={user.email}
-        name={`${user.firstName} ${user.lastName}`}
-      />
-    </svelte:fragment>
+    >{#snippet profile()}
+        <UserProfile
+          profileImg={img as string}
+          email={user.email}
+          name={`${user.firstName} ${user.lastName}`}
+        />
+      
+      {/snippet}
 
-    <svelte:fragment slot="bio">
-      <div class="bg-surface-100 shadow rounded-lg p-6">
-        <UserBioPublic {bio} />
-      </div>
-    </svelte:fragment>
+    {#snippet bio()}
+      
+        <div class="bg-surface-100 shadow rounded-lg p-6">
+          <UserBioPublic biography={biography as string} />
+        </div>
+      
+      {/snippet}
   </UserProfileLayout>
 {/if}

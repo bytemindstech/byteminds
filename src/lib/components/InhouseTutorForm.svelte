@@ -4,7 +4,11 @@
   import { Toast } from "./ui";
   import { route } from "$lib/ROUTES";
 
-  export let formData;
+  interface Props {
+    formData: any;
+  }
+
+  let { formData }: Props = $props();
 
   const { form, message, constraints, errors, delayed, enhance } = superForm(
     formData,
@@ -81,7 +85,7 @@
             aria-invalid={$errors.bio ? "true" : undefined}
             bind:value={$form.bio}
             {...$constraints.bio}
-          />
+></textarea>
         </label>
       </div>
     </div>

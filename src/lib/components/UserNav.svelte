@@ -14,6 +14,8 @@
   class="bg-surface-100-800-token w-full"
 >
   <TabAnchor href={route("classroom")} target="_blank">
-    <svelte:fragment slot="lead">Virtual Classroom</svelte:fragment>
+    {#snippet lead()}
+        Virtual Classroom
+      {/snippet}
   </TabAnchor>
 </TabGroup>

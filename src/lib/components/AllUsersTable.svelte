@@ -13,7 +13,11 @@
     Pagination,
   } from "./ui";
 
-  export let data;
+  interface Props {
+    data: any;
+  }
+
+  let { data }: Props = $props();
 
   const handler = new DataHandler(data, { rowsPerPage: 5 });
   const rows = handler.getRows();
@@ -37,7 +41,7 @@
   </header>
 
   <div class="table-container">
-    <table class="table table-hover table-compact table-auto w-full">
+    <table class="table table-hover table-compact w-full table-auto">
       <thead>
         <tr>
           <ThSort {handler} orderBy="firstName">First Name</ThSort>

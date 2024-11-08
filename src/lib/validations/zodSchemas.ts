@@ -59,7 +59,9 @@ export const contactUsSchema = registerSchema
 export const courseSchema = z.object({
   userId: z.string(),
   courseTitle: z.string().max(15),
-  courseImage: z.string(),
+  courseImage: z
+    .instanceof(File, { message: "Please upload an image" })
+    .refine((f) => f.size < 100_000, "Max 100 kB upload size."),
   price: z.number(),
   description: z.string(),
 });
@@ -67,7 +69,6 @@ export const courseSchema = z.object({
 export const updateCourseSchema = courseSchema
   .pick({
     courseTitle: true,
-    courseImage: true,
     price: true,
     description: true,
   })

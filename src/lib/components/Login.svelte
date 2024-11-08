@@ -11,8 +11,12 @@
   import { isSignInStore } from "$lib/store";
   // import SuperDebug from "sveltekit-superforms";
 
-  export let loginFormData;
-  export let resetPasswordEmailFormData;
+  interface Props {
+    loginFormData: any;
+    resetPasswordEmailFormData: any;
+  }
+
+  let { loginFormData, resetPasswordEmailFormData }: Props = $props();
 
   const { form, errors, constraints, message, delayed, enhance } = superForm(
     loginFormData,
@@ -32,7 +36,7 @@
     resetForm: true,
   });
 
-  let isForgotPasswordTriggered = false;
+  let isForgotPasswordTriggered = $state(false);
 
   const handleClick = () => {
     isForgotPasswordTriggered = !isForgotPasswordTriggered;
@@ -59,7 +63,9 @@
 
   const showPasswordHandle = () => ($form.showPassword = !$form.showPassword);
 
-  $: isPasswordIconVisible = $form.password && $form.password.length > 0;
+  let isPasswordIconVisible = $derived(
+    $form.password && $form.password.length > 0,
+  );
 </script>
 
 {#if (typeof $message === "string" || typeof $resetPasswordEmailMessage === "string") && ($message || $resetPasswordEmailMessage)}
@@ -70,7 +76,7 @@
 {/if}
 
 <div
-  class="min-h-screen flex justify-center items-center"
+  class="flex min-h-screen items-center justify-center"
   in:fly={{ delay: 250, duration: 300, easing: quintOut, x: 100 }}
 >
   <div class="card p-5">
@@ -130,7 +136,7 @@
               {/if}
               <div>
                 {#if isPasswordIconVisible}
-                  <button type="button" on:click={showPasswordHandle}
+                  <button type="button" onclick={showPasswordHandle}
                     ><Icon
                       icon={$form.showPassword
                         ? "mdi:eye-off-outline"
@@ -145,7 +151,7 @@
           </label>
 
           <button
-            class="btn variant-filled-tertiary min-w-full font-bold capitalize"
+            class="variant-filled-tertiary btn min-w-full font-bold capitalize"
             type="submit"
             >{#if $delayed}
               logging in <Icon
@@ -182,7 +188,7 @@
           </label>
 
           <button
-            class="btn variant-filled-tertiary min-w-full font-bold capitalize"
+            class="variant-filled-tertiary btn min-w-full font-bold capitalize"
             type="submit"
             >{#if $resetPasswordEmailDelayed}
               sending reset link <Icon
@@ -204,20 +210,20 @@
         {/if}
         <button
           type="button"
-          class="btn text-primary-700 hover:text-error-600 text-sm float-left capitalize -ml-4"
-          on:click={handleClick}
+          class="btn float-left -ml-4 text-sm capitalize text-primary-700 hover:text-error-600"
+          onclick={handleClick}
           >{!isForgotPasswordTriggered
             ? "forgot password?"
             : "login here"}</button
         >
 
         {#if !isForgotPasswordTriggered}
-          <p class="text-sm text-surface-600 text-center md:hidden">
+          <p class="text-center text-sm text-surface-600 md:hidden">
             No account yet?
             <button
               type="button"
-              class="btn text-primary-700 hover:text-error-600 text-sm capitalize -ml-4"
-              on:click={handleClickRegister}
+              class="btn -ml-4 text-sm capitalize text-primary-700 hover:text-error-600"
+              onclick={handleClickRegister}
             >
               Register here
             </button>

@@ -17,8 +17,12 @@
     { route: route("/contact-us"), name: "contact us" },
   ];
 
-  export let year: number;
-  export let brand: string;
+  interface Props {
+    year: number;
+    brand: string;
+  }
+
+  let { year, brand }: Props = $props();
 </script>
 
 <footer>

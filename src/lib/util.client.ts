@@ -4,7 +4,6 @@
 import { getToastStore, type ToastSettings } from "@skeletonlabs/skeleton";
 import { route } from "./ROUTES";
 import fetchHandler, { type ServerResponse } from "@jhenbert/fetch";
-import type { Course } from "@prisma/client";
 
 export type TriggerToast = "error" | "success";
 
@@ -81,5 +80,22 @@ export const getCourses: () => Promise<ServerResponse<Course[], Error>> =
 export const resetTitle = (title: string) => {
   if (typeof document !== "undefined") {
     return (document.title = title);
+  }
+};
+
+// Get image url in S3 bucket
+export const getImageUrl = async (courseId: string) => {
+  try {
+    const response = await fetch(
+      route("GET /api/courses/image/[courseId]", { courseId }),
+    );
+
+    if (!response.ok) {
+      console.error("Failed to fetch");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error while fetching", (error as Error).message);
   }
 };

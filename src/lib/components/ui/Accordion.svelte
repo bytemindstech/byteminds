@@ -1,9 +1,14 @@
 <script lang="ts">
   import { Accordion } from "@skeletonlabs/skeleton";
   import { AccordionItem } from ".";
-  export let autocollapse: boolean;
+  interface Props {
+    autocollapse: boolean;
+    children?: import('svelte').Snippet<[any]>;
+  }
+
+  let { autocollapse, children }: Props = $props();
 </script>
 
 <Accordion {autocollapse}>
-  <slot {AccordionItem} />
+  {@render children?.({ AccordionItem, })}
 </Accordion>

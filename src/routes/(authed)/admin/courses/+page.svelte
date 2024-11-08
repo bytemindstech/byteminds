@@ -4,14 +4,16 @@
   import { CoursesTable } from "$lib/components";
 </script>
 
-<div class="container mx-auto p-6 min-h-screen">
+<div class="container mx-auto min-h-screen p-6">
   {#await getCourses()}
     <p class="text-lg font-bold">Loading courses please wait....</p>
   {:then response}
     {#if response.status === "success"}
       <CoursesTable tableData={response.data} />
     {:else if response.status === "error"}
-      <p>Error encountered, {response.error.message}</p>
+      <p class="text-lg font-bold text-error-500">
+        Error encountered, {response.error.message}
+      </p>
     {/if}
   {/await}
 </div>

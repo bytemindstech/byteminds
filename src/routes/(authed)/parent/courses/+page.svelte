@@ -2,41 +2,32 @@
   import { CourseGrid } from "$lib/components";
   import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
-  import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
-  import type { Course } from "@prisma/client";
-  import type { ServerResponse } from "@jhenbert/fetch";
-
-  let courses = [] as Course[];
-  let response = { status: "loading" } as ServerResponse<Course[], Error>;
-
-  onMount(async () => {
-    response = await getCourses();
-
-    if (response.status === "success") {
-      courses = response.data;
-    }
-
-    if (response.status === "error") {
-      console.error("Error in fetching courses: ", response.error.message);
-    }
-  });
 </script>
 
 <div class="container mx-auto p-6">
-  {#if response.status === "loading"}
-    <p class="text-lg font-bold">
-      Loading courses please wait....
-    </p>{:else if courses.length > 0}
-    <CourseGrid {courses}
-      ><svelte:fragment slot="course-card" let:course>
-        <CourseCard
-          data={course}
-          href={route("/courses/[courseId]", { courseId: course.id })}
-        />
-      </svelte:fragment>
-    </CourseGrid>
-  {:else}
-    <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
-  {/if}
+  {#await getCourses()}
+    <p class="text-lg font-bold">Loading courses please wait....</p>
+  {:then response}
+    {#if response.status === "success"}
+      {#if response.data && response.data.length > 0}
+        <CourseGrid courses={response.data}>
+          {#snippet courseCard({ course })}
+            <CourseCard
+              data={course}
+              href={route("/courses/[courseId]", { courseId: course.id })}
+            />
+          {/snippet}
+        </CourseGrid>
+      {:else}
+        <p class="text-lg font-bold">No courses available yet, stay tuned.</p>
+      {/if}
+    {/if}
+
+    {#if response.status === "error"}
+      <p class="text-lg font-bold text-error-500">
+        Error encountered, {response.error.message}
+      </p>
+    {/if}
+  {/await}
 </div>

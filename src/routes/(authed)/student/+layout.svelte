@@ -5,6 +5,11 @@
   // import type { LayoutData } from './$types';
 
   import { AppShell } from "@skeletonlabs/skeleton";
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 
   // export let data: LayoutData;
 
@@ -17,6 +22,8 @@
 </script>
 
 <AppShell slotSidebarLeft="bg-surface-500/5 w-64"
-  ><svelte:fragment slot="sidebarLeft"><Navigation {paths} /></svelte:fragment>
-  <slot />
+  >{#snippet sidebarLeft()}
+    <Navigation {paths} />
+  {/snippet}
+  {@render children?.()}
 </AppShell>

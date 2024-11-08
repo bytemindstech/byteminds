@@ -3,23 +3,31 @@
   import VerifiedBadge from "./VerifiedBadge.svelte";
   import { route } from "$lib/ROUTES";
   import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
+  import { onMount } from "svelte";
+  import { getImageUrl } from "$lib/util.client";
 
-  export let courses: Array<{ id: string; title: string; image: string }> = [];
-  export let name: string;
-  export let avatarImg: string;
-  export let verified: boolean;
-  export let id: string;
+  interface Props {
+    courses?: Array<{ id: string; title: string }>;
+    name: string;
+    avatarImg: string;
+    verified: boolean;
+    id: string;
+  }
 
-  // Safely map over courses and get images, with a fallback
-  const images =
-    courses.length > 0
-      ? courses.map((course) => course.image)
+  let { courses = [], name, avatarImg, verified, id }: Props = $props();
+  let src = $state("");
+
+  const courseIds =
+    courses && courses.length > 0
+      ? courses.map((course) => course.id)
       : [defaultCourseImg];
 
-  // Precompute the random image once
-  let randomImage = getRandomImageSource(images);
+  // Safely map over courses and get images, with a fallback
 
-  function getRandomImageSource(arr: string[]): string {
+  // Precompute the random image once
+  let randomCourseId = getRandomCourseId(courseIds);
+
+  function getRandomCourseId(arr: string[]): string {
     const randomIndex = Math.floor(Math.random() * arr.length);
     return arr[randomIndex];
   }
@@ -28,45 +36,52 @@
   function handleImageError(event: Event) {
     (event.target as HTMLImageElement).src = defaultCourseImg;
   }
+
+  onMount(async () => {
+    if (courses && courses.length > 0) {
+      const { imageUrl } = await getImageUrl(randomCourseId);
+      src = imageUrl;
+    }
+  });
 </script>
 
 <a
-  class="card card-hover flex flex-col overflow-hidden min-w-[100px]"
+  class="card card-hover flex min-w-[100px] flex-col overflow-hidden"
   href={route("/tutors/[tutorId]", { tutorId: id })}
 >
   <header class="relative">
     <img
-      src={randomImage}
+      {src}
       width="400"
       height="175"
-      class="w-full aspect-[16/9]"
+      class="aspect-[16/9] w-full"
       alt="tutor"
       loading="lazy"
-      on:error={handleImageError}
+      onerror={handleImageError}
     />
   </header>
-  <section class="p-4 flex flex-col">
+  <section class="flex flex-col p-4">
     <p class="text-xs font-semibold">Available course:</p>
     <ul class="flex flex-wrap gap-1">
       {#if courses && courses.length > 0}
         {#each courses as course (course.id)}
           <li>
-            <span class="badge variant-filled-primary capitalize">
+            <span class="variant-filled-primary badge capitalize">
               {course.title || "untitled course"}
             </span>
           </li>
         {/each}
       {:else}
-        <span class="badge variant-filled-primary capitalize">
+        <span class="variant-filled-primary badge capitalize">
           no course available
         </span>
       {/if}
     </ul>
   </section>
-  <hr class="opacity-50 my-4" />
+  <hr class="my-4 opacity-50" />
   <footer class="card-footer flex items-center space-x-3">
     <Avatar src={avatarImg} width="w-8" />
-    <div class="flex flex-1 justify-between items-center">
+    <div class="flex flex-1 items-center justify-between">
       <div class="space-y-1">
         <h6 class="h6">{name}</h6>
       </div>

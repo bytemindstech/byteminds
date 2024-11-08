@@ -1,13 +1,18 @@
 <script lang="ts">
   import { Statistics } from "$lib/components/ui";
-  import Icon from "@iconify/svelte";
-  import dateFormatter from "@jhenbert/date-formatter";
   import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
-  import type { PageData } from "./$types";
-  import type { Course } from "@prisma/client";
 
-  export let data: PageData;
+  import Icon from "@iconify/svelte";
+  import dateFormatter from "@jhenbert/date-formatter";
+
+  import type { PageData } from "./$types";
+
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   const dateOption: Intl.DateTimeFormatOptions = {
     dateStyle: "full",
@@ -16,11 +21,11 @@
   };
 
   let courses = [] as Course[];
-  let tutorCounts = 0;
-  let courseCounts = 0;
+  let tutorCounts = $state(0);
+  let courseCounts = $state(0);
   let enrolleeCounts = 0;
 
-  $: today = dateFormatter("en-PH", dateOption, new Date());
+  let today = $derived(dateFormatter("en-PH", dateOption, new Date()));
 
   onMount(async () => {
     const response = await getCourses();
@@ -41,7 +46,7 @@
 </script>
 
 <div class="container mx-auto p-6">
-  <div class="mt-8 mb-6">
+  <div class="mb-6 mt-8">
     <h2 class="h2">Welcome, {data.firstName}</h2>
     <p>
       Today is: <span class="text-sm italic">{today}</span>
@@ -49,44 +54,44 @@
   </div>
 
   <button
-    class="btn variant-filled-tertiary font-semibold mb-6 max-w-full"
+    class="variant-filled-tertiary btn mb-6 max-w-full font-semibold"
     disabled>Enroll a Child</button
   >
 
-  <div class="flex flex-col md:flex-row gap-4 flex-wrap">
-    <div class="flex-1 min-w-[250px]">
+  <div class="flex flex-col flex-wrap gap-4 md:flex-row">
+    <div class="min-w-[250px] flex-1">
       <Statistics
         title="Freelance Tutors"
         data={tutorCounts}
         cardBg="bg-tertiary-400/40"
       >
-        <svelte:fragment slot="icon">
+        {#snippet icon()}
           <Icon icon="mdi:cast-tutorial" width="48" height="48" />
-        </svelte:fragment>
+        {/snippet}
       </Statistics>
     </div>
 
-    <div class="flex-1 min-w-[250px]">
+    <div class="min-w-[250px] flex-1">
       <Statistics
         title="Courses Available"
         data={courseCounts}
         cardBg="bg-success-400/40"
       >
-        <svelte:fragment slot="icon">
+        {#snippet icon()}
           <Icon icon="ic:round-book" width="48" height="48" />
-        </svelte:fragment>
+        {/snippet}
       </Statistics>
     </div>
 
-    <div class="flex-1 min-w-[250px]">
+    <div class="min-w-[250px] flex-1">
       <Statistics
         title="Courses Enrolled"
         data={enrolleeCounts}
         cardBg="bg-secondary-400/40"
       >
-        <svelte:fragment slot="icon">
+        {#snippet icon()}
           <Icon icon="material-symbols:library-books" width="48" height="48" />
-        </svelte:fragment>
+        {/snippet}
       </Statistics>
     </div>
   </div>
