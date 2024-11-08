@@ -4,19 +4,26 @@
   import { resetTitle } from "$lib/util.client";
   import { TutorCard } from "$lib/components/ui";
   import type { PageData } from "./$types";
+  import { any } from "zod";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
 
-  let tutorsArr: any;
+  let { data }: Props = $props();
 
-  $: tutors = tutorsArr as Array<{
-    id: string;
-    profile: { image: string };
-    courses: Array<any>;
-    firstName: string;
-    lastName: string;
-    isEmailVerified: boolean;
-  }>;
+  let tutorsArr: any = $state([]);
+
+  let tutors = $derived(
+    tutorsArr as Array<{
+      id: string;
+      profile: { image: string };
+      courses: Array<any>;
+      firstName: string;
+      lastName: string;
+      isEmailVerified: boolean;
+    }>,
+  );
 
   onMount(async () => {
     const users = await data.users;
@@ -28,21 +35,21 @@
 
 <svelte:head><title>{data.title}</title></svelte:head>
 
-<div class="container min-h-screen mx-auto p-6">
+<div class="container mx-auto min-h-screen p-6">
   {#if tutors && tutors.length > 0}
-    <TutorGrid {tutors}
-      ><svelte:fragment slot="tutor-card" let:tutor
-        ><TutorCard
+    <TutorGrid {tutors}>
+      {#snippet tutorCard({ tutor })}
+        <TutorCard
           id={tutor.id}
           avatarImg={tutor.profile?.image}
           courses={tutor.courses}
-          name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
+          name={`${tutor.firstName} ${tutor.lastName.charAt(0).toUpperCase()}.`}
           verified={tutor.isEmailVerified}
         />
-      </svelte:fragment>
+      {/snippet}
     </TutorGrid>
   {:else}
-    <p class="text-lg semi-bold">
+    <p class="semi-bold text-lg">
       Be the first to join our team of freelance tutors — apply today!
     </p>
   {/if}

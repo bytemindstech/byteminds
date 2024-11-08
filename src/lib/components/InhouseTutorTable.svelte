@@ -11,7 +11,11 @@
     Pagination,
   } from "./ui";
 
-  export let tableData;
+  interface Props {
+    tableData: any;
+  }
+
+  let { tableData }: Props = $props();
 
   const handler = new DataHandler(tableData, { rowsPerPage: 5 });
   const rows = handler.getRows();

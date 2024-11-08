@@ -5,10 +5,19 @@
   import { Toast } from "./ui";
   import Icon from "@iconify/svelte";
 
-  export let email;
-  export let phoneNo;
-  export let article;
-  export let formData;
+  interface Props {
+    email: any;
+    phoneNo: any;
+    article: any;
+    formData: any;
+  }
+
+  let {
+    email,
+    phoneNo,
+    article,
+    formData
+  }: Props = $props();
 
   const { form, errors, constraints, message, delayed, enhance } = superForm(
     formData,
@@ -133,7 +142,7 @@
               aria-invalid={$errors.message ? "true" : undefined}
               bind:value={$form.message}
               {...$constraints.message}
-            />
+></textarea>
           </label>
         </div>
         <div class="flex justify-between w-full px-3">

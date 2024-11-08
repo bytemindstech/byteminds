@@ -1,11 +1,14 @@
+import { json } from "@sveltejs/kit";
+import { BUCKET_NAME } from "$lib/constants";
+import { getImageByCourseId } from "$lib/server/services/course-image.service";
 import {
   deleteCourse,
-  getAllCourses,
   getCourseById,
 } from "$lib/server/services/course.service";
-import { json } from "@sveltejs/kit";
+
 import type { RequestHandler } from "./$types";
 import type { User } from "lucia";
+import { deleteObject } from "$lib/util.sever";
 
 /**
  *
@@ -13,7 +16,11 @@ import type { User } from "lucia";
  * @param authUser
  * @returns an object containing success and error message
  */
-const requestDeleteCourse = async (id: string, authUser: User | null) => {
+const requestDeleteCourse = async (
+  id: string,
+  authUser: User | null,
+  key: string | undefined,
+) => {
   // Check if user is logged in
   if (!authUser) {
     return { message: "Unauthorize access, please login" };
@@ -21,6 +28,9 @@ const requestDeleteCourse = async (id: string, authUser: User | null) => {
 
   try {
     await deleteCourse(id);
+
+    await deleteObject(BUCKET_NAME, key);
+
     return { message: "Course is successfuly deleted" };
   } catch (error) {
     return { errorMessage: (error as Error).message };
@@ -43,7 +53,10 @@ const requestGetCoursesById = async (id: string, authUser: User | null) => {
 // Put you request handler functions here
 export const DELETE: RequestHandler = async ({ params, locals }) => {
   const { id } = params;
-  const response = await requestDeleteCourse(id, locals.user);
+
+  const image = await getImageByCourseId(id);
+
+  const response = await requestDeleteCourse(id, locals.user, image?.key);
 
   return json(response);
 };

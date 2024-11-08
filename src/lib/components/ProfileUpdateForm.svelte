@@ -4,7 +4,11 @@
   import { superForm } from "sveltekit-superforms/client";
   import { Toast } from "./ui";
 
-  export let formData;
+  interface Props {
+    formData: any;
+  }
+
+  let { formData }: Props = $props();
 
   // Initialize form with superForm and its utilities
   const { form, delayed, message, enhance } = superForm(formData, {
@@ -23,7 +27,7 @@
   <Toast message={$message} type={toastType} />
 {/if}
 
-<div class="bg-surface-100 shadow rounded-lg p-6 mt-5">
+<div class="mt-5 rounded-lg bg-surface-100 p-6 shadow">
   <div class="flex flex-col items-center">
     <form method="post" action={route("default /user-profile")} use:enhance>
       <label class="label text-primary-500">
@@ -34,15 +38,15 @@
           bind:value={$form.role}
         >
           <option value="" disabled hidden>choose</option>
-          {#each ["parent", "student", "tutor"] as role}
+          {#each ["tutor"] as role}
             <option value={role}>{role}</option>
           {/each}
         </select>
       </label>
 
-      <div class="mt-4 flex justify-center w-full">
+      <div class="mt-4 flex w-full justify-center">
         <button
-          class="btn btn-sm md:btn-md variant-filled-tertiary w-full capitalize"
+          class="variant-filled-tertiary btn btn-sm w-full capitalize md:btn-md"
           disabled={$delayed}
         >
           {$delayed ? "Submitting..." : "Submit"}

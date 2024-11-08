@@ -5,15 +5,21 @@
   import { onDestroy, onMount } from "svelte";
   import { resetTitle } from "$lib/util.client";
   import { getCourses } from "$lib/util.client";
-  import { page } from "$app/stores";
+
   import type { ServerResponse } from "@jhenbert/fetch";
-  import type { Course } from "@prisma/client";
   import type { PageData } from "./$types";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
 
-  let courses = [] as Course[];
-  let response = { status: "loading" } as ServerResponse<Course[], Error>;
+  let { data }: Props = $props();
+
+  let courses = $state([] as Course[]);
+  let response = $state({ status: "loading" } as ServerResponse<
+    Course[],
+    Error
+  >);
 
   onMount(async () => {
     response = await getCourses();
@@ -37,12 +43,12 @@
     <p class="text-lg font-bold">Loading courses please wait....</p>
   {:else if courses.length > 0}
     <CourseGrid {courses}>
-      <svelte:fragment slot="course-card" let:course>
+      {#snippet courseCard({ course })}
         <CourseCard
           data={course}
           href={route("/courses/[courseId]", { courseId: course.id })}
         />
-      </svelte:fragment>
+      {/snippet}
     </CourseGrid>
   {:else}
     <p class="text-lg font-bold">No courses available yet, stay tuned.</p>

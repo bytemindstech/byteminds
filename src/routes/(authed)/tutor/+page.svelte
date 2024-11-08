@@ -3,12 +3,17 @@
   import { CourseCard } from "$lib/components/ui";
   import { route } from "$lib/ROUTES";
   import { onDestroy } from "svelte";
-  import type { PageData } from "./$types";
   import { resetTitle } from "$lib/util.client";
 
-  export let data: PageData;
+  import type { PageData } from "./$types";
 
-  $: showForm = false;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
+
+  let showForm = $state(false);
 
   const showFormHandler = () => {
     showForm = !showForm;
@@ -20,24 +25,24 @@
 <svelte:head><title>{data.title}</title></svelte:head>
 
 <div class="min-h-screen">
-  <div class="flex flex-row pt-24 px-10 pb-4">
+  <div class="flex flex-row px-10 pb-4 pt-24">
     <div class="w-full">
       <div class="flex flex-row">
         <div
-          class="bg-no-repeat bg-error-200 border border-error-300 rounded-xl w-7/12 mr-2 p-6"
+          class="mr-2 w-7/12 rounded-xl border border-error-300 bg-error-200 bg-no-repeat p-6"
         >
           <p class="text-5xl text-primary-900">
             Welcome <br /><strong>{data.firstName} {data.lastName}</strong>
           </p>
-          <span class="inline-block mt-12 py-2"
-            ><button class="btn variant-filled-error" on:click={showFormHandler}
+          <span class="mt-12 inline-block py-2"
+            ><button class="variant-filled-error btn" onclick={showFormHandler}
               >{showForm ? "Show courses" : "Add course"}</button
             ></span
           >
         </div>
 
         <div
-          class="bg-no-repeat bg-tertiary-200 border border-tertiary-300 rounded-xl w-5/12 ml-2 p-6"
+          class="ml-2 w-5/12 rounded-xl border border-tertiary-300 bg-tertiary-200 bg-no-repeat p-6"
         >
           <p class="text-5xl text-primary-900">
             Students Booked <br /><strong>(23) - Not yet real data</strong>
@@ -47,22 +52,22 @@
 
       <div class="mt-4">
         {#if showForm}
-          <div class="bg-surface-100 rounded-xl shadow-lg px-6 py-4 w-full">
+          <div class="w-full rounded-xl bg-surface-100 px-6 py-4 shadow-lg">
             <CourseForm formData={data.courseForm} userId={data.id} />
             <!--data.id is from +layout.server.ts-->
           </div>
         {:else if data.myCourses && data.myCourses.length > 0}
           <!--grid layout-->
           <CourseGrid courses={data.myCourses}>
-            <svelte:fragment slot="course-card" let:course
-              ><CourseCard
+            {#snippet courseCard({ course })}
+              <CourseCard
                 data={course}
                 href={route("/tutor/my-courses/[id]", { id: course.id })}
-              /></svelte:fragment
-            >
+              />
+            {/snippet}
           </CourseGrid>
         {:else}
-          <p class="text-lg font-bold text-center">No course added yet</p>
+          <p class="text-center text-lg font-bold">No course added yet</p>
         {/if}
       </div>
     </div>

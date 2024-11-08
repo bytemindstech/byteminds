@@ -9,6 +9,11 @@
     getDrawerStore,
     Avatar,
   } from "@skeletonlabs/skeleton";
+  interface Props {
+    children?: import("svelte").Snippet;
+  }
+
+  let { children }: Props = $props();
 
   const drawerStore = getDrawerStore();
 
@@ -16,7 +21,7 @@
     drawerStore.open({});
   };
 
-  $: positionClasses = $drawerStore.open ? "translate-x[50%]" : "";
+  let positionClasses = $derived($drawerStore.open ? "translate-x[50%]" : "");
 </script>
 
 <AppShell
@@ -25,11 +30,11 @@
   slotPageHeader="sticky top-0 z-10 md:hidden"
   slotSidebarLeft="bg-surface-700/5 w-0 md:w-64"
 >
-  <svelte:fragment slot="pageHeader">
+  {#snippet pageHeader()}
     <AppBar>
-      <svelte:fragment slot="lead"
-        ><span
-          ><button class="btn btn-sm" on:click={drawerOpen}
+      {#snippet lead()}
+        <span
+          ><button class="btn btn-sm" onclick={drawerOpen}
             ><Icon
               icon="icon-park-outline:hamburger-button"
               width="48"
@@ -44,26 +49,27 @@
             >Minds
           </span>
         </h2>
-      </svelte:fragment>
+      {/snippet}
     </AppBar>
-  </svelte:fragment>
+  {/snippet}
 
-  <svelte:fragment slot="sidebarLeft">
-    <div class="flex justify-center mt-4 p-4">
+  {#snippet sidebarLeft()}
+    <div class="mt-4 flex justify-center p-4">
       <Avatar
         src={route("githubAvatar", { avatarId: 159615949 })}
         width="w-20 md:w-32"
       />
     </div>
     <Navigation {paths}>
-      <svelte:fragment slot="button">
+      {#snippet button()}
         <a
           href={route("/signin-signup") + "?register"}
-          class="btn btn-xl variant-filled-tertiary font-bold">Apply Now</a
+          class="variant-filled-tertiary btn btn-xl font-bold"
+          >Apply Now <br />(Early Access)</a
         >
-      </svelte:fragment>
+      {/snippet}
     </Navigation>
-  </svelte:fragment>
+  {/snippet}
 
-  <slot />
+  {@render children?.()}
 </AppShell>

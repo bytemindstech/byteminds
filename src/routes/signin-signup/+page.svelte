@@ -4,9 +4,13 @@
   import { onDestroy } from "svelte";
   import { Login, Register } from "$lib/components";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
 
-  let isSignIn: boolean;
+  let { data }: Props = $props();
+
+  let isSignIn: boolean | undefined = $state();
 
   const unsubscribe = isSignInStore.subscribe((value) => {
     isSignIn = value;

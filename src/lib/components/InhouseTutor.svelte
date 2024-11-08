@@ -1,7 +1,8 @@
 <script lang="ts">
   import { InhouseTutorCard } from "./ui";
 
-  export let inhouseTutors: Promise<
+  interface Props {
+    inhouseTutors: Promise<
     Array<{
       id: string;
       name: string;
@@ -10,6 +11,9 @@
       image: string;
     }>
   >;
+  }
+
+  let { inhouseTutors }: Props = $props();
 </script>
 
 <div class="w-full bg-surface-100/65 p-6">

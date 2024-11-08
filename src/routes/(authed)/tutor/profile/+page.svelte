@@ -9,10 +9,14 @@
   import { resetTitle } from "$lib/util.client";
   import { page } from "$app/stores";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
 
-  $: name = `${data.firstName} ${data.lastName}`;
-  $: img = data.user?.profile?.image ?? "";
+  let { data }: Props = $props();
+
+  let name = $derived(`${data.firstName} ${data.lastName}`);
+  let img = $derived(data.user?.profile?.image ?? "");
 
   onDestroy(() => resetTitle(data.meta.title));
 </script>
@@ -20,13 +24,13 @@
 <svelte:head><title>{data.title} {name}</title></svelte:head>
 
 <UserProfileLayout
-  ><svelte:fragment slot="profile"
-    ><UserProfile profileImg={img} email={data.email} {name} />
-  </svelte:fragment>
+  >{#snippet profile()}
+    <UserProfile profileImg={img} email={data.email} {name} />
+  {/snippet}
 
-  <svelte:fragment slot="bio">
-    <div class="bg-surface-100 shadow rounded-lg p-6">
+  {#snippet bio()}
+    <div class="rounded-lg bg-surface-100 p-6 shadow">
       <UserBioPrivate bio={data.user?.profile?.bio} />
     </div>
-  </svelte:fragment>
+  {/snippet}
 </UserProfileLayout>

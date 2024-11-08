@@ -5,13 +5,17 @@
   import UserProfileLayout from "$lib/components/UserProfileLayout.svelte";
   import { onMount } from "svelte";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
 
-  let user: any;
+  let { data }: Props = $props();
 
-  $: name = `${data.firstName} ${data.lastName}`;
-  $: img = user?.profile?.image ?? "";
-  $: bio = user?.profile?.bio ?? "Please update your profile";
+  let user: any = $state();
+
+  let name = $derived(`${data.firstName} ${data.lastName}`);
+  let img = $derived(user?.profile?.image ?? "");
+  let biography = $derived(user?.profile?.bio ?? "Please update your profile");
 
   onMount(async () => {
     user = await data.user;
@@ -19,13 +23,16 @@
 </script>
 
 <UserProfileLayout
-  ><svelte:fragment slot="profile"
-    ><UserProfile profileImg={img} email={data.email} {name} />
-  </svelte:fragment>
+  >{#snippet profile()}
+    <UserProfile profileImg={img} email={data.email} {name} />
+    
+  {/snippet}
 
-  <svelte:fragment slot="bio">
-    <div class="bg-surface-100 shadow rounded-lg p-6">
-      <UserBioPrivate {bio} />
-    </div>
-  </svelte:fragment>
+  {#snippet bio()}
+  
+      <div class="bg-surface-100 shadow rounded-lg p-6">
+        <UserBioPrivate bio={biography} />
+      </div>
+    
+  {/snippet}
 </UserProfileLayout>

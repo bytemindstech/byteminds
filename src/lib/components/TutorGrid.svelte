@@ -1,18 +1,16 @@
 <script lang="ts">
-  type Tutor = {
-    id: string;
-    profile: { image: string };
-    courses: Array<any>;
-    firstName: string;
-    lastName: string;
-    isEmailVerified: boolean;
-  };
+  import type { Snippet } from "svelte";
 
-  export let tutors: Tutor[];
+  interface Props {
+    tutors: Tutor[];
+    tutorCard: Snippet<[{ tutor: Tutor }]>;
+  }
+
+  let { tutors, tutorCard }: Props = $props();
 </script>
 
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+<section class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
   {#each tutors as tutor (tutor.id)}
-    <slot name="tutor-card" {tutor} />
+    {@render tutorCard({ tutor })}
   {/each}
 </section>

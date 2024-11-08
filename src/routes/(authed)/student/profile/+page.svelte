@@ -7,28 +7,35 @@
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
 
-  $: name = `${data.firstName} ${data.lastName}`;
-  let img: string;
-  let bio: string | undefined;
+  let { data }: Props = $props();
+
+  let name = $derived(`${data.firstName} ${data.lastName}`);
+  let img: string | undefined = $state();
+  let biography: string | undefined = $state();
 
   onMount(async () => {
     const user = await data.user;
 
     img = user?.profile?.image ?? "";
-    bio = user?.profile?.bio;
+    biography = user?.profile?.bio;
   });
 </script>
 
 <UserProfileLayout
-  ><svelte:fragment slot="profile"
-    ><UserProfile profileImg={img} email={data.email} {name} />
-  </svelte:fragment>
+  >{#snippet profile()}
+    <UserProfile profileImg={img as string} email={data.email} {name} />
+    
+  {/snippet}
 
-  <svelte:fragment slot="bio">
-    <div class="bg-surface-100 shadow rounded-lg p-6">
-      <UserBioPrivate {bio} />
-    </div>
-  </svelte:fragment>
+  {#snippet bio()}
+  
+      <div class="bg-surface-100 shadow rounded-lg p-6">
+        <UserBioPrivate bio={biography} />
+      </div>
+    
+  {/snippet}
 </UserProfileLayout>

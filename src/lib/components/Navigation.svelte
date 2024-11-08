@@ -1,8 +1,14 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
   type Paths = {
     route: string;
     name: string;
   };
+
+  interface Props {
+    paths: Paths[];
+    button?: Snippet;
+  }
 
   import { page } from "$app/stores";
   import { getDrawerStore } from "@skeletonlabs/skeleton";
@@ -13,10 +19,11 @@
     drawerStore.close();
   };
 
-  $: classActive = (href: string) =>
-    href === $page.url.pathname ? "!variant-filled-tertiary !font-bold" : "";
+  let classActive = $derived((href: string) =>
+    href === $page.url.pathname ? "!variant-filled-tertiary !font-bold" : "",
+  );
 
-  export let paths: Paths[];
+  let { paths, button }: Props = $props();
 </script>
 
 <nav class="list-nav p-4">
@@ -25,7 +32,7 @@
       <li>
         <a
           href={path.route}
-          on:click={drawerClose}
+          onclick={drawerClose}
           class="{classActive(path.route)} font-semibold"
           >{path.name.toUpperCase()}</a
         >
@@ -34,6 +41,6 @@
   </ul>
 </nav>
 
-<div class="flex justify-center mt-5">
-  <slot name="button" />
+<div class="mt-5 flex justify-center">
+  {@render button?.()}
 </div>

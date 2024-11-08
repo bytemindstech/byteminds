@@ -3,7 +3,11 @@
   import type { PageData } from "./$types";
   import { route } from "$lib/ROUTES";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   const { form, errors, constraints, message, delayed, enhance } = superForm(
     data.verifyEmailForm,
@@ -19,14 +23,14 @@
   } = superForm(data.resendCodeForm, { resetForm: true });
 </script>
 
-<div class="container mx-auto min-h-full flex items-center justify-center">
+<div class="container mx-auto flex min-h-full items-center justify-center">
   <div class="flex flex-col items-center">
     {#if data.user?.isEmailVerified}
       <p>Thank you! Email already verified</p>
     {:else}
       <form
         class="flex flex-col space-y-3"
-        method="post"
+        method="POST"
         action={route("verifyEmail /email-verification")}
         use:enhance
       >
@@ -45,15 +49,16 @@
             <p class="text-sm text-error-600">{$errors.code}</p>
           {/if}
         </label>
-        <button type="submit" class="btn variant-filled-primary"
+        <button type="submit" class="variant-filled-primary btn"
           >{$delayed ? "Verifying email..." : "Verify Email"}</button
         >
       </form>
-      {#if $message}
+      {#if $message && typeof message === "string"}
         <p class="text-sm text-error-600">{$message}</p>
       {/if}
+
       <form
-        method="post"
+        method="POST"
         action={route("resendVerificationCode /email-verification")}
         use:resendCodeEnhance
       >
@@ -66,7 +71,7 @@
             : "Re-send Verification Code"}</button
         >
       </form>
-      {#if $resendCodeMessage}
+      {#if $resendCodeMessage && typeof resendCodeMessage === "string"}
         <p class="text-sm text-success-700">{$resendCodeMessage}</p>
       {/if}
     {/if}

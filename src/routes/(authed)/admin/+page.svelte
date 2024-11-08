@@ -2,7 +2,11 @@
   import type { PageData } from "./$types";
   import { AllUsersTable } from "$lib/components";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <div class="container mx-auto p-6">

@@ -1,8 +1,17 @@
 <script lang="ts">
-  export let tutorImg;
-  export let bio;
-  export let name;
-  export let designation;
+  interface Props {
+    tutorImg: any;
+    bio: any;
+    name: any;
+    designation: any;
+  }
+
+  let {
+    tutorImg,
+    bio,
+    name,
+    designation
+  }: Props = $props();
 </script>
 
 <div class="relative max-w-full mx-auto my-16 py-6">

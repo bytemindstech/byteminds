@@ -5,20 +5,32 @@
   import { superForm } from "sveltekit-superforms/client";
   import { Toast } from "./ui";
   import { getModalStore, type ModalSettings } from "@skeletonlabs/skeleton";
+
   import type { SuperValidated } from "sveltekit-superforms/client";
 
-  export let courseTitle: string;
-  export let rate: number;
-  export let description: string;
-  export let courseImg: string = defaultCourseImg;
-  export let courseId: string;
-  export let updateCourseFormData: SuperValidated<{
-    courseId: string;
+  interface Props {
     courseTitle: string;
-    price: number;
+    rate: number;
     description: string;
-    courseImage: string;
-  }>;
+    courseImage?: string;
+    courseId: string;
+
+    updateCourseFormData: SuperValidated<{
+      courseId: string;
+      courseTitle: string;
+      price: number;
+      description: string;
+    }>;
+  }
+
+  let {
+    courseTitle = $bindable(),
+    rate = $bindable(),
+    description = $bindable(),
+    courseImage = $bindable(defaultCourseImg),
+    courseId,
+    updateCourseFormData,
+  }: Props = $props();
 
   const modalStore = getModalStore();
   const { errors, constraints, message, delayed, enhance } = superForm(
@@ -39,7 +51,7 @@
   };
 
   // Edit state
-  let isEdit = false;
+  let isEdit = $state(false);
 
   const toggleEditMode = (event: Event) => {
     if (!isEdit) {
@@ -64,6 +76,13 @@
     // will trigger the modal
     modalStore.trigger(modal);
   };
+
+  // let selectedImage: File | null = null;
+
+  // const handleFileChange = (event: Event) => {
+  //   const input = event.target as HTMLInputElement;
+  //   selectedImage = input.files ? input.files[0] : null;
+  // };
 </script>
 
 {#if typeof $message === "string" && $message}
@@ -71,39 +90,40 @@
 {/if}
 
 <div class="py-8">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <form action={route("updateCourse /tutor")} method="post" use:enhance>
-      <div class="flex flex-col md:flex-row -mx-4">
-        <div class="md:flex-1 px-4">
-          <div class="h-[460px] rounded-lg bg-surface-300 mb-4 relative">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <form action={route("updateCourse /tutor")} method="POST" use:enhance>
+      <div class="-mx-4 flex flex-col md:flex-row">
+        <div class="px-4 md:flex-1">
+          <div class="relative mb-4 h-[460px] rounded-lg bg-surface-300">
             <!--Hidden input to pass the value of courseId in the form data.-->
             <input value={courseId} name="courseId" type="hidden" />
             <!--image-->
             <img
-              class="w-full h-full object-cover"
-              src={courseImg}
+              class="h-full w-full object-cover"
+              src={courseImage}
               alt="course_image"
               loading="lazy"
-              on:error={handleImageError}
+              onerror={handleImageError}
             />
-            {#if isEdit}
+            <!-- {#if isEdit}
               <input
-                class="input text-sm text-surface-600 mb-4 absolute bottom-0 w-full"
-                type="text"
+                class="input absolute bottom-0 mb-4 w-full text-sm text-surface-600"
+                type="file"
+                accept="image/*"
                 name="courseImage"
-                placeholder="Image full URL"
                 aria-invalid={$errors.courseImage ? "true" : undefined}
-                bind:value={courseImg}
+                onchange={handleFileChange}
+                bind:value={courseImage}
               />
-            {/if}
+            {/if} -->
           </div>
           <!--button section-->
-          <div class="flex flex-col md:flex-row -mx-2 mb-4">
+          <div class="-mx-2 mb-4 flex flex-col md:flex-row">
             <div class="w-1/2 px-2">
               <button
                 type={isEdit ? "submit" : "button"}
-                class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
-                on:click={toggleEditMode}
+                class="variant-filled-tertiary btn w-full px-4 py-2 font-bold capitalize"
+                onclick={toggleEditMode}
               >
                 {isEdit ? ($delayed ? "saving..." : "save") : "edit"}
               </button>
@@ -113,16 +133,16 @@
               {#if isEdit}
                 <button
                   type="button"
-                  class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
-                  on:click={toggleCancel}
+                  class="variant-filled-tertiary btn w-full px-4 py-2 font-bold capitalize"
+                  onclick={toggleCancel}
                 >
                   cancel
                 </button>
               {:else}
                 <button
                   type="button"
-                  class="btn variant-filled-tertiary w-full py-2 px-4 font-bold capitalize"
-                  on:click={toggleDelete}
+                  class="variant-filled-tertiary btn w-full px-4 py-2 font-bold capitalize"
+                  onclick={toggleDelete}
                 >
                   delete
                 </button>
@@ -131,11 +151,11 @@
           </div>
         </div>
         <!--course details-->
-        <div class="md:flex-1 px-4">
-          <h3 class="h3 font-bold text-surface-800 capitalize">Course Title</h3>
+        <div class="px-4 md:flex-1">
+          <h3 class="h3 font-bold capitalize text-surface-800">Course Title</h3>
           {#if isEdit}
             <input
-              class="input text-surface-600 mb-4 capitalize"
+              class="input mb-4 capitalize text-surface-600"
               type="text"
               name="courseTitle"
               placeholder="Course Title"
@@ -144,7 +164,7 @@
               {...$constraints.courseTitle}
             />
           {:else}
-            <p class="text-surface-600 mb-4 capitalize">{courseTitle}</p>
+            <p class="mb-4 capitalize text-surface-600">{courseTitle}</p>
           {/if}
           <!--price-->
           <div class="mb-4">
@@ -175,16 +195,16 @@
               <span class="font-bold">Course Description</span>:
               {#if isEdit}
                 <textarea
-                  class="textarea text-surface-600 text-sm"
+                  class="textarea text-sm text-surface-600"
                   name="description"
                   rows="6"
                   placeholder="Course description..."
                   aria-invalid={$errors.description ? "true" : undefined}
                   bind:value={description}
                   {...$constraints.description}
-                />
+                ></textarea>
               {:else}
-                <p class="text-surface-600 text-sm mt-2">{description}</p>
+                <p class="mt-2 text-sm text-surface-600">{description}</p>
               {/if}
             </label>
           </div>

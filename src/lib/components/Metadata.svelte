@@ -1,6 +1,13 @@
 <script lang="ts">
-  export let meta: Meta;
-  export let pathname;
+  interface Props {
+    meta: Meta;
+    pathname: any;
+  }
+
+  let { meta, pathname }: Props = $props();
+
+  const keywordsContent =
+    "online tutoring in Philippines, online tutor available in Philppines, expert tutors in Philippines, coding tutorials in Philippines, online education, virtual online services, web development, bootcamp, top-rated tutors, academic improvement, subject-specific tutoring,";
 </script>
 
 <svelte:head
@@ -8,10 +15,7 @@
   <!-- Meta Tags -->
   <meta name="title" content={meta.title} />
   <meta name="description" content={meta.description} />
-  <meta
-    name="keywords"
-    content="online tutoring, expert tutors, academic success, online education, virtual online services, web development, top-rated tutors, academic improvement, subject-specific tutoring, reddit"
-  />
+  <meta name="keywords" content={keywordsContent} />
   <meta name="author" content="ByteMinds PH" />
   <!-- Open Graph - https://ogp.me/ -->
   <meta property="og:site_name" content="ByteMinds PH" />

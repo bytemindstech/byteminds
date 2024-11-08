@@ -1,22 +1,29 @@
 <script lang="ts">
   import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
+  import { getImageUrl } from "$lib/util.client";
+  import { onMount } from "svelte";
 
-  export let data: {
-    id: string;
-    title: string;
-    price: number;
-    image?: string; // Optional image field
-  };
+  interface Props {
+    data: Course;
+    href: string;
+  }
 
-  export let href;
+  let { data, href }: Props = $props();
+
+  let src = $state("");
 
   // Destructuring data for readability
-  const { title, price, image = defaultCourseImg } = data;
+  const { title, price, image } = data;
 
   // Fallback image handler
   const handleImageError = (event: Event) => {
     (event.target as HTMLImageElement).src = defaultCourseImg;
   };
+
+  onMount(async () => {
+    const { imageUrl } = await getImageUrl(image?.courseId ?? "");
+    src = imageUrl;
+  });
 </script>
 
 <a
@@ -26,17 +33,17 @@
 >
   <header>
     <img
-      src={image}
+      {src}
       alt={`Image for ${title || "untitled course"}`}
-      class="w-full aspect-[16/9] object-cover"
+      class="aspect-[16/9] w-full object-cover"
       width="500"
       height="281"
       loading="lazy"
-      on:error={handleImageError}
+      onerror={handleImageError}
     />
   </header>
   <article
-    class="flex flex-col md:flex-row justify-between items-center p-4 gap-2"
+    class="flex flex-col items-center justify-between gap-2 p-4 md:flex-row"
   >
     <h6 class="h6 capitalize">
       {title || "Untitled Course"}
