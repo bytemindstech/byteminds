@@ -8,7 +8,7 @@ import {
 
 import type { RequestHandler } from "./$types";
 import type { User } from "lucia";
-import { deleteObject } from "$lib/util.sever";
+import { ObjectStorage } from "$lib/util.sever";
 
 /**
  *
@@ -26,10 +26,12 @@ const requestDeleteCourse = async (
     return { message: "Unauthorize access, please login" };
   }
 
+  const objectStorage = new ObjectStorage();
+
   try {
     await deleteCourse(id);
 
-    await deleteObject(BUCKET_NAME, key);
+    await objectStorage.delete(BUCKET_NAME, key);
 
     return { message: "Course is successfuly deleted" };
   } catch (error) {

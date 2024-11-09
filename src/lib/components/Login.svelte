@@ -190,6 +190,7 @@
           <button
             class="variant-filled-tertiary btn min-w-full font-bold capitalize"
             type="submit"
+            disabled={$resetPasswordEmailDelayed}
             >{#if $resetPasswordEmailDelayed}
               sending reset link <Icon
                 icon="eos-icons:three-dots-loading"

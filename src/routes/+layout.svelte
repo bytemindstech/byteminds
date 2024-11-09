@@ -5,7 +5,16 @@
   import { page } from "$app/stores";
   import { afterNavigate } from "$app/navigation";
   import { ConfirmModal } from "$lib/components/ui";
-  import type { AfterNavigate } from "@sveltejs/kit";
+
+  import {
+    computePosition,
+    autoUpdate,
+    offset,
+    shift,
+    flip,
+    arrow,
+  } from "@floating-ui/dom";
+
   import {
     AppShell,
     Drawer,
@@ -16,19 +25,13 @@
     Modal,
     type ModalComponent,
   } from "@skeletonlabs/skeleton";
-  import {
-    computePosition,
-    autoUpdate,
-    offset,
-    shift,
-    flip,
-    arrow,
-  } from "@floating-ui/dom";
+
+  import type { AfterNavigate } from "@sveltejs/kit";
 
   //global css
   import "../app.pcss";
   interface Props {
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   }
 
   let { children }: Props = $props();
@@ -72,10 +75,10 @@
 <Drawer
   ><Navigation {paths} />
 
-  <div class="flex justify-center mt-5">
+  <div class="mt-5 flex justify-center">
     <a
       href={route("/signin-signup") + "?register"}
-      class="btn btn-lg variant-filled-tertiary font-bold"
+      class="variant-filled-tertiary btn btn-lg font-bold"
       onclick={drawerClose}>Apply Now</a
     >
   </div>
@@ -86,8 +89,6 @@
   {@render children?.()}
 
   {#snippet pageFooter()}
-  
-      <Footer year={new Date().getFullYear()} brand="ByteMinds PH" />
-    
+    <Footer year={new Date().getFullYear()} brand="ByteMinds PH" />
   {/snippet}
 </AppShell>

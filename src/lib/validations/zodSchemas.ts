@@ -3,6 +3,7 @@ import {
   MIN_USERNAME_LENGTH,
   MAX_USERNAME_LENGTH,
   MIN_PASSWORD_LENGTH,
+  MAX_CODE_LENGTH,
 } from "$lib/constants";
 
 export const registerSchema = z.object({
@@ -21,7 +22,9 @@ export const registerSchema = z.object({
   showConfirmPassword: z.boolean().optional(),
 });
 
-export const verifyEmailSchema = z.object({ code: z.string() });
+export const verifyEmailSchema = z.object({
+  code: z.string().max(MAX_CODE_LENGTH),
+});
 
 export const loginSchema = registerSchema.pick({
   username: true,
