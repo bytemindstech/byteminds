@@ -1,0 +1,20 @@
+# robots.txt for bytemindsph.com
+
+User-agent: *
+Disallow: /signin-signup
+Disallow: /password-reset
+Disallow: /logout
+Disallow: /email-verification
+Disallow: /user-profile
+Disallow: /admin/
+Disallow: /parent/
+Disallow: /student/
+Disallow: /tutor/
+Disallow: /api/
+
+# Allow access to other public sections of the site
+User-agent: *
+Allow: /
+
+# Specify the sitemap location
+Sitemap: https://www.bytemindsph.com/sitemap.xml

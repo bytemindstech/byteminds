@@ -5,14 +5,12 @@ import { zod } from "sveltekit-superforms/adapters";
 import { createAndSetSession } from "@jhenbert/byteminds-util";
 import { match } from "ts-pattern";
 import { route } from "$lib/ROUTES";
-import type { Actions, PageServerLoad } from "./$types";
+import { EmailVerificationCode } from "$lib/util.sever";
+
 import * as UserService from "$lib/server/services/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
-import {
-  generateEmailVerificationCode,
-  validateVerificationCode,
-  sendVerificationCode,
-} from "$lib/util.sever";
+
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load = (async ({ parent, locals }) => {
   await parent();
@@ -66,7 +64,9 @@ export const actions: Actions = {
       return message(verifyEmailForm, "No code");
     }
 
-    const codeStatus = await validateVerificationCode(
+    const emailVerificationCode = new EmailVerificationCode();
+
+    const codeStatus = await emailVerificationCode.validate(
       user,
       verifyEmailForm.data.code.toUpperCase(),
     );
@@ -102,14 +102,16 @@ export const actions: Actions = {
       zod(ZodValidationSchema.resendSchema),
     );
 
-    const verificationCode = await generateEmailVerificationCode(
+    const emailVerificationCode = new EmailVerificationCode();
+
+    const verificationCode = await emailVerificationCode.generate(
       user.id,
       user.email,
     );
 
     await lucia.invalidateUserSessions(user.id);
 
-    await sendVerificationCode(user.email, verificationCode);
+    await emailVerificationCode.send(user.email, verificationCode);
 
     await createAndSetSession(lucia, user.id, cookies);
 

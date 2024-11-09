@@ -164,7 +164,7 @@
               {...$constraints.courseTitle}
             />
           {:else}
-            <p class="mb-4 capitalize text-surface-600">{courseTitle}</p>
+            <p class="mb-4 capitalize text-surface-600">{courseTitle || 'Untiled Course'}</p>
           {/if}
           <!--price-->
           <div class="mb-4">

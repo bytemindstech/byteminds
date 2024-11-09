@@ -3,28 +3,16 @@ import { redirect } from "@sveltejs/kit";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { generateId } from "lucia";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import {
-  BUCKET_NAME,
-  S3_ACCESS_KEY_ID,
-  S3_REGION,
-  S3_SECRET_ACCESS_KEY,
-} from "$lib/constants";
+import { ObjectStorage } from "$lib/util.sever";
+import { BUCKET_NAME } from "$lib/constants";
 
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 import * as CourseService from "$lib/server/services/course.service";
 
 import type { Actions, PageServerLoad } from "./$types";
 
-const minIOClient = new S3Client({
-  endpoint: "https://minio-gw8go8o0wkkg0cosk08gkw8o.51.79.156.25.sslip.io",
-  region: S3_REGION,
-  credentials: {
-    accessKeyId: S3_ACCESS_KEY_ID,
-    secretAccessKey: S3_SECRET_ACCESS_KEY,
-  },
-  forcePathStyle: true,
-});
+// Initialized instance of objectStorage
+const objectStorage = new ObjectStorage();
 
 export const load = (async ({ locals, parent }) => {
   await parent();
@@ -56,7 +44,6 @@ export const actions: Actions = {
       return message(courseForm, "invalid form", { status: 406 });
     }
 
-    // Logic for s3 bucket
     const file = courseForm.data.courseImage as File | null;
 
     if (!file) {
@@ -74,9 +61,8 @@ export const actions: Actions = {
       Body: fileContent,
     };
 
-    // Send image to Object Storage
-    const command = new PutObjectCommand(uploadParams);
-    await minIOClient.send(command);
+    // Upload image to Object Storage
+    await objectStorage.upload(uploadParams);
 
     // Send to database
     await CourseService.createCourse(

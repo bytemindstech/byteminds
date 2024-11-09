@@ -8,12 +8,9 @@ import { route } from "$lib/ROUTES";
 import { generateId } from "lucia";
 import { createAndSetSession } from "@jhenbert/byteminds-util";
 import { match } from "ts-pattern";
-import {
-  createPasswordResetToken,
-  generateEmailVerificationCode,
-  sendResetPasswordToken,
-  sendVerificationCode,
-} from "$lib/util.sever";
+
+import { EmailVerificationCode, ResetPasswordToken } from "$lib/util.sever";
+
 import * as UserService from "$lib/server/services/user.service";
 import * as ZodValidationSchema from "$lib/validations/zodSchemas";
 
@@ -145,9 +142,15 @@ export const actions: Actions = {
       { passwordId: generateId(15), hashedPassword },
     );
 
-    const verificationCode = await generateEmailVerificationCode(userId, email);
+    //Initialized instance of EmailVerificationCode class
+    const emailVerificationCode = new EmailVerificationCode();
 
-    await sendVerificationCode(email, verificationCode);
+    const verificationCode = await emailVerificationCode.generate(
+      userId,
+      email,
+    );
+
+    await emailVerificationCode.send(email, verificationCode);
 
     await createAndSetSession(lucia, userId, cookies);
 
@@ -164,7 +167,7 @@ export const actions: Actions = {
     );
 
     if (!resetPasswordFormData.valid) {
-      return message(resetPasswordFormData, "Invalid form submission", {
+      return message(resetPasswordFormData, "Invalid form", {
         status: 406,
       });
     }
@@ -185,9 +188,11 @@ export const actions: Actions = {
       });
     }
 
-    const resetToken = await createPasswordResetToken(existingUser.id);
+    const resetPasswordToken = new ResetPasswordToken();
 
-    await sendResetPasswordToken(existingUser.email, resetToken);
+    const resetToken = await resetPasswordToken.generate(existingUser.id);
+
+    await resetPasswordToken.send(existingUser.email, resetToken);
 
     return message(resetPasswordFormData, "Reset link succesfully sent");
   },

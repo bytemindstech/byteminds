@@ -16,10 +16,13 @@
   const showConfirmPasswordHandle = () =>
     ($form.showConfirmPassword = !$form.showConfirmPassword);
 
-  let isPasswordIconVisible = $derived($form.password && $form.password.length > 0);
+  let isPasswordIconVisible = $derived(
+    $form.password && $form.password.length > 0,
+  );
 
-  let isConfirmPasswordIconVisible =
-    $derived($form.confirmPassword && $form.confirmPassword.length > 0);
+  let isConfirmPasswordIconVisible = $derived(
+    $form.confirmPassword && $form.confirmPassword.length > 0,
+  );
 </script>
 
 {#if typeof $message === "string" && $message}
@@ -122,7 +125,8 @@
     />
   {/if}
   <button
-    class="btn variant-filled-tertiary min-w-full font-medium leading-none capitalize"
+    class="variant-filled-tertiary btn min-w-full font-medium capitalize leading-none"
+    disabled={$delayed}
     type="submit">{$delayed ? "updating password" : "update password"}</button
   >
 </form>

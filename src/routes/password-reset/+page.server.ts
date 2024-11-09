@@ -1,4 +1,4 @@
-import { isSameAsOldPassword, verifyPasswordResetToken } from "$lib/util.sever";
+import { isSameAsOldPassword, ResetPasswordToken } from "$lib/util.sever";
 import { message, superValidate } from "sveltekit-superforms/server";
 import { lucia } from "$lib/server/auth";
 import { error, redirect } from "@sveltejs/kit";
@@ -21,7 +21,10 @@ export const load = (async ({ url }) => {
     return error(400, "Password reset token is missing from the request.");
   }
 
-  const { valid, message } = await verifyPasswordResetToken(passwordResetToken);
+  const resetPasswordToken = new ResetPasswordToken();
+
+  const { valid, message } =
+    await resetPasswordToken.validate(passwordResetToken);
 
   return {
     passwordResetTokenStatus: { isValid: valid, message },
@@ -37,7 +40,7 @@ export const actions: Actions = {
     );
 
     if (!passwordResetFormData.valid) {
-      return message(passwordResetFormData, "Form submission failed", {
+      return message(passwordResetFormData, "Invalid form", {
         status: 406,
       });
     }
@@ -52,9 +55,9 @@ export const actions: Actions = {
       });
     }
 
-    const passwordResetToken = passwordResetFormData.data.resetPasswordToken;
+    const resetToken = passwordResetFormData.data.resetPasswordToken;
 
-    if (!passwordResetToken) {
+    if (!resetToken) {
       return message(
         passwordResetFormData,
         "Password reset token is missing from request",
@@ -64,47 +67,43 @@ export const actions: Actions = {
       );
     }
 
-    const verifyPasswordResetTokenResponse =
-      await verifyPasswordResetToken(passwordResetToken);
+    const resetPasswordToken = new ResetPasswordToken();
 
-    if (!verifyPasswordResetTokenResponse.valid) {
+    const validateTokenResponse = await resetPasswordToken.validate(resetToken);
+
+    if (!validateTokenResponse.valid) {
+      return message(passwordResetFormData, validateTokenResponse.message, {
+        status: 406,
+      });
+    }
+
+    // userId is guaranteed to exist here since validateTokenResponse.valid is true
+    const userId = validateTokenResponse.userId;
+
+    const isSamePassword = await isSameAsOldPassword(
+      userId,
+      passwordResetFormData.data.password,
+    );
+
+    if (isSamePassword) {
       return message(
         passwordResetFormData,
-        verifyPasswordResetTokenResponse.message,
-        {
-          status: 406,
-        },
+        "New password cannot be same as old password",
+        { status: 406 },
       );
     }
 
-    const userId = verifyPasswordResetTokenResponse.userId;
+    const hashedPassword = await new Argon2id().hash(
+      passwordResetFormData.data.password,
+    );
 
-    if (userId) {
-      const isSamePassword = await isSameAsOldPassword(
-        userId,
-        passwordResetFormData.data.password,
-      );
+    // Invalidate all user sessions before updating the password
+    await lucia.invalidateSession(userId);
 
-      if (isSamePassword) {
-        return message(
-          passwordResetFormData,
-          "New password cannot be same as old password",
-          { status: 406 },
-        );
-      }
+    //Database transaction delete password reset token and update password
+    await PasswordService.databasePasswordTransaction(userId, hashedPassword);
 
-      const hashedPassword = await new Argon2id().hash(
-        passwordResetFormData.data.password,
-      );
-
-      // Invalidate all user sessions before updating the password
-      await lucia.invalidateSession(userId);
-
-      //Database transaction delete password reset token and update password
-      await PasswordService.databasePasswordTransaction(userId, hashedPassword);
-
-      await createAndSetSession(lucia, userId, cookies);
-    }
+    await createAndSetSession(lucia, userId, cookies);
 
     redirect(302, route("/signin-signup") + "?register");
   },

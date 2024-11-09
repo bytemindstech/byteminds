@@ -8,34 +8,34 @@ const prisma = new PrismaClient();
 const main = async () => {
   try {
     // Create user with admin role
-    // await prisma.user.upsert({
-    //   where: { email: "admin@mail.net" },
-    //   update: {},
-    //   create: {
-    //     id: generateId(15),
-    //     username: "superuser123",
-    //     email: "admin@mail.net",
-    //     firstName: "Super",
-    //     lastName: "User",
-    //     sourceInfo: "facebook",
-    //     role: "ADMIN",
-    //     isEmailVerified: true,
-    //     hashedPassword: {
-    //       create: {
-    //         passwordId: generateId(15),
-    //         hashedPassword: await new Argon2id().hash("secret123"),
-    //       },
-    //     },
-    //     profile: {
-    //       create: {
-    //         profileId: generateId(15),
-    //         image:
-    //           "https://images.pexels.com/photos/7562313/pexels-photo-7562313.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    //         bio: "I am an admin user",
-    //       },
-    //     },
-    //   },
-    // });
+    await prisma.user.upsert({
+      where: { email: "admin@mail.net" },
+      update: {},
+      create: {
+        id: generateId(15),
+        username: "admin000",
+        email: "admin@mail.net",
+        firstName: "Admin",
+        lastName: "User",
+        sourceInfo: "facebook",
+        role: "ADMIN",
+        isEmailVerified: true,
+        hashedPassword: {
+          create: {
+            passwordId: generateId(15),
+            hashedPassword: await new Argon2id().hash("secret123"),
+          },
+        },
+        profile: {
+          create: {
+            profileId: generateId(15),
+            image:
+              "https://images.pexels.com/photos/7562313/pexels-photo-7562313.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            bio: "I am an admin user",
+          },
+        },
+      },
+    });
 
     //Create user with parent role
     // await prisma.user.upsert({
@@ -68,34 +68,34 @@ const main = async () => {
     // });
 
     //Create user with student role
-    await prisma.user.upsert({
-      where: { email: "student@mail.net" },
-      update: {},
-      create: {
-        id: generateId(15),
-        email: "student@mail.net",
-        username: "studentuser123",
-        firstName: "User",
-        lastName: "Student",
-        sourceInfo: "youtube",
-        hashedPassword: {
-          create: {
-            passwordId: generateId(15),
-            hashedPassword: await new Argon2id().hash("secret123"),
-          },
-        },
-        role: "STUDENT",
-        isEmailVerified: true,
-        profile: {
-          create: {
-            profileId: generateId(15),
-            image:
-              "https://images.pexels.com/photos/5615665/pexels-photo-5615665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            bio: "I am a student",
-          },
-        },
-      },
-    });
+    // await prisma.user.upsert({
+    //   where: { email: "student@mail.net" },
+    //   update: {},
+    //   create: {
+    //     id: generateId(15),
+    //     email: "student@mail.net",
+    //     username: "studentuser123",
+    //     firstName: "User",
+    //     lastName: "Student",
+    //     sourceInfo: "youtube",
+    //     hashedPassword: {
+    //       create: {
+    //         passwordId: generateId(15),
+    //         hashedPassword: await new Argon2id().hash("secret123"),
+    //       },
+    //     },
+    //     role: "STUDENT",
+    //     isEmailVerified: true,
+    //     profile: {
+    //       create: {
+    //         profileId: generateId(15),
+    //         image:
+    //           "https://images.pexels.com/photos/5615665/pexels-photo-5615665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //         bio: "I am a student",
+    //       },
+    //     },
+    //   },
+    // });
 
     //Create user with tutor role
     await prisma.user.upsert({
@@ -105,8 +105,8 @@ const main = async () => {
         id: generateId(15),
         email: "tutor@mail.net",
         username: "tutoruser123",
-        firstName: "User2",
-        lastName: "Tutor2",
+        firstName: "Tutor",
+        lastName: "User",
         sourceInfo: "facebook",
         hashedPassword: {
           create: {
@@ -122,18 +122,6 @@ const main = async () => {
             image:
               "https://images.pexels.com/photos/7275385/pexels-photo-7275385.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             bio: "I am an experienced reading tutor with over 10 years of dedicated work in the field of literacy education. With a background in Elementary Education and a Master's degree in Literacy Studies, Jane has helped hundreds of students improve their reading comprehension, vocabulary, and fluency. She specializes in working with young learners who struggle with reading, offering personalized, one-on-one sessions tailored to each student's unique learning style.",
-          },
-        },
-        courses: {
-          create: {
-            id: generateId(15),
-            title: "reading",
-            price: 50.99,
-            description:
-              "Reading is a magical journey for children, opening the doors to imagination, knowledge, and endless possibilities. Through stories, kids can explore faraway lands, meet fascinating characters, and learn valuable lessons about life and the world around them. Reading not only improves vocabulary and comprehension but also helps develop critical thinking and creativity.",
-            image:
-              "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            rating: "5",
           },
         },
       },

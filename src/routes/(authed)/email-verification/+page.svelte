@@ -49,11 +49,14 @@
             <p class="text-sm text-error-600">{$errors.code}</p>
           {/if}
         </label>
-        <button type="submit" class="variant-filled-primary btn"
+        <button
+          type="submit"
+          class="variant-filled-primary btn"
+          disabled={$delayed}
           >{$delayed ? "Verifying email..." : "Verify Email"}</button
         >
       </form>
-      {#if $message && typeof message === "string"}
+      {#if $message && typeof $message === "string"}
         <p class="text-sm text-error-600">{$message}</p>
       {/if}
 
@@ -71,7 +74,7 @@
             : "Re-send Verification Code"}</button
         >
       </form>
-      {#if $resendCodeMessage && typeof resendCodeMessage === "string"}
+      {#if $resendCodeMessage && typeof $resendCodeMessage === "string"}
         <p class="text-sm text-success-700">{$resendCodeMessage}</p>
       {/if}
     {/if}
