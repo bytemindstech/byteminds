@@ -2,23 +2,31 @@
   import { Avatar } from "@skeletonlabs/skeleton";
   import { getInitials } from "$lib/util.client";
 
+  import defaultProfile from "$lib/assets/images/default-profile-img.png";
+
   interface Props {
     name: string;
-    profileImg: string;
+    profileImage: string;
     email: string;
   }
 
-  let { name, profileImg, email }: Props = $props();
+  let { name, profileImage, email }: Props = $props();
 
   let initials = $derived(getInitials(name));
+
+  const handleImageError = (event: Event) => {
+    (event.target as HTMLImageElement).src = defaultProfile;
+  };
 </script>
 
-<div class="bg-surface-100 shadow rounded-lg p-6">
+<div class="rounded-lg bg-surface-100 p-6 shadow">
   <div class="flex flex-col items-center">
     <Avatar
-      src={profileImg}
+      src={profileImage}
       width="w-32"
       background="bg-tertiary-500"
+      onerror={handleImageError}
+      loading="lazy"
       {initials}
     />
     <h4 class="h4 capitalize">{name}</h4>

@@ -1,7 +1,8 @@
 <script lang="ts">
-  import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
-  import { getImageUrl } from "$lib/util.client";
+  import { getImage } from "$lib/util.client";
   import { onMount } from "svelte";
+
+  import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
 
   interface Props {
     data: Course;
@@ -21,8 +22,8 @@
   };
 
   onMount(async () => {
-    const { imageUrl } = await getImageUrl(image?.courseId ?? "");
-    src = imageUrl;
+    const { url } = (await getImage(image.key)) as ImageResponse;
+    src = url;
   });
 </script>
 

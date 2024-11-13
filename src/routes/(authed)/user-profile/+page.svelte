@@ -53,7 +53,11 @@
 
 <UserProfileLayout>
   {#snippet profile()}
-    <UserProfile {name} profileImg={user?.profile?.image} email={user?.email} />
+    <UserProfile
+      {name}
+      profileImage={user?.profile?.image}
+      email={user?.email}
+    />
 
     {#if user?.role === "USER"}
       <ProfileUpdateForm formData={data.userRoleForm} />
@@ -90,7 +94,7 @@
           {#snippet tutorCard({ tutor })}
             <TutorCard
               id={tutor.id}
-              avatarImg={tutor.profile?.image}
+              avatarImageKey={tutor.profile?.image?.key ?? ""}
               courses={tutor.courses}
               name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
               verified={tutor.isEmailVerified}

@@ -28,10 +28,10 @@
   </header>
 
   <div class="table-container">
-    <table class="table table-hover table-compact table-auto w-full">
+    <table class="table table-hover table-compact w-full table-auto">
       <thead>
         <tr>
-          <ThSort {handler} orderBy="title">Tile</ThSort>
+          <ThSort {handler} orderBy="title">Course Title</ThSort>
           <ThSort {handler} orderBy="price">Price</ThSort>
           <ThSort {handler} orderBy="createdAt">Created On</ThSort>
           <ThSort {handler} orderBy="updatedAt">Updated On</ThSort>

@@ -3,17 +3,7 @@ import type { Course, CourseImage } from "@prisma/client";
 
 export const getAllCourses = async () => {
   return await db.course.findMany({
-    select: {
-      id: true,
-      userId: true,
-      title: true,
-      image: true,
-      description: true,
-      price: true,
-      rating: true,
-      createdAt: true,
-      updatedAt: true,
-    },
+    include: { image: true },
   });
 };
 

@@ -3,13 +3,10 @@
   import { route } from "$lib/ROUTES";
   import { AppShell } from "@skeletonlabs/skeleton";
   interface Props {
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   }
 
   let { children }: Props = $props();
-  //   import type { LayoutData } from "./$types";
-
-  //   export let data: LayoutData;
 
   const paths = [
     { name: "dashboard", route: route("/tutor") },

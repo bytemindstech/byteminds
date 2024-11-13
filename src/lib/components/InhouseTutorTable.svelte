@@ -1,6 +1,5 @@
 <script lang="ts">
   import { DataHandler } from "@vincjo/datatables";
-  import dateFormatter from "@jhenbert/date-formatter";
   import { dateOption } from "$lib/util.client";
   import {
     Search,
@@ -10,6 +9,8 @@
     ThFilter,
     Pagination,
   } from "./ui";
+
+  import dateFormatter from "@jhenbert/date-formatter";
 
   interface Props {
     tableData: any;
@@ -21,14 +22,14 @@
   const rows = handler.getRows();
 </script>
 
-<div class="space-y-2 mt-6">
+<div class="mt-6 space-y-2">
   <header class="flex justify-between gap-4">
     <Search {handler} />
     <RowsPerPage {handler} />
   </header>
 
   <div class="table-container">
-    <table class="table table-hover table-compact table-auto w-full">
+    <table class="table table-hover table-compact w-full table-auto">
       <thead>
         <tr>
           <ThSort {handler} orderBy="id">inhouse tutor ID</ThSort>

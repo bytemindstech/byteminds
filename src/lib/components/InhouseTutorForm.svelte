@@ -1,11 +1,16 @@
 <script lang="ts">
-  import { superForm } from "sveltekit-superforms/client";
+  import { superForm, type SuperValidated } from "sveltekit-superforms/client";
   import { page } from "$app/stores";
   import { Toast } from "./ui";
   import { route } from "$lib/ROUTES";
 
   interface Props {
-    formData: any;
+    formData: SuperValidated<{
+      name: string;
+      subjectTaught: string;
+      bio: string;
+      image: File;
+    }>;
   }
 
   let { formData }: Props = $props();
@@ -16,16 +21,24 @@
       resetForm: true,
     },
   );
+
+  let selectedImage: File | null = null;
+
+  const handleFileChange = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    selectedImage = input.files ? input.files[0] : null;
+  };
 </script>
 
 {#if typeof $message === "string" && $message}
   <Toast message={$message} type={$page.status === 200 ? "success" : "error"} />
 {/if}
 
-<div class="bg-surface-100 rounded-lg shadow-lg p-6">
+<div class="rounded-lg bg-surface-100 p-6 shadow-lg">
   <form
     method="post"
     action={route("create /admin/inhouse-tutors")}
+    enctype="multipart/form-data"
     use:enhance
   >
     <div class="grid grid-cols-9 gap-4">
@@ -64,12 +77,12 @@
           ><span>Image</span>
           <input
             class="input"
-            type="text"
+            type="file"
             name="image"
-            placeholder="Full url image link"
+            accept="image/*"
             aria-invalid={$errors.image ? "true" : undefined}
             bind:value={$form.image}
-            {...$constraints.image}
+            onchange={handleFileChange}
           />
         </label>
       </div>
@@ -85,11 +98,14 @@
             aria-invalid={$errors.bio ? "true" : undefined}
             bind:value={$form.bio}
             {...$constraints.bio}
-></textarea>
+          ></textarea>
         </label>
       </div>
     </div>
-    <button type="submit" class="btn variant-filled-tertiary mt-4"
+    <button
+      type="submit"
+      class="variant-filled-tertiary btn mt-4"
+      disabled={$delayed}
       >{$delayed ? "Adding In-house Tutor..." : "Add In-house Tutor"}</button
     >
   </form>

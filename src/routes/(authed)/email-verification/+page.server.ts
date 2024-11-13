@@ -8,7 +8,7 @@ import { route } from "$lib/ROUTES";
 import { EmailVerificationCode } from "$lib/util.sever";
 
 import * as UserService from "$lib/server/services/user.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 
 import type { Actions, PageServerLoad } from "./$types";
 

@@ -2,7 +2,7 @@ import { getAllCourses } from "$lib/server/services/course.service";
 import { superValidate } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 
 import type { LayoutServerLoad } from "./$types";
 

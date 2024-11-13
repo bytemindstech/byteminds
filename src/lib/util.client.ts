@@ -1,6 +1,5 @@
-/**
- * PUT YOUR REUSEABLE CLIENT SIDE FUNCTIONS HERE
- */
+//PUT YOUR REUSEABLE CLIENT SIDE FUNCTIONS OR CLASSES HERE
+
 import { getToastStore, type ToastSettings } from "@skeletonlabs/skeleton";
 import { route } from "./ROUTES";
 import fetchHandler, { type ServerResponse } from "@jhenbert/fetch";
@@ -39,7 +38,7 @@ export const socketUrl = (pathname: string = "") => {
   return "";
 };
 
-// main navigation paths
+// Main navigation paths
 export const paths = [
   { route: route("/"), name: "home" },
   { route: route("/about"), name: "who we are" },
@@ -49,7 +48,7 @@ export const paths = [
   { route: route("blog"), name: "blog" },
 ];
 
-// use in user profile avatar
+// Use in user profile avatar
 export const getInitials = (fullName: string) => {
   const nameArr = fullName.split(" ");
   const fInit = nameArr[0].charAt(0).toUpperCase();
@@ -58,7 +57,7 @@ export const getInitials = (fullName: string) => {
   return fInit + lInit;
 };
 
-// date option used in client side
+// Date option used in client side
 export const dateOption: Intl.DateTimeFormatOptions = {
   dateStyle: "medium",
   timeStyle: "short",
@@ -73,29 +72,35 @@ export const capitalize = (s: string) => {
     .join(" "); //join back into single string
 };
 
-// get all courses
+// Get all courses
 export const getCourses: () => Promise<ServerResponse<Course[], Error>> =
   fetchHandler<Course[]>(() => fetch(route("GET /api/courses")));
 
+// Reset title of page
 export const resetTitle = (title: string) => {
   if (typeof document !== "undefined") {
     return (document.title = title);
   }
 };
 
-// Get image url in S3 bucket
-export const getImageUrl = async (courseId: string) => {
+// Get image url in Object Storage bucket
+export const getImage = async (
+  param: string,
+): Promise<ImageResponse | undefined> => {
   try {
     const response = await fetch(
-      route("GET /api/courses/image/[courseId]", { courseId }),
+      route("GET /api/images/[param]", { param: param }),
     );
-
     if (!response.ok) {
       console.error("Failed to fetch");
     }
 
-    return await response.json();
+    return (await response.json()) as ImageResponse;
   } catch (error) {
     console.error("Error while fetching", (error as Error).message);
   }
+};
+
+export const getFullName = (first: string, last: string) => {
+  return first + " " + last;
 };

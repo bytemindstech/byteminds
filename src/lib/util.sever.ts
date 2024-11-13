@@ -436,11 +436,3 @@ export const isSameAsOldPassword = async (
 
   return isSamePassword;
 };
-
-// export const htmlElementsToString = (element: HTMLElement): string => {
-//   element.style.display = "none";
-//   const container = document.createElement("div");
-//   container.appendChild(element.cloneNode(true));
-
-//   return container.innerHTML;
-// };

@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { ProfileData } from "./ui";
-
+  // import { ProfileData } from "./ui";
   interface Props {
     biography: string;
   }
@@ -8,7 +7,7 @@
   let { biography }: Props = $props();
 </script>
 
-<h2 class="h2 mb-4 font-bold">About Me</h2>
+<h2 class="h2 mb-4">About Me</h2>
 
 <p class="text-surface-700">
   {biography ??

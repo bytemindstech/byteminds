@@ -12,7 +12,7 @@ import { match } from "ts-pattern";
 import { EmailVerificationCode, ResetPasswordToken } from "$lib/util.sever";
 
 import * as UserService from "$lib/server/services/user.service";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 
 export const load = (async () => {
   const loginForm = await superValidate(zod(ZodValidationSchema.loginSchema));
