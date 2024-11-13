@@ -1,6 +1,7 @@
 import { route } from "$lib/ROUTES";
-import { getAllUsers, getUserById } from "$lib/server/services/user.service";
+import { getAllUsers } from "$lib/server/services/user.service";
 import { redirect } from "@sveltejs/kit";
+
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ locals, parent }) => {

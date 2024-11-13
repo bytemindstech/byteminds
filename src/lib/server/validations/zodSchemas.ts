@@ -62,7 +62,7 @@ export const contactUsSchema = registerSchema
 export const courseSchema = z.object({
   userId: z.string(),
   courseTitle: z.string().max(15),
-  courseImage: z
+  image: z
     .instanceof(File, { message: "Please upload an image" })
     .refine((f) => f.size < 100_000, "Max 100 kB upload size."),
   price: z.number(),
@@ -77,12 +77,13 @@ export const updateCourseSchema = courseSchema
   })
   .merge(z.object({ courseId: z.string() }));
 
-export const inHouseTutorSchema = z.object({
-  name: z.string(),
-  subjectTaught: z.string(),
-  bio: z.string(),
-  image: z.string(),
-});
+export const inHouseTutorSchema = courseSchema.pick({ image: true }).merge(
+  z.object({
+    name: z.string(),
+    subjectTaught: z.string(),
+    bio: z.string(),
+  }),
+);
 
 export const communityFeedbackSchema = inHouseTutorSchema
   .pick({ name: true })

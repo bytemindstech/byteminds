@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { ProfileData } from "./ui";
-
+  // import { ProfileData } from "./ui";
   interface Props {
     bio: string | undefined;
   }
@@ -8,13 +7,13 @@
   let { bio }: Props = $props();
 </script>
 
-<h2 class="text-xl font-bold mb-4">About Me</h2>
+<h2 class="h2 mb-4">About Me</h2>
 
 <p class="text-surface-700">
   {bio ?? "Please update your profile"}
 </p>
 
-<ProfileData title="Location"
+<!-- <ProfileData title="Location"
   >{#snippet subTitle()}
     Complete Address
   {/snippet}
@@ -39,4 +38,4 @@
       <span>Duhat Trade School</span>
     
   {/snippet}
-</ProfileData>
+</ProfileData> -->

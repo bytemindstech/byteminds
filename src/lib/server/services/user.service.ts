@@ -9,20 +9,9 @@ import { Role, type Password, type User } from "@prisma/client";
  */
 export const getAllUsers = async () => {
   return await db.user.findMany({
-    select: {
-      id: true,
-      username: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      hashedPassword: true,
-      sourceInfo: true,
-      isEmailVerified: true,
-      profile: true,
-      role: true,
-      courses: true,
-      createdAt: true,
-      updatedAt: true,
+    include: {
+      courses: { include: { image: true } },
+      profile: { include: { image: true } },
     },
   });
 };
@@ -39,7 +28,7 @@ export const getUserByUsername = async (username: string) => {
     where: { username },
     include: {
       hashedPassword: true,
-      profile: true,
+      profile: { include: { image: true } },
     },
   });
 };
@@ -56,7 +45,7 @@ export const getUserByEmail = async (email: string) => {
 export const getUserById = async (id: string) => {
   return await db.user.findUnique({
     where: { id },
-    include: { profile: true },
+    include: { profile: { include: { image: true } } },
   });
 };
 

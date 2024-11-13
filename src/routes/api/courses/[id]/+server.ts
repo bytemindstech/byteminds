@@ -1,6 +1,8 @@
 import { json } from "@sveltejs/kit";
 import { BUCKET_NAME } from "$lib/constants";
 import { getImageByCourseId } from "$lib/server/services/course-image.service";
+import { ObjectStorage } from "$lib/util.sever";
+
 import {
   deleteCourse,
   getCourseById,
@@ -8,7 +10,6 @@ import {
 
 import type { RequestHandler } from "./$types";
 import type { User } from "lucia";
-import { ObjectStorage } from "$lib/util.sever";
 
 /**
  *

@@ -6,13 +6,10 @@ import { generateId } from "lucia";
 import { ObjectStorage } from "$lib/util.sever";
 import { BUCKET_NAME } from "$lib/constants";
 
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 import * as CourseService from "$lib/server/services/course.service";
 
 import type { Actions, PageServerLoad } from "./$types";
-
-// Initialized instance of objectStorage
-const objectStorage = new ObjectStorage();
 
 export const load = (async ({ locals, parent }) => {
   await parent();
@@ -44,15 +41,18 @@ export const actions: Actions = {
       return message(courseForm, "invalid form", { status: 406 });
     }
 
-    const file = courseForm.data.courseImage as File | null;
+    // Initialized instance of ObjectStorage
+    const objectStorage = new ObjectStorage();
 
-    if (!file) {
-      return message(courseForm, "No file uploaded", { status: 406 });
+    const imageFile = courseForm.data.image as File | null;
+
+    if (!imageFile) {
+      return message(courseForm, "No image uploaded", { status: 406 });
     }
 
     const courseId = generateId(15);
-    const fileName = `${courseId}-${file.name}`;
-    const arrayBuffer = await file.arrayBuffer();
+    const fileName = `${courseId}-${imageFile.name}`;
+    const arrayBuffer = await imageFile.arrayBuffer();
     const fileContent = new Uint8Array(arrayBuffer);
 
     const uploadParams = {
@@ -61,7 +61,7 @@ export const actions: Actions = {
       Body: fileContent,
     };
 
-    // Upload image to Object Storage
+    // Upload image to Object Storage (S3)
     await objectStorage.upload(uploadParams);
 
     // Send to database

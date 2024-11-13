@@ -1,8 +1,9 @@
 // See https://kit.svelte.dev/docs/types#app
 
-import type { Image, PrismaClient } from "@prisma/client";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HTMLAttributes } from "svelte/elements";
+
+import type { PrismaClient } from "@prisma/client";
 
 // for information about these interfaces
 declare global {
@@ -25,7 +26,7 @@ declare global {
     id: string;
     title: string;
     price: number;
-    image: Image | null;
+    image: { id: string; key: string; courseId: string };
   };
 
   type MetaDefault = { title: string; description: string; image: string };
@@ -36,13 +37,17 @@ declare global {
 
   type Tutor = {
     id: string;
-    profile: { image: string };
+    profile?: { image: { key?: string }; bio?: string };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     courses: Array<any>;
     firstName: string;
     lastName: string;
     isEmailVerified: boolean;
   };
+
+  interface ImageResponse {
+    url: string;
+  }
 }
 
 declare module "svelte/elements" {

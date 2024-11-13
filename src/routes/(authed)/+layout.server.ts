@@ -2,7 +2,7 @@ import { redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 import { route } from "$lib/ROUTES";
 
 export const load = (async ({ url, locals }) => {

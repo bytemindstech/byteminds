@@ -2,10 +2,11 @@
   import { Avatar } from "@skeletonlabs/skeleton";
   import { UserBioPublic } from "$lib/components";
   import { route } from "$lib/ROUTES";
-  import type { PageData } from "./$types";
   import { onDestroy, onMount } from "svelte";
-  import { resetTitle } from "$lib/util.client";
+  import { getImage, getInitials, resetTitle } from "$lib/util.client";
   import { page } from "$app/stores";
+
+  import type { PageData } from "./$types";
 
   interface Props {
     data: PageData;
@@ -13,14 +14,12 @@
 
   let { data }: Props = $props();
 
-  type Course = {
-    id: string;
-    title: string;
-  };
-
-  let title: string | undefined = $state();
-  let tutor: any = $state();
-  let courses: Course[] | undefined = $state();
+  let title = $state("");
+  let tutor = $state() as Tutor;
+  let courses = $state() as Course[];
+  let src = $state("");
+  let name = $state("");
+  let initials = $state("");
 
   onMount(async () => {
     const users = await data.users;
@@ -28,14 +27,24 @@
     const selectedUser = users.find((user) => user.id === $page.params.tutorId);
 
     if (selectedUser) {
-      tutor = selectedUser;
-      title =
-        "ByteMinds PH Tutor | " + `${tutor?.firstName} ${tutor?.lastName}`;
+      tutor = selectedUser as Tutor;
+
+      name = `${tutor.firstName} ${tutor.lastName}`;
+
+      title = "ByteMinds PH Tutor | " + name;
 
       courses = selectedUser.courses.filter(
         (course) => course.userId === $page.params.tutorId,
-      );
+      ) as Course[];
+
+      const { url } = (await getImage(
+        tutor.profile?.image?.key as string,
+      )) as ImageResponse;
+
+      src = url;
     }
+
+    initials = getInitials(name);
   });
 
   onDestroy(() => resetTitle(data.meta.title));
@@ -49,11 +58,7 @@
     <div class="col-span-4 md:col-span-3">
       <div class="rounded-lg bg-surface-100 p-6 shadow">
         <div class="flex flex-col items-center">
-          <Avatar
-            src={tutor?.profile?.image}
-            width="w-32"
-            background="bg-tertiary-500"
-          />
+          <Avatar {src} {initials} width="w-32" background="bg-tertiary-500" />
           <h4 class="h4">
             {tutor?.firstName}
             {tutor?.lastName.charAt(0).toUpperCase()}.
@@ -107,7 +112,7 @@
     <!-- Bio Section -->
     <div class="col-span-4 md:col-span-9">
       <div class="rounded-lg bg-surface-100 p-6 shadow">
-        <UserBioPublic biography={tutor?.profile?.bio} />
+        <UserBioPublic biography={tutor?.profile?.bio ?? ""} />
       </div>
     </div>
   </div>

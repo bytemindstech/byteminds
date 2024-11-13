@@ -1,13 +1,13 @@
 <script lang="ts">
+  import { onDestroy, onMount } from "svelte";
+  import { getFullName, getImage, resetTitle } from "$lib/util.client";
   import {
     UserBioPrivate,
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
-  import { onDestroy } from "svelte";
+
   import type { PageData } from "./$types";
-  import { resetTitle } from "$lib/util.client";
-  import { page } from "$app/stores";
 
   interface Props {
     data: PageData;
@@ -15,17 +15,25 @@
 
   let { data }: Props = $props();
 
-  let name = $derived(`${data.firstName} ${data.lastName}`);
-  let img = $derived(data.user?.profile?.image ?? "");
+  let image = $state("");
+
+  let imageKey = $derived(data.user?.profile?.image?.key);
+  let name = $derived(getFullName(data.firstName, data.lastName));
 
   onDestroy(() => resetTitle(data.meta.title));
+
+  onMount(async () => {
+    const { url } = (await getImage(imageKey as string)) as ImageResponse;
+
+    image = url;
+  });
 </script>
 
 <svelte:head><title>{data.title} {name}</title></svelte:head>
 
 <UserProfileLayout
   >{#snippet profile()}
-    <UserProfile profileImg={img} email={data.email} {name} />
+    <UserProfile profileImage={image} email={data.email} {name} />
   {/snippet}
 
   {#snippet bio()}

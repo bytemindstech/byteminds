@@ -11,17 +11,17 @@ datasource db {
 }
 
 model Profile {
-  profileId String  @id
-  image     String?
-  bio       String  @db.Text
-  userId    String  @unique
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId String        @id
+  bio       String        @db.Text
+  image     ProfileImage?
+  userId    String        @unique
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Password {
   passwordId     String @id
-  userId         String @unique
   hashedPassword String
+  userId         String @unique
   user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -42,8 +42,8 @@ model Feedback {
 
 model PasswordReset {
   id        String   @id
-  userId    String   @unique
   expiresAt DateTime
+  userId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -54,12 +54,12 @@ model User {
   firstName       String
   lastName        String
   sourceInfo      String
+  isEmailVerified Boolean        @default(false)
+  role            Role           @default(USER)
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
-  isEmailVerified Boolean        @default(false)
   hashedPassword  Password?
   profile         Profile?
-  role            Role           @default(USER)
   passwordReset   PasswordReset?
   sessions        Session[]
   feedback        Feedback[]
@@ -88,10 +88,10 @@ model Course {
   title       String
   price       Float
   description String       @db.LongText
-  image       CourseImage?
   rating      String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  image       CourseImage?
   userId      String
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -107,12 +107,12 @@ model CommunityFeedback {
 }
 
 model InHouseTutor {
-  id            String   @id
+  id            String             @id
   name          String
   subjectTaught String
-  bio           String   @db.LongText
-  image         String
-  createdAt     DateTime @default(now())
+  bio           String             @db.LongText
+  createdAt     DateTime           @default(now())
+  image         InHouseTutorImage?
   socials       Social[]
 }
 
@@ -132,6 +132,24 @@ model CourseImage {
   updatedAt DateTime @updatedAt
   courseId  String   @unique
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model InHouseTutorImage {
+  id             String       @id
+  key            String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  inHouseTutorId String       @unique
+  inHouseTutor   InHouseTutor @relation(fields: [inHouseTutorId], references: [id], onDelete: Cascade)
+}
+
+model ProfileImage {
+  id        String   @id
+  key       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profileId String   @unique
+  profile   Profile  @relation(fields: [profileId], references: [profileId], onDelete: Cascade)
 }
 
 enum Role {

@@ -1,12 +1,18 @@
 <script lang="ts">
-  import { superForm } from "sveltekit-superforms/client";
+  import { superForm, type SuperValidated } from "sveltekit-superforms/client";
   import { page } from "$app/stores";
   import { Toast } from "./ui";
   import { route } from "$lib/ROUTES";
 
   interface Props {
-    formData: any;
-    userId: any;
+    formData: SuperValidated<{
+      image: File;
+      userId: string;
+      courseTitle: string;
+      price: number;
+      description: string;
+    }>;
+    userId: string;
   }
 
   let { formData, userId }: Props = $props();
@@ -50,7 +56,7 @@
           name="courseTitle"
           aria-invalid={$errors.courseTitle ? "true" : undefined}
           bind:value={$form.courseTitle}
-          {...$constraints.coursetitle}
+          {...$constraints.courseTitle}
         />
       </label>
     </div>
@@ -63,9 +69,9 @@
           class="input text-primary-500"
           type="file"
           accept="image/*"
-          name="courseImage"
-          aria-invalid={$errors.courseImage ? "true" : undefined}
-          bind:value={$form.courseImage}
+          name="image"
+          aria-invalid={$errors.image ? "true" : undefined}
+          bind:value={$form.image}
           onchange={handleFileChange}
         />
       </label>

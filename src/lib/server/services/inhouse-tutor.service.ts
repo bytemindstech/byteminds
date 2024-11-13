@@ -1,11 +1,12 @@
-import type { InHouseTutor } from "@prisma/client";
+import type { InHouseTutor, InHouseTutorImage } from "@prisma/client";
 import db from "../db";
 
 export const createInhouseTutor = async (
   inHouseTutor: Omit<InHouseTutor, "createdAt">,
+  image: Omit<InHouseTutorImage, "createdAt" | "updatedAt" | "inHouseTutorId">,
 ) => {
   return await db.inHouseTutor.create({
-    data: inHouseTutor,
+    data: { ...inHouseTutor, image: { create: image } },
     select: {
       id: true,
       name: true,
@@ -17,11 +18,7 @@ export const createInhouseTutor = async (
 
 export const getAllInhouseTutors = async () => {
   return await db.inHouseTutor.findMany({
-    select: {
-      id: true,
-      name: true,
-      subjectTaught: true,
-      bio: true,
+    include: {
       image: true,
     },
   });
@@ -40,7 +37,6 @@ export const updateInhouseTutor = async (
       name: true,
       subjectTaught: true,
       bio: true,
-      image: true,
     },
   });
 };

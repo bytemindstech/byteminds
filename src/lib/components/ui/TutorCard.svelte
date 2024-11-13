@@ -1,47 +1,61 @@
 <script lang="ts">
   import { Avatar } from "@skeletonlabs/skeleton";
-  import VerifiedBadge from "./VerifiedBadge.svelte";
   import { route } from "$lib/ROUTES";
-  import defaultCourseImg from "$lib/assets/images/default-course-img.jpg";
   import { onMount } from "svelte";
-  import { getImageUrl } from "$lib/util.client";
+  import { getImage, getInitials } from "$lib/util.client";
+
+  import defaultCourseImage from "$lib/assets/images/default-course-img.jpg";
+  import VerifiedBadge from "./VerifiedBadge.svelte";
 
   interface Props {
-    courses?: Array<{ id: string; title: string }>;
+    courses?: Array<{
+      id: string;
+      title: string;
+      image: { key: string };
+    }>;
     name: string;
-    avatarImg: string;
+    avatarImageKey: string;
     verified: boolean;
     id: string;
   }
 
-  let { courses = [], name, avatarImg, verified, id }: Props = $props();
-  let src = $state("");
+  let { courses = [], name, avatarImageKey, verified, id }: Props = $props();
 
-  const courseIds =
+  let courseImage = $state("");
+  let avatarImage = $state("");
+  let initials = $state("");
+
+  const keys =
     courses && courses.length > 0
-      ? courses.map((course) => course.id)
-      : [defaultCourseImg];
+      ? courses.map((course) => course.image.key)
+      : [defaultCourseImage];
 
   // Safely map over courses and get images, with a fallback
 
   // Precompute the random image once
-  let randomCourseId = getRandomCourseId(courseIds);
+  let randomKey = getRandomImageKey(keys);
 
-  function getRandomCourseId(arr: string[]): string {
+  function getRandomImageKey(arr: string[]): string {
     const randomIndex = Math.floor(Math.random() * arr.length);
     return arr[randomIndex];
   }
 
   // Fallback image handler
-  function handleImageError(event: Event) {
-    (event.target as HTMLImageElement).src = defaultCourseImg;
+  function handleCourseImageError(event: Event) {
+    (event.target as HTMLImageElement).src = defaultCourseImage;
   }
 
   onMount(async () => {
     if (courses && courses.length > 0) {
-      const { imageUrl } = await getImageUrl(randomCourseId);
-      src = imageUrl;
+      const { url } = (await getImage(randomKey)) as ImageResponse;
+
+      courseImage = url;
     }
+
+    const { url } = (await getImage(avatarImageKey)) as ImageResponse;
+
+    avatarImage = url;
+    initials = getInitials(name);
   });
 </script>
 
@@ -51,13 +65,13 @@
 >
   <header class="relative">
     <img
-      {src}
+      src={courseImage}
       width="400"
       height="175"
       class="aspect-[16/9] w-full"
-      alt="tutor"
+      alt="Course"
       loading="lazy"
-      onerror={handleImageError}
+      onerror={handleCourseImageError}
     />
   </header>
   <section class="flex flex-col p-4">
@@ -67,7 +81,7 @@
         {#each courses as course (course.id)}
           <li>
             <span class="variant-filled-primary badge capitalize">
-              {course.title || "untitled course"}
+              {course.title || "Untitled Course"}
             </span>
           </li>
         {/each}
@@ -80,7 +94,13 @@
   </section>
   <hr class="my-4 opacity-50" />
   <footer class="card-footer flex items-center space-x-3">
-    <Avatar src={avatarImg} width="w-8" />
+    <Avatar
+      src={avatarImage}
+      {initials}
+      loading="lazy"
+      width="w-8"
+      background="bg-primary-500"
+    />
     <div class="flex flex-1 items-center justify-between">
       <div class="space-y-1">
         <h6 class="h6">{name}</h6>

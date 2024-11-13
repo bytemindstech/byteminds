@@ -1,7 +1,7 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 import * as ContactUsService from "$lib/server/services/contact-us.service";
 import { generateId } from "lucia";
 

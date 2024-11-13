@@ -4,7 +4,10 @@
     UserProfile,
     UserProfileLayout,
   } from "$lib/components";
+
   import { onMount } from "svelte";
+  import { getFullName, getImage } from "$lib/util.client";
+
   import type { PageData } from "./$types";
 
   interface Props {
@@ -13,29 +16,28 @@
 
   let { data }: Props = $props();
 
-  let name = $derived(`${data.firstName} ${data.lastName}`);
-  let img: string | undefined = $state();
-  let biography: string | undefined = $state();
+  let name = $derived(getFullName(data.firstName, data.lastName));
+  let image = $state("");
+  let biography = $state("");
 
   onMount(async () => {
     const user = await data.user;
+    const imageKey = user?.profile?.image?.key ?? "";
+    const { url } = (await getImage(imageKey)) as ImageResponse;
 
-    img = user?.profile?.image ?? "";
-    biography = user?.profile?.bio;
+    image = url;
+    biography = user?.profile?.bio ?? "";
   });
 </script>
 
 <UserProfileLayout
   >{#snippet profile()}
-    <UserProfile profileImg={img as string} email={data.email} {name} />
-    
+    <UserProfile profileImage={image} email={data.email} {name} />
   {/snippet}
 
   {#snippet bio()}
-  
-      <div class="bg-surface-100 shadow rounded-lg p-6">
-        <UserBioPrivate bio={biography} />
-      </div>
-    
+    <div class="rounded-lg bg-surface-100 p-6 shadow">
+      <UserBioPrivate bio={biography} />
+    </div>
   {/snippet}
 </UserProfileLayout>

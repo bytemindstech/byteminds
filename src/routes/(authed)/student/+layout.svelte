@@ -1,17 +1,14 @@
 <script lang="ts">
   import { Navigation } from "$lib/components";
   import { route } from "$lib/ROUTES";
-
-  // import type { LayoutData } from './$types';
-
   import { AppShell } from "@skeletonlabs/skeleton";
+
+  import type { Snippet } from "svelte";
   interface Props {
-    children?: import('svelte').Snippet;
+    children?: Snippet;
   }
 
   let { children }: Props = $props();
-
-  // export let data: LayoutData;
 
   const paths = [
     { name: "dashboard", route: route("/student") },

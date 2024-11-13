@@ -4,10 +4,12 @@ import { zod } from "sveltekit-superforms/adapters";
 import { match } from "ts-pattern";
 import { route } from "$lib/ROUTES";
 import { getAllUsers } from "$lib/server/services/user.service";
-import type { Actions, PageServerLoad } from "./$types";
-import * as ZodValidationSchema from "$lib/validations/zodSchemas";
+
+import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 import * as UserService from "$lib/server/services/user.service";
+
 import type { Role } from "@prisma/client";
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load = (async ({ locals, url, parent }) => {
   await parent();

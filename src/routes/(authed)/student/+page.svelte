@@ -1,9 +1,10 @@
 <script lang="ts">
   import { Statistics } from "$lib/components/ui";
-  import Icon from "@iconify/svelte";
-  import dateFormatter from "@jhenbert/date-formatter";
   import { onMount } from "svelte";
   import { getCourses } from "$lib/util.client";
+
+  import Icon from "@iconify/svelte";
+  import dateFormatter from "@jhenbert/date-formatter";
 
   import type { PageData } from "./$types";
 

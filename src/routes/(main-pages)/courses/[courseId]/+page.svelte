@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import type { PageData } from "./$types";
-  import { getImageUrl } from "$lib/util.client";
+  import { getImage } from "$lib/util.client";
 
   interface Props {
     data: PageData;
@@ -13,14 +13,21 @@
     title: string;
     price: number;
     description: string;
+    image: { key: string };
   };
 
   let { data }: Props = $props();
 
   let title = $state("");
   let courseImage = $state("");
-  let course = $state({ title: "", price: 0, description: "" });
   let user: any = $state();
+
+  let course = $state({
+    title: "",
+    price: 0,
+    description: "",
+    image: { key: "" },
+  });
 
   onMount(async () => {
     const users = await data.users;
@@ -37,11 +44,9 @@
 
       title = "Available Course | " + course.title;
     }
-  });
 
-  onMount(async () => {
-    const { imageUrl } = await getImageUrl($page.params.courseId);
-    courseImage = imageUrl;
+    const { url } = (await getImage(course.image.key)) as ImageResponse;
+    courseImage = url;
   });
 </script>
 
