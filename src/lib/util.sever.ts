@@ -1,10 +1,10 @@
 // PUT YOUR REUSABLE SERVER SIDE STAND ALONE FUNCTIONS OR CLASS HERE
 import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
-import { route } from "./ROUTES";
-import { Argon2id } from "oslo/password";
-import { generateId, type User } from "lucia";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { Argon2id } from "oslo/password";
+import { route } from "./ROUTES";
+import { generateId, type User } from "lucia";
 
 import dateFormatter from "@jhenbert/date-formatter";
 
@@ -30,6 +30,7 @@ import {
 import {
   DeleteObjectCommand,
   GetObjectCommand,
+  HeadObjectCommand,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -49,17 +50,6 @@ type ValidateResponse =
     };
 
 // Start write variables here
-
-// Initialized Object Storage instance
-const minIOClient = new S3Client({
-  endpoint: "https://minio-gw8go8o0wkkg0cosk08gkw8o.51.79.156.25.sslip.io",
-  region: S3_REGION,
-  credentials: {
-    accessKeyId: S3_ACCESS_KEY_ID,
-    secretAccessKey: S3_SECRET_ACCESS_KEY,
-  },
-  forcePathStyle: true,
-});
 
 const dateOption: Intl.DateTimeFormatOptions = {
   dateStyle: "full",
@@ -94,8 +84,6 @@ export class EmailVerificationCode {
     const code = generateRandomString(6, alphabet("0-9", "A-Z"));
 
     const expiresAt = createDate(new TimeSpan(24, "h"));
-    //for debugging purpose only
-    // console.log("Code: ", code);
 
     //delete email verification code if exist and create new one
     await EmailService.databaseEmailVerificationCodeTransaction(
@@ -133,7 +121,7 @@ export class EmailVerificationCode {
       return;
     }
 
-    const formatDate = dateFormatter(
+    const expiredDate = dateFormatter(
       "en-PH",
       dateOption,
       existingVerificationCode.expiresAt,
@@ -144,11 +132,11 @@ export class EmailVerificationCode {
     const htmlContent = `<div style="font-family: Arial, sans-serif; padding: 20px; color: #260202;">
     <h1>Verification Code</h1>
     
-    <p>Verify your email, you've registered to ByteMinds using ${existingVerificationCode.email}</p>
+    <p>Verify your email, you've registered to ByteMinds PH using ${existingVerificationCode.email}</p>
     
     <p>Use this code to finish setting up your profile: ${verificationCode}</p>
     
-    <p>This code will expire on ${formatDate}</p>
+    <p>This code will expire on ${expiredDate}</p>
     </div>`;
 
     const message = mod.composeMessage(
@@ -250,7 +238,7 @@ export class ResetPasswordToken {
       return;
     }
 
-    const formatDate = dateFormatter(
+    const expiredDate = dateFormatter(
       "en-PH",
       dateOption,
       existingUser.passwordReset.expiresAt,
@@ -268,7 +256,7 @@ export class ResetPasswordToken {
   
       <p>If you need help or have any questions, please contact our support team. We're here to help!</p>
       
-      <p>This code will expire on ${formatDate}</p>
+      <p>This code will expire on ${expiredDate}</p>
     </div>`;
 
     const message = mod.composeMessage(
@@ -326,6 +314,35 @@ export class ResetPasswordToken {
  * manage objects in storage buckets, such as deleting, updating, or adding an object.
  */
 export class ObjectStorage {
+  private minIOClient: S3Client;
+
+  constructor() {
+    this.minIOClient = new S3Client({
+      endpoint: "https://minio-gw8go8o0wkkg0cosk08gkw8o.51.79.156.25.sslip.io",
+      region: S3_REGION,
+      credentials: {
+        accessKeyId: S3_ACCESS_KEY_ID,
+        secretAccessKey: S3_SECRET_ACCESS_KEY,
+      },
+      forcePathStyle: true,
+    });
+  }
+
+  // Helper method to check if the object exists
+  private async checkIfExists(bucket: string, key: string): Promise<boolean> {
+    try {
+      const command = new HeadObjectCommand({ Bucket: bucket, Key: key });
+      await this.minIOClient.send(command);
+      return true;
+    } catch (error) {
+      if ((error as Error).name) {
+        console.log("Error in Checking Object: ", (error as Error).name);
+        return false;
+      }
+      throw error; // Re-throw other errors
+    }
+  }
+
   /**
    * Uploads an object to the specified storage bucket.
    *
@@ -344,7 +361,7 @@ export class ObjectStorage {
     const command = new PutObjectCommand(params);
 
     try {
-      await minIOClient.send(command);
+      await this.minIOClient.send(command);
     } catch (error) {
       console.error(
         "Error uploading object:",
@@ -373,13 +390,51 @@ export class ObjectStorage {
     const deleteParams = { Bucket: bucket, Key: key };
 
     try {
-      await minIOClient.send(new DeleteObjectCommand(deleteParams));
+      await this.minIOClient.send(new DeleteObjectCommand(deleteParams));
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error deleting object:", error.message);
       } else {
         console.error("Unexpected error deleting object:", error);
       }
+    }
+  }
+
+  /**
+   * Updates an object in the specified bucket.
+   * If the object with the provided key exists, it will be deleted first.
+   * The new content is then uploaded to the bucket.
+   *
+   * @param {string} bucket - The name of the bucket where the object resides.
+   * @param {Uint8Array<ArrayBuffer>} content - The new content to upload as the object.
+   * @param {string} [key] - The key of the object to update.
+   * @returns {Promise<void>} Resolves when the update operation is complete.
+   * @throws Will throw an error if an issue occurs during the check, delete, or upload operations.
+   */
+  async update(
+    bucket: string,
+    content: Uint8Array<ArrayBuffer>,
+    key?: string,
+  ): Promise<void> {
+    if (!key) {
+      console.warn("Update operation skipped: key is undefined.");
+      return;
+    }
+
+    try {
+      // Check if the object exists in the bucket
+      const exists = await this.checkIfExists(bucket, key);
+
+      // If it exists, delete it
+      if (exists) {
+        await this.delete(bucket, key);
+      }
+
+      // Upload the new content
+      await this.upload({ Bucket: bucket, Key: key, Body: content });
+    } catch (error) {
+      console.error("Error during update operation:", error);
+      throw error; // Re-throw to ensure proper error handling
     }
   }
 
@@ -402,7 +457,9 @@ export class ObjectStorage {
 
     try {
       const command = new GetObjectCommand({ Bucket: bucket, Key: key });
-      const url = await getSignedUrl(minIOClient, command, { expiresIn: 3600 });
+      const url = await getSignedUrl(this.minIOClient, command, {
+        expiresIn: 3600,
+      });
 
       return url;
     } catch (error) {
@@ -417,7 +474,7 @@ export class ObjectStorage {
   }
 }
 
-// Start write stand alone functions here
+// Start write functions here
 
 export const isSameAsOldPassword = async (
   userId: string,
