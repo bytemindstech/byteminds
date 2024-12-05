@@ -85,12 +85,10 @@ export const resetTitle = (title: string) => {
 
 // Get image url in Object Storage bucket
 export const getImage = async (
-  param: string,
+  key: string,
 ): Promise<ImageResponse | undefined> => {
   try {
-    const response = await fetch(
-      route("GET /api/images/[param]", { param: param }),
-    );
+    const response = await fetch(route("GET /api/images/[key]", { key: key }));
     if (!response.ok) {
       console.error("Failed to fetch");
     }

@@ -254,9 +254,9 @@ export class ResetPasswordToken {
       <a href="${URL}${route("/password-reset")}?token=${resetToken}" style="color: #337ab7; text-decoration: none">Reset your password</a>
       </p>
   
-      <p>If you need help or have any questions, please contact our support team. We're here to help!</p>
+      <p>If you need help or have any questions, reach out to our support team at this email: support@bytemindsph.com. We're here to help!</p>
       
-      <p>This code will expire on ${expiredDate}</p>
+      <p>The link will expire on ${expiredDate}</p>
     </div>`;
 
     const message = mod.composeMessage(
@@ -313,7 +313,7 @@ export class ResetPasswordToken {
  * A class for interacting with object storage, providing methods to
  * manage objects in storage buckets, such as deleting, updating, or adding an object.
  */
-export class ObjectStorage {
+export class ObjectStorageService {
   private minIOClient: S3Client;
 
   constructor() {
@@ -356,7 +356,7 @@ export class ObjectStorage {
   async upload(params: {
     Bucket: string;
     Key: string;
-    Body: Uint8Array<ArrayBuffer>;
+    Body: Uint8Array;
   }): Promise<void> {
     const command = new PutObjectCommand(params);
 
@@ -413,7 +413,7 @@ export class ObjectStorage {
    */
   async update(
     bucket: string,
-    content: Uint8Array<ArrayBuffer>,
+    content: Uint8Array,
     key?: string,
   ): Promise<void> {
     if (!key) {

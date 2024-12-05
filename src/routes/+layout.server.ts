@@ -1,6 +1,7 @@
 import { route } from "$lib/ROUTES";
 import { getAllCommunityFeedback } from "$lib/server/services/community-feedback.service";
 import { getAllInhouseTutors } from "$lib/server/services/inhouse-tutor.service";
+
 import type { LayoutServerLoad } from "./$types";
 
 export const load = (async () => {
@@ -8,7 +9,7 @@ export const load = (async () => {
   const metaDefault = {
     title: "ByteMinds PH - Online Tutoring for Academic Excellence",
     description:
-      "ByteMinds PH - your trusted partner in online education. Access expert tutoring services anytime, anywhere, and elevate your learning experience.",
+      "ByteMinds PH - your trusted partner in online tutoring in Philippines. Access expert tutoring services anytime, anywhere, and elevate your learning experience.",
     image: `${route("githubAvatar", { avatarId: 159615949 })}`,
   };
 

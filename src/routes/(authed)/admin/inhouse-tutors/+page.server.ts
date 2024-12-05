@@ -1,11 +1,13 @@
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { generateId } from "lucia";
-import type { Actions, PageServerLoad } from "./$types";
+import { ObjectStorageService } from "$lib/util.sever";
+import { BUCKET_NAME } from "$lib/constants";
+
 import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
 import * as InHouseTutorService from "$lib/server/services/inhouse-tutor.service";
-import { ObjectStorage } from "$lib/util.sever";
-import { BUCKET_NAME } from "$lib/constants";
+
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load = (async () => {
   return {
@@ -27,7 +29,7 @@ export const actions: Actions = {
     }
 
     // Initialized ObjectStoarge instance
-    const objectStorage = new ObjectStorage();
+    const objectStorageService = new ObjectStorageService();
 
     const imageFile = inHouseTutorForm.data.image as File | null;
 
@@ -47,7 +49,7 @@ export const actions: Actions = {
     };
 
     // Upload image to Object Storage (S3)
-    await objectStorage.upload(uploadParams);
+    await objectStorageService.upload(uploadParams);
 
     // Send to database
     await InHouseTutorService.createInhouseTutor(

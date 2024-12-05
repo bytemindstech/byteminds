@@ -14,7 +14,7 @@
   let { data }: Props = $props();
 
   let showForm = $state(false);
-  let approve = $state(false);
+  let approve = $state(true);
 
   const showFormHandler = () => {
     showForm = !showForm;
@@ -22,7 +22,7 @@
 
   const fullname = $derived(getFullName(data.firstName, data.lastName));
 
-  onDestroy(() => resetTitle(data.meta.title));
+  // onDestroy(() => resetTitle(data.meta.title));
 </script>
 
 <svelte:head><title>{data.title}</title></svelte:head>

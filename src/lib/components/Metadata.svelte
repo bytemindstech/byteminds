@@ -1,19 +1,23 @@
 <script lang="ts">
+  import { writable } from "svelte/store";
+
   interface Props {
     meta: Meta;
-    pathname: any;
+    pathname: string;
   }
 
   let { meta, pathname }: Props = $props();
 
+  let title = writable(meta.title);
+
   const keywordsContent =
-    "online tutoring in Philippines, online tutor available in Philppines, expert tutors in Philippines, coding tutorials in Philippines, online education, virtual online services, web development, bootcamp, top-rated tutors, academic improvement, subject-specific tutoring,";
+    "online tutoring Philippines, Philppines expert online tutors, virtual coding tutorials Philippines, top-rated web development tutors Philippines, online academic bootcamp Philippines, subject-specific vitual tutoring services, Philippines online academic improvement, web development coaching Philippines, coding bootcamps online Philippines, best online tutors Philippines, virtual academic support Philippines, Southeast Asia online tutoring services";
 </script>
 
-<svelte:head
-  ><title>{meta.title}</title>
+<svelte:head>
+  <title>{$title}</title>
   <!-- Meta Tags -->
-  <meta name="title" content={meta.title} />
+  <meta name="title" content={$title} />
   <meta name="description" content={meta.description} />
   <meta name="keywords" content={keywordsContent} />
   <meta name="author" content="ByteMinds PH" />

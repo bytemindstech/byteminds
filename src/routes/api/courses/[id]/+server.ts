@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import { BUCKET_NAME } from "$lib/constants";
 import { getImageByCourseId } from "$lib/server/services/course-image.service";
-import { ObjectStorage } from "$lib/util.sever";
+import { ObjectStorageService } from "$lib/util.sever";
 
 import {
   deleteCourse,
@@ -27,12 +27,12 @@ const requestDeleteCourse = async (
     return { message: "Unauthorize access, please login" };
   }
 
-  const objectStorage = new ObjectStorage();
+  const objectStorageService = new ObjectStorageService();
 
   try {
     await deleteCourse(id);
 
-    await objectStorage.delete(BUCKET_NAME, key);
+    await objectStorageService.delete(BUCKET_NAME, key);
 
     return { message: "Course is successfuly deleted" };
   } catch (error) {

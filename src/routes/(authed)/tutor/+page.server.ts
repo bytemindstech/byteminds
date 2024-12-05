@@ -3,7 +3,7 @@ import { redirect } from "@sveltejs/kit";
 import { superValidate, message } from "sveltekit-superforms/server";
 import { zod } from "sveltekit-superforms/adapters";
 import { generateId } from "lucia";
-import { ObjectStorage } from "$lib/util.sever";
+import { ObjectStorageService } from "$lib/util.sever";
 import { BUCKET_NAME } from "$lib/constants";
 
 import * as ZodValidationSchema from "$lib/server/validations/zodSchemas";
@@ -42,7 +42,7 @@ export const actions: Actions = {
     }
 
     // Initialized instance of ObjectStorage
-    const objectStorage = new ObjectStorage();
+    const objectStorageService = new ObjectStorageService();
 
     const imageFile = courseForm.data.image as File | null;
 
@@ -62,7 +62,7 @@ export const actions: Actions = {
     };
 
     // Upload image to Object Storage (S3)
-    await objectStorage.upload(uploadParams);
+    await objectStorageService.upload(uploadParams);
 
     // Send to database
     await CourseService.createCourse(

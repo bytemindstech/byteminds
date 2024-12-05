@@ -1,7 +1,6 @@
 <script lang="ts">
   import { TutorGrid } from "$lib/components";
-  import { onDestroy, onMount } from "svelte";
-  import { resetTitle } from "$lib/util.client";
+  import { onMount } from "svelte";
   import { TutorCard } from "$lib/components/ui";
 
   import type { PageData } from "./$types";
@@ -29,11 +28,7 @@
     const users = await data.users;
     tutorsArr = users.filter((user) => user.role === "TUTOR");
   });
-
-  onDestroy(() => resetTitle(data.meta.title));
 </script>
-
-<svelte:head><title>{data.title}</title></svelte:head>
 
 <div class="container mx-auto min-h-screen p-6">
   {#if tutors && tutors.length > 0}

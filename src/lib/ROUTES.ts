@@ -62,8 +62,8 @@ const SERVERS = {
   "GET /api/courses/[id]": (params: { id: (string | number) }) => {
     return `/api/courses/${params.id}`
   },
-  "GET /api/images/[param]": (params: { param: (string | number) }) => {
-    return `/api/images/${params.param}`
+  "GET /api/images/[key]": (params: { key: (string | number) }) => {
+    return `/api/images/${params.key}`
   }
 }
 
@@ -208,8 +208,8 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 */
 export type KIT_ROUTES = {
   PAGES: { '/admin': never, '/admin/parents': never, '/admin/students': never, '/admin/tutors': never, '/admin/courses': never, '/admin/inhouse-tutors': never, '/admin/profile/[id]': 'id', '/email-verification': never, '/parent': never, '/parent/courses': never, '/parent/profile': never, '/parent/tutors': never, '/student': never, '/student/courses': never, '/student/profile': never, '/student/tutors': never, '/tutor': never, '/tutor/my-courses/[id]': 'id', '/tutor/profile': never, '/user-profile': never, '/': never, '/about': never, '/contact-us': never, '/courses': never, '/courses/[courseId]': 'courseId', '/faqs': never, '/tutors': never, '/tutors/[tutorId]': 'tutorId', '/password-reset': never, '/privacy-policy': never, '/signin-signup': never, '/tos': never }
-  SERVERS: { 'GET /api/courses': never, 'DELETE /api/courses/[id]': 'id', 'GET /api/courses/[id]': 'id', 'GET /api/images/[param]': 'param' }
+  SERVERS: { 'GET /api/courses': never, 'DELETE /api/courses/[id]': 'id', 'GET /api/courses/[id]': 'id', 'GET /api/images/[key]': 'key' }
   ACTIONS: { 'create /admin/inhouse-tutors': never, 'update /admin/inhouse-tutors': never, 'verifyEmail /email-verification': never, 'resendVerificationCode /email-verification': never, 'addCourse /tutor': never, 'updateCourse /tutor': never, 'default /user-profile': never, 'default /contact-us': never, 'default /logout': never, 'default /password-reset': never, 'login /signin-signup': never, 'register /signin-signup': never, 'sendResetPasswordEmail /signin-signup': never }
   LINKS: { 'facebook': never, 'youtube': never, 'linkedin': never, 'tiktok': never, 'instagram': never, 'classroom': never, 'githubAvatar': 'avatarId', 'blog': never, 'bmlearning': never, 'bytemindsph': never, 'mailTo': 'email', 'callTo': 'phoneNo' }
-  Params: { id: never, courseId: never, tutorId: never, param: never, avatarId: never, email: never, phoneNo: never }
+  Params: { id: never, courseId: never, tutorId: never, key: never, avatarId: never, email: never, phoneNo: never }
 }

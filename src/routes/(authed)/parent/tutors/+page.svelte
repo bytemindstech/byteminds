@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { TutorGrid } from "$lib/components";
   import { onMount } from "svelte";
-  import type { PageData } from "./$types";
+  import { TutorGrid } from "$lib/components";
   import { TutorCard } from "$lib/components/ui";
+
+  import type { PageData } from "./$types";
 
   interface Props {
     data: PageData;
@@ -16,7 +17,7 @@
   let tutors = $derived(
     tutorsArr as Array<{
       id: string;
-      profile: { image: string };
+      profile: { image: { key: string } };
       courses: Array<any>;
       firstName: string;
       lastName: string;
@@ -39,7 +40,7 @@
       {#snippet tutorCard({ tutor })}
         <TutorCard
           id={tutor.id}
-          avatarImg={tutor.profile?.image}
+          avatarImageKey={tutor.profile?.image?.key as string}
           courses={tutor.courses}
           name={`${tutor.firstName} ${tutor.lastName.charAt(0)}.`}
           verified={tutor.isEmailVerified}

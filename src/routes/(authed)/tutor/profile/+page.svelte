@@ -20,13 +20,13 @@
   let imageKey = $derived(data.user?.profile?.image?.key);
   let name = $derived(getFullName(data.firstName, data.lastName));
 
-  onDestroy(() => resetTitle(data.meta.title));
-
   onMount(async () => {
     const { url } = (await getImage(imageKey as string)) as ImageResponse;
 
     image = url;
   });
+
+  // onDestroy(() => resetTitle(data.meta.title));
 </script>
 
 <svelte:head><title>{data.title} {name}</title></svelte:head>

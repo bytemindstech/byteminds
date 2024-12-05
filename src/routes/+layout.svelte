@@ -30,6 +30,8 @@
 
   //global css
   import "../app.pcss";
+  import { setContext } from "svelte";
+
   interface Props {
     children?: import("svelte").Snippet;
   }
@@ -64,6 +66,8 @@
   page.subscribe(($page) => {
     meta = $page.data.meta; //Restore Page Defaults
   });
+
+  setContext("title", $page.data.meta.title);
 </script>
 
 <!-- Metadata for SEO-->
